@@ -1,0 +1,3 @@
+C:/Users/User/Epic-Spell-Wars/cmake-build-debug/CMakeFiles/Epic_Spell_Wars.dir
+C:/Users/User/Epic-Spell-Wars/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/User/Epic-Spell-Wars/cmake-build-debug/CMakeFiles/rebuild_cache.dir
