@@ -12,13 +12,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d8aedfe-0861-4e76-bd64-85744784f329" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/card.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/card.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/round.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/round.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/card/card.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/card/card.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/game.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/game.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/round/round.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/round/round.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +60,7 @@
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/exercises" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
@@ -81,7 +82,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1645895946527</updated>
-      <workItem from="1645895947973" duration="3525000" />
+      <workItem from="1645895947973" duration="7102000" />
     </task>
     <servers />
   </component>
