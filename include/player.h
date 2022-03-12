@@ -7,26 +7,33 @@
 
 #include "card.h"
 
-class Player {
-private:
-    std::string name;
-    int lives;
-    std::vector<Card> cards;
+namespace player {
+    class Player {
+    private:
+        std::string name;
+        int lives;
+        std::vector<Card> cards;
 
-public:
-    explicit Player(std::string &name_);
-    ~Player() = default;
+    public:
+        explicit Player(std::string &name_);
 
-    std::string get_name();
-    const int get_lives();
-    const std::vector<Card>& get_cards();
+        ~Player() = default;
 
-    int change_lives();
+        [[nodiscard]] std::string& get_name();
 
-    std::vector<Card>& change_cards();
+        void set_name(std::string name_);
 
-    int roll_the_dice(int n=1);
+        const int get_lives();
 
-    void make_move(Card &first, Card &second, Card &third);
-};
+        const std::vector<Card> &get_cards();
+
+        void change_lives();
+
+        void change_cards();
+
+        int roll_the_dice(int n = 1);
+
+        void make_move(Card &first, Card &second, Card &third);
+    };
+}  // namespace player
 #endif // PLAYER_H
