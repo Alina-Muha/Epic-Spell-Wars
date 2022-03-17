@@ -6,16 +6,15 @@
 
 
 namespace round {
-    class round {
+    class Round {
     private:
-        std::vector<bool> alive_players;
-        std::vector<card::card *> main_deck;
-        std::vector<card::card *> used_cards;
+        std::vector<player::Player *> alive_players;
+        std::vector<card::Card *> main_deck;
+
     public:
         void distribute_cards();
         void move_cards_from_hand_to_discard();
-        void playing_cards();
-
+        void play_cards();
     };
 }
 

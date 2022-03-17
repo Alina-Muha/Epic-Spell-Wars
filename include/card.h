@@ -2,8 +2,9 @@
 #define EPIC_SPELL_WARS_CARD_H
 #include <vector>
 #include <functional>
+#include <string>
 namespace card {
-    class card {
+    class Card {
     private:
         enum class type {
             ahcane, dark, elemental, illusion, primal
@@ -13,7 +14,8 @@ namespace card {
         };
         int priority_of_the_turn = 0;
         std::vector<std::function<void(int)>> effects;
-        //card_image = ...
+        std::string card_image;
+        
     };
 }
 
