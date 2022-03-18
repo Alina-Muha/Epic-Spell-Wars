@@ -2,7 +2,7 @@
 #define EPIC_SPELL_WARS_GAME_H
 
 
-class game {
+class Game {
 
 };
 
