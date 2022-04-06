@@ -8,6 +8,8 @@
 namespace round {
     class Round {
 
+
+
     private:
 
         std::vector<player::Player *> alive_players;
@@ -19,6 +21,7 @@ namespace round {
 
         void distribute_cards();
 
+
         void sort_priority_of_the_turn();
 
         void play_circle();
@@ -26,6 +29,9 @@ namespace round {
         void play_round();
 
         void play_cards();
+
+
+        void move_cards_from_hand_to_discard();
 
     };
 }

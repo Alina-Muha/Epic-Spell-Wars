@@ -5,6 +5,10 @@
 #include <string>
 namespace card {
 
+
+
+
+
     class Card {
 
     private:
@@ -23,6 +27,7 @@ namespace card {
         std::vector<std::function<void(int)>> effects;
         std::string card_image;
 
+
     public:
 
         Card(type type_, type_of_spell_component type_of_spell_component_, int priority_of_the_turn_new,
@@ -33,6 +38,7 @@ namespace card {
         void do_card_effects(int number_on_the_dice);
 
         int get_priority_of_the_turn();
+
 
     };
 }
