@@ -1,7 +1,9 @@
 #include "../include/player.h"
 
+#include <utility>
+
 namespace player {
-    Player::Player(std::string &name_) {
+    Player::Player(std::string &name_) : name(std::move(name_)), lives(20) {
     }
 
     std::string& Player::get_name() {
@@ -9,19 +11,19 @@ namespace player {
     }
 
     void Player::set_name(std::string name_){
-        return;
+        name = std::move(name_);
     }
 
-    const int Player::get_lives() {
+    int Player::get_lives() const {
         return lives;
     }
 
-    const std::vector<Card> &get_cards() {
+    const std::vector<card::Card> &Player::get_cards() {
         return cards;
     }
 
-    void Player::change_lives() {
-        return;
+    void Player::change_lives(int new_lives) {
+        lives = new_lives;
     }
 
     void change_cards() {
@@ -32,7 +34,7 @@ namespace player {
         return 0;
     }
 
-    void make_move(Card &first, Card &second, Card &third) {
+    void make_move(card::Card &first, card::Card &second, card::Card &third) {
 
     }
 }  // namespace player
