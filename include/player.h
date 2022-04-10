@@ -12,7 +12,7 @@ namespace player {
     private:
         std::string name;
         int lives;
-        std::vector<Card> cards;
+        std::vector<card::Card> cards;
 
     public:
         explicit Player(std::string &name_);
@@ -23,17 +23,17 @@ namespace player {
 
         void set_name(std::string name_);
 
-        const int get_lives();
+        [[nodiscard]] int get_lives() const;
 
-        const std::vector<Card> &get_cards();
+        [[nodiscard]] const std::vector<card::Card> &get_cards();
 
-        void change_lives();
+        void change_lives(int new_lives);
 
         void change_cards();
 
         int roll_the_dice(int n = 1);
 
-        void make_move(Card &first, Card &second, Card &third);
+        void make_move(card::Card &first, card::Card &second, card::Card &third);
     };
 }  // namespace player
 #endif // PLAYER_H
