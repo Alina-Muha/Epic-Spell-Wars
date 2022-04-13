@@ -2,8 +2,8 @@
 #define CARDS_FUNCTIONS_H
 #include <iostream>
 #include <vector>
-#include "../include/Player.h"
-#include "../include/сard.h"
+#include "player.h"
+#include "card.h"
 class CardsFunctions {
     void delivery_for_one_enemy(const int sum,
                                 const int damage1,

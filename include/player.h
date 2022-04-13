@@ -30,10 +30,6 @@ namespace player {
         void change_lives(int new_lives);
 
         void change_cards();
-
-        int roll_the_dice(int n = 1);
-
-        void make_move(card::Card &first, card::Card &second, card::Card &third);
     };
 }  // namespace player
 #endif // PLAYER_H
