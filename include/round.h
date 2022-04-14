@@ -2,13 +2,11 @@
 #define ROUND_H
 #include <set>
 #include <vector>
-#include "Card.h"
+#include "card.h"
 #include "player.h"
 
 namespace round {
     class Round {
-
-
 
     private:
 
@@ -28,7 +26,7 @@ namespace round {
 
         void play_round();
 
-        void play_cards();
+        void play_cards(player::Player *gamer);
 
 
         void move_cards_from_hand_to_discard();

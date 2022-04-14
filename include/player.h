@@ -12,9 +12,13 @@ namespace player {
     private:
         std::string name;
         int lives;
-        std::vector<card::Card> cards;
+
+        std::vector<card::Card *> cards;
 
     public:
+
+        std::vector<std::pair<card::Card, int>> spell;  //TODO private + getter
+
         explicit Player(std::string &name_);
 
         ~Player() = default;
@@ -25,11 +29,12 @@ namespace player {
 
         [[nodiscard]] int get_lives() const;
 
-        [[nodiscard]] const std::vector<card::Card> &get_cards();
+        [[nodiscard]] const std::vector<card::Card *> &get_cards();
 
         void change_lives(int new_lives);
 
-        void change_cards();
+        void add_card(card::Card *new_card);
+
     };
 }  // namespace player
 #endif // PLAYER_H
