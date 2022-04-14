@@ -7,11 +7,15 @@
 
 namespace round {
     class Round {
+<<<<<<< HEAD
 
 
 
     private:
 
+=======
+    private:
+>>>>>>> main
         std::vector<player::Player *> alive_players;
         std::vector<card::Card *> main_deck;
 
@@ -32,7 +36,11 @@ namespace round {
 
 
         void move_cards_from_hand_to_discard();
+<<<<<<< HEAD
 
+=======
+        void play_cards();
+>>>>>>> main
     };
 }
 

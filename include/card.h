@@ -6,9 +6,6 @@
 namespace card {
 
 
-
-
-
     class Card {
 
     private:
@@ -38,8 +35,7 @@ namespace card {
         void do_card_effects(int number_on_the_dice);
 
         int get_priority_of_the_turn();
-
-
+        
     };
 }
 
