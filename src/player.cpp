@@ -18,7 +18,7 @@ namespace player {
         return lives;
     }
 
-    const std::vector<card::Card> &Player::get_cards() {
+    const std::vector<card::Card *> &Player::get_cards() {
         return cards;
     }
 
@@ -26,7 +26,7 @@ namespace player {
         lives = new_lives;
     }
 
-    void change_cards() {
-        return;
+    void Player::add_card(card::Card *new_card) {
+        cards.push_back(new_card);
     }
 }  // namespace player

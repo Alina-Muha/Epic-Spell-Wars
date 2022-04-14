@@ -1,19 +1,19 @@
-#include "../include/Round.h"
+#include "round.h"
 #include "algorithm"
 namespace round{
 
-    bool compare_two_players(player::Player& a,player::Player& b){
-        if(a.get_cards().size()<b.get_cards().size()){
+    bool compare_two_players(player::Player* a,player::Player* b){
+        if(a->get_cards().size()<b->get_cards().size()){
             return true;
         }
-        if(a.get_cards().size()>b.get_cards().size()){
+        if(a->get_cards().size()>b->get_cards().size()){
             return false;
         }
         int priority_of_the_turn_a=0;
         int priority_of_the_turn_b=0;
-        for(auto i : a.spell){
-            priority_of_the_turn_a=std::max(i, priority_of_the_turn_a);
-            priority_of_the_turn_a=std::max(i, priority_of_the_turn_a);
+        for(auto i : a->spell){
+            priority_of_the_turn_a=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_a);
+            priority_of_the_turn_b=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_b);
         }
         if(priority_of_the_turn_a>priority_of_the_turn_b){
             return true;
@@ -35,7 +35,7 @@ namespace round{
             }
             while(i->get_cards().size()<number_of_cards_in_hand){
                 if(main_deck.size()!=0) {
-                    i->change_cards(main_deck.back());
+                    i->add_card(main_deck.back());
                     main_deck.pop_back();
                 }else{
                     flag_of_end_of_deck=true;
@@ -45,11 +45,11 @@ namespace round{
         }
     }
 
-    void play_cards(player::Player& gamer){
-        for(auto i : spell){
+    void Round::play_cards(player::Player* gamer){
+        for(auto i : gamer->spell){
             i.first.do_card_effects(i.second);
         }
-        spell.clear();
+        gamer->spell.clear();
     }
 
     void Round::play_circle() {
@@ -60,7 +60,7 @@ namespace round{
                 b->spell.clear();
                 continue;
             }
-            play_cards(b);
+            Round::play_cards(b);
         }
     }
 
