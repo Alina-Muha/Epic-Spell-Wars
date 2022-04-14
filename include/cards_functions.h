@@ -16,7 +16,7 @@ class CardsFunctions {
                                              player::Player &current_player);
     void damage_for_all_players(const int type,
                                 player::Player &current_player,
-                                std::vector<&player::Player> &all_players);
+                                std::vector<player::Player> &all_players);
     void delivery_vigorous_synthesis(const int sum,
                                      player::Player &victim,
                                      player::Player &left_neigh,
@@ -30,7 +30,7 @@ class CardsFunctions {
     void copy_delivery(player::Player &current_player);
     void quality_discotheque(player::Player &current_player);
     void quality_thunderous(player::Player &current_player,
-                            std::vector<&player::Player> &all_players);
+                            std::vector<player::Player> &all_players);
     void source_bradostrel(player::Player &current_player);
     void deck_search(const int type,
                      std::vector<card::Card> cards,
