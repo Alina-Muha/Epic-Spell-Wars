@@ -2,40 +2,40 @@
 #define CARDS_FUNCTIONS_H
 #include <iostream>
 #include <vector>
-#include "../include/Player.h"
-#include "../include/сard.h"
+#include "player.h"
+#include "card.h"
 class CardsFunctions {
     void delivery_for_one_enemy(const int sum,
                                 const int damage1,
                                 const int damage2,
                                 const int damage3,
-                                Player &victim);
+                                player::Player &victim);
     void damage_for_enemy_and_current_player(const int type,
                                              const int sum,
-                                             Player &enemy,
-                                             Player &current_player);
+                                             player::Player &enemy,
+                                             player::Player &current_player);
     void damage_for_all_players(const int type,
-                                Player &current_player,
-                                std::vector<&Player> &all_players);
+                                player::Player &current_player,
+                                std::vector<player::Player> &all_players);
     void delivery_vigorous_synthesis(const int sum,
-                                     Player &victim,
-                                     Player &left_neigh,
-                                     Player &right_neigh);
+                                     player::Player &victim,
+                                     player::Player &left_neigh,
+                                     player::Player &right_neigh);
     void delivery_snake_hunger(const int sum,
-                               Player &left_neigh,
-                               Player &right_neigh,
-                               Player &current_player);
-    void quality_spiny(const int sum, Player &victim, Player &current_player);
-    void copy_source(Player &current_player);
-    void copy_delivery(Player &current_player);
-    void quality_discotheque(Player &current_player);
-    void quality_thunderous(Player &current_player,
-                            std::vector<&Player> &all_players);
-    void source_bradostrel(Player &current_player);
+                               player::Player &left_neigh,
+                               player::Player &right_neigh,
+                               player::Player &current_player);
+    void quality_spiny(const int sum, player::Player &victim, player::Player &current_player);
+    void copy_source(player::Player &current_player);
+    void copy_delivery(player::Player &current_player);
+    void quality_discotheque(player::Player &current_player);
+    void quality_thunderous(player::Player &current_player,
+                            std::vector<player::Player> &all_players);
+    void source_bradostrel(player::Player &current_player);
     void deck_search(const int type,
-                     std::vector<card> cards,
-                     Player &current_player);
-    void source_for_current_player(Player &current_player, const int sum = 0);
+                     std::vector<card::Card> cards,
+                     player::Player &current_player);
+    void source_for_current_player(player::Player &current_player, const int sum = 0);
 };
 
 #endif  // CARDS_FUNCTIONS_H

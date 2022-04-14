@@ -29,12 +29,4 @@ namespace player {
     void change_cards() {
         return;
     }
-
-    int roll_the_dice(int n = 1) {
-        return 0;
-    }
-
-    void make_move(card::Card &first, card::Card &second, card::Card &third) {
-
-    }
 }  // namespace player
