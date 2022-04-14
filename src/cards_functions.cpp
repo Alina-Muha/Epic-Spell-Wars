@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "../include/Player.h"
-#include "../include/cards_funstions.h"
+#include "../include/cards_functions.h"
 #include "../include/сard.h"
 class CardsFunctions {
     void delivery_for_one_enemy(const int sum,
