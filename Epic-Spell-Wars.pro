@@ -4,6 +4,7 @@
 #TARGET = Epic-Spell-Wars
 
 QT = core gui widgets
+QT += network
 
 HEADERS = \
    $$PWD/include/board.h \
@@ -52,5 +53,4 @@ SOURCES = \
 INCLUDEPATH = \
     $$PWD/include
 
-#DEFINES = 
-
+#DEFINES =
