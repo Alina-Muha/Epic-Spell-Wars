@@ -21,6 +21,3 @@ void Start_window::on_start_button_clicked()
     b->show();
     Start_window::close();
 }
-
-
-

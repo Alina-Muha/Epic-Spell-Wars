@@ -1,4 +1,3 @@
-
 #include "board.h"
 #include "ui_board.h"
 

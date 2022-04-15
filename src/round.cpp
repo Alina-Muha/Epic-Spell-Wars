@@ -1,4 +1,3 @@
-
 #include "round.h"
 #include "algorithm"
 namespace round{
@@ -8,12 +7,10 @@ namespace round{
             return true;
         }
         if(a->get_cards().size()>b->get_cards().size()){
-
             return false;
         }
         int priority_of_the_turn_a=0;
         int priority_of_the_turn_b=0;
-
         for(auto i : a->spell){
             priority_of_the_turn_a=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_a);
             priority_of_the_turn_b=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_b);
@@ -39,7 +36,6 @@ namespace round{
             while(i->get_cards().size()<number_of_cards_in_hand){
                 if(main_deck.size()!=0) {
                     i->add_card(main_deck.back());
-
                     main_deck.pop_back();
                 }else{
                     flag_of_end_of_deck=true;
