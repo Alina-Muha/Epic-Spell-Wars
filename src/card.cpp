@@ -15,4 +15,3 @@ namespace card{
         return priority_of_the_turn;
     }
 }
-
