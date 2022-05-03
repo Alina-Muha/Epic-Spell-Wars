@@ -2,24 +2,21 @@
 #define SERVER_H
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QObject>
-namespace server {
-    class server : public QTcpServer {
-        Q_OBJECT
-    public:
-        server(QObject *parent = nullptr);
-        ~server();
-        QTcpServer *mTcpServer;
-        QTcpSocket *mTcpSocket;
-    public slots:
+#include <QString>
+namespace server{
+class server : public QObject{
+    Q_OBJECT
+public:
+    explicit server(QObject *parent = nullptr);
+public slots:
+    void new_connection();
+    void read_connection();
+    void disconnection();
+private:
+    QTcpServer *tcp_server;
+    QTcpSocket *tcp_socket;
 
-        void create_user();
+};
+} // namespace server
 
-        void connect_user(int user);
-
-        void read_user();
-
-        void disconnect_user();
-    };
-}
 #endif // SERVER_H
