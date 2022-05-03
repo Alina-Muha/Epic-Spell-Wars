@@ -6,6 +6,7 @@
 QT = core gui widgets
 QT += network
 QMAKE_CXXFLAGS += -std=c++17
+QT += qml quick
 
 HEADERS = \
    $$PWD/include/board.h \
