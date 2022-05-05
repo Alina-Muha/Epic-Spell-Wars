@@ -71,5 +71,8 @@ namespace round{
             play_circle();
         }
     }
+    std::vector<player::Player *> &Round::get_players(){
+        return alive_players;
+    }
 
 }
