@@ -54,6 +54,9 @@ DISTFILES += \
     cards/Delivery_13.png \
     cards/Delivery_14.png \
     cards/Quality_1.png \
+    cards/Quality_11.png \
+    cards/Quality_12.png \
+    cards/Quality_13.png \
     cards/Quality_2.png \
     cards/Quality_3.png \
     cards/Quality_4.png \
@@ -63,10 +66,6 @@ DISTFILES += \
     cards/Quality_8.png \
     cards/Quality_9.png \
     cards/Quality_10.png \
-    cards/Quality_11.png \
-    cards/Quality_12.png \
-    cards/Quality_13.png \
-    cards/Quality_14.png \
     cards/Source_1.png \
     cards/Source_2.png \
     cards/Source_3.png \
