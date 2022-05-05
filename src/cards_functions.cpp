@@ -7,7 +7,7 @@ void CardsFunctions::delivery_for_one_enemy(const int sum,
                             const int damage1,
                             const int damage2,
                             const int damage3,
-                            player::Player &victim) {
+                            player  ::Player &victim) {
     return;
 }
 void CardsFunctions::damage_for_enemy_and_current_player(const int type,
