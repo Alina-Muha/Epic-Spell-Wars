@@ -45,18 +45,44 @@ DISTFILES += \
     cards/Delivery_4.png \
     cards/Delivery_5.png \
     cards/Delivery_6.png \
+    cards/Delivery_7.png \
+    cards/Delivery_8.png \
+    cards/Delivery_9.png \
+    cards/Delivery_10.png \
+    cards/Delivery_11.png \
+    cards/Delivery_12.png \
+    cards/Delivery_13.png \
+    cards/Delivery_14.png \
     cards/Quality_1.png \
     cards/Quality_2.png \
     cards/Quality_3.png \
     cards/Quality_4.png \
     cards/Quality_5.png \
     cards/Quality_6.png \
+    cards/Quality_7.png \
+    cards/Quality_8.png \
+    cards/Quality_9.png \
+    cards/Quality_10.png \
+    cards/Quality_11.png \
+    cards/Quality_12.png \
+    cards/Quality_13.png \
+    cards/Quality_14.png \
     cards/Source_1.png \
     cards/Source_2.png \
     cards/Source_3.png \
     cards/Source_4.png \
     cards/Source_5.png \
-    cards/Source_6.png
+    cards/Source_6.png \
+    cards/Source_7.png \
+    cards/Source_8.png \
+    cards/Source_9.png \
+    cards/Source_10.png \
+    cards/Source_11.png \
+    cards/Source_12.png \
+    cards/Source_13.png \
+    cards/Source_14.png \
+    cards/Source_15.png \
+    cards/Source_16.png
 
 RESOURCES += \
     cards/start_window_background.qrc
