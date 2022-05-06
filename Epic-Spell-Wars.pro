@@ -67,6 +67,8 @@ DISTFILES += \
     cards/Quality_9.png \
     cards/Quality_10.png \
     cards/Source_1.png \
+    cards/Source_14.png \
+    cards/Source_15.png \
     cards/Source_2.png \
     cards/Source_3.png \
     cards/Source_4.png \
@@ -78,10 +80,7 @@ DISTFILES += \
     cards/Source_10.png \
     cards/Source_11.png \
     cards/Source_12.png \
-    cards/Source_13.png \
-    cards/Source_14.png \
-    cards/Source_15.png \
-    cards/Source_16.png
+    cards/Source_13.png
 
 RESOURCES += \
     cards/start_window_background.qrc
