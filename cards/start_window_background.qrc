@@ -9,6 +9,14 @@
         <file>Delivery_4.png</file>
         <file>Delivery_5.png</file>
         <file>Delivery_6.png</file>
+        <file>Delivery_7.png</file>
+        <file>Delivery_8.png</file>
+        <file>Delivery_9.png</file>
+        <file>Delivery_10.png</file>
+        <file>Delivery_11.png</file>
+        <file>Delivery_12.png</file>
+        <file>Delivery_13.png</file>
+        <file>Delivery_14.png</file>
     </qresource>
     <qresource prefix="/quality_cards">
         <file>Quality_1.png</file>
@@ -17,6 +25,13 @@
         <file>Quality_4.png</file>
         <file>Quality_5.png</file>
         <file>Quality_6.png</file>
+        <file>Quality_7.png</file>
+        <file>Quality_8.png</file>
+        <file>Quality_9.png</file>
+        <file>Quality_10.png</file>
+        <file>Quality_11.png</file>
+        <file>Quality_12.png</file>
+        <file>Quality_13.png</file>
     </qresource>
     <qresource prefix="/source_cards">
         <file>Source_1.png</file>
@@ -25,5 +40,14 @@
         <file>Source_4.png</file>
         <file>Source_5.png</file>
         <file>Source_6.png</file>
+        <file>Source_7.png</file>
+        <file>Source_8.png</file>
+        <file>Source_9.png</file>
+        <file>Source_10.png</file>
+        <file>Source_11.png</file>
+        <file>Source_12.png</file>
+        <file>Source_13.png</file>
+        <file>Source_14.png</file>
+        <file>Source_15.png</file>
     </qresource>
 </RCC>
