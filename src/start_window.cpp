@@ -1,4 +1,3 @@
-#include "start_window.h"
 #include "ui_start_window.h"
 #include "board.h"
 #include "player.h"

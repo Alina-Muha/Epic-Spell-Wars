@@ -68,12 +68,31 @@ namespace round{
         }
     }
 
-    void Round::play_round() {
+    player::Player* Round::play_round() {
         while(alive_players.size()!=1) {
             //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
         }
+        if(alive_players.size()==1){
+            return alive_players.back();
+        }else{
+            return nullptr;
+        }
     }
-
+    std::vector<player::Player *> Round::get_alive_players(){
+        return alive_players;
+    }
+    std::vector<card::Card *> round::Round::get_main_deck(){
+        return main_deck;
+    }
+    void Round::load_players(std::vector<player::Player *>& players){
+        alive_players=players;
+    }
+    void Round::load_cards(std::vector<card::Card *> new_deck) {
+        main_deck=new_deck;
+    }
+    std::vector<player::Player *> &Round::get_players(){
+        return alive_players;
+    }
 }
