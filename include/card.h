@@ -39,6 +39,8 @@ namespace card {
 
         int get_priority_of_the_turn();
 
+        type get_type_of_the_card();
+        type_of_spell_component get_type_of_spell_component();
 
     };
 }
