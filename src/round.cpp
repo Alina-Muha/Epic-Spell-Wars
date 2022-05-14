@@ -1,7 +1,7 @@
 
 #include "round.h"
 #include "algorithm"
-namespace round{
+namespace round_of_game {
 
     bool compare_two_players(player::Player* a,player::Player* b){
         if(a->get_cards().size()<b->get_cards().size()){
