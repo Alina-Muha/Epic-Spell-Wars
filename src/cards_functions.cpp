@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 #include "cards_functions.h"
 namespace card_functions{
 int CardFunctions::get_num_of_player_in_circle(player::Player *current_player){
@@ -12,15 +13,18 @@ int CardFunctions::get_num_of_player_in_circle(player::Player *current_player){
     }
     return num;
 }
-void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Player *current_player){
+player::Player* CardFunctions::get_the_strongest_player(){
     int life = 0;
-    player::Player* strongest_player = nullptr;
+    player::Player *strongest_player = nullptr;
     for (auto player : round.get_players()){
         if (player->get_lives() > life){
-            life = player->get_lives();
             strongest_player = player;
         }
     }
+    return strongest_player;
+}
+void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Player *current_player){
+    player::Player* strongest_player = get_the_strongest_player();
     int num = get_num_of_player_in_circle(strongest_player);
     int cur_lives = strongest_player->get_lives(); // maybe need getter??
     int count = round.get_players().size();
@@ -316,5 +320,159 @@ void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *c
             }
         }
     }
+}
+void CardFunctions::type_of_cards_damage(int type, player::Player *current_player){
+    std::map<card::Card::type, int> types_of_spell_cards; // for different types in spell
+    types_of_spell_cards[card::Card::type::ahcane] = 0;
+    types_of_spell_cards[card::Card::type::dark] = 0;
+    types_of_spell_cards[card::Card::type::elemental] = 0;
+    types_of_spell_cards[card::Card::type::illusion] = 0;
+    types_of_spell_cards[card::Card::type::primal] = 0;
+    for (auto &card : current_player->spell){
+        types_of_spell_cards[card.first.get_card_type()]++;
+    }
+    // type = 1 - card Wyrmtor's (Source)
+    int unique = 0;
+    for (auto el : types_of_spell_cards){
+        if (el.second != 0){
+            unique++;
+        }
+    }
+    if (type == 1){
+        for (auto player : round.get_players()){
+            int foe_lives = player->get_lives();
+            if (player != current_player){
+                player->change_lives(foe_lives - unique);
+            }
+        }
+    }
+    // type = 2 - card Delicious (Quality)
+    if (type == 2){
+        for (auto player : round.get_players()){
+            int foe_lives = player->get_lives();
+            if (player != current_player && foe_lives % 2 != 0){
+                player->change_lives(foe_lives - unique);
+            }
+        }
+    }
+    // type = 3 - card Inferno Tastic (Quality)
+    if (type == 3){
+        int elemental = types_of_spell_cards[card::Card::type::elemental];
+        for (auto player : round.get_players()){
+            int foe_lives = player->get_lives();
+            if (player != current_player){
+                player->change_lives(foe_lives - elemental);
+            }
+        }
+    }
+    // type = 4 - card  Maggoty (Quality)
+    if (type == 4){
+        int dark = types_of_spell_cards[card::Card::type::dark];
+        player::Player *strongest_player = get_the_strongest_player();
+        int foe_lives = strongest_player->get_lives();
+        strongest_player->change_lives(foe_lives - 2 * dark);
+    }
+    // type = 5 - card Thundering (Quality)
+    if (type == 5){
+        int count = round.get_players().size();
+        int num = rand() % count;
+        player::Player *random_player = round.get_players()[num];
+        int foe_lives = random_player->get_lives();
+        random_player->change_lives(foe_lives - 2 * unique);
+    }
+    // type = 6 - card Rose Bottom's (Source)
+    if (type == 6){
+        int cur_lives = current_player->get_lives();
+        current_player->change_lives(cur_lives + unique);
+    }
+}
+void CardFunctions::damage_without_parametrs(int type, player::Player *current_player, int chosen){
+    int count = round.get_players().size();
+    player::Player *strongest_player = get_the_strongest_player();
+    int foe_lives = strongest_player->get_lives();
+    // type = 1 - card King Oberon's(Source)
+    if (type == 1){
+        int cur_lives = current_player->get_lives();
+        current_player->change_lives(cur_lives + 2);
+    }
+    // type = 2 - card Magma Gog's (Source)
+    if (type == 2){
+        if (chosen == 1){
+            int num = get_num_of_player_in_circle(current_player);
+            int count = round.get_players().size();
+            player::Player *left_neighbour = round.get_players()[(count + num - 1) % count];
+            int lives_of_left = left_neighbour->get_lives();
+            left_neighbour->change_lives(lives_of_left - 2);
+        }
+        else{
+            for (auto player : round.get_players()){
+                if (player != current_player){
+                    int foe_lives = player->get_lives();
+                    player->change_lives(foe_lives - 1);
+                }
+            }
+        }
+    }
+    // type = 3 - card Midnight Merlin's (Source)
+    if (type == 3){
+        strongest_player->change_lives(foe_lives - count);
+    }
+    // type = 4 - card Scorchis's (Source)
+    if (type == 4){
+        strongest_player->change_lives(foe_lives - 3);
+    }
+    // type = 5 - card Thai-Foon's (Source)
+    if (type == 5){
+        int num = get_num_of_player_in_circle(current_player);
+        for (int i = 0; i < num; i++){
+            int foe_lives = round.get_players()[i]->get_lives();
+            round.get_players()[i]->change_lives(foe_lives - 3);
+        }
+    }
+    // type = 6 - Boulder Iffic (Quality)
+    if (type == 6){
+        int players_without_damage = count - 1;
+        int i = 1;
+        int num = get_num_of_player_in_circle(current_player);
+        while (players_without_damage > 0){
+            player::Player *left_neghbour = round.get_players()[(count + num - 1) % count];
+            int lives_of_left = left_neghbour->get_lives();
+            left_neghbour->change_lives(lives_of_left - i);
+            i++;
+            players_without_damage--;
+        }
+    }
+}
+void CardFunctions::rolling_the_dice(int type, int sum_1, player::Player *current_player, std::vector<int> points_of_foes, int sum_2){
+    // type = 1 - card Dicey
+    // maybe it too hard, we need client-server, now I don't know
+    int count = round.get_players().size() - 1;
+    if (type == 1){
+        int num = get_num_of_player_in_circle(current_player);
+        int foes_without_damage = count;
+        int i = 1;
+        int pos_in_vec = 0;
+        while (foes_without_damage > 0){
+            player::Player *new_player = round.get_players()[(num + i) % count];
+            int new_player_lives = new_player->get_lives();
+            if (points_of_foes[pos_in_vec] == sum_1){
+                new_player->change_lives(new_player_lives - sum_1);
+            }
+
+            else{
+                if (points_of_foes[pos_in_vec] == sum_2){
+                new_player->change_lives(new_player_lives - sum_1);
+                }
+                else {
+                    if (points_of_foes[pos_in_vec] == sum_2 + sum_1){
+                        new_player->change_lives(new_player_lives - sum_1 - sum_2);
+                    }
+                }
+            }
+            i++;
+            pos_in_vec++;
+        }
+    }
+
 }
 } //card_functions
