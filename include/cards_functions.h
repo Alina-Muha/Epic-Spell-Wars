@@ -8,7 +8,7 @@
 namespace card_functions{
 struct CardFunctions{
 private:
-    round::Round round;
+    round_of_game::Round round;
 public:
     // auxiliary function
     int get_num_of_player_in_circle(player::Player *current_player);

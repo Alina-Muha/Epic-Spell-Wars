@@ -1,7 +1,9 @@
 
 #include "round.h"
 #include "algorithm"
+
 namespace round_of_game {
+
 
     bool compare_two_players(player::Player* a,player::Player* b){
         if(a->get_cards().size()<b->get_cards().size()){
@@ -14,9 +16,9 @@ namespace round_of_game {
         int priority_of_the_turn_a=0;
         int priority_of_the_turn_b=0;
 
-        for(auto i : a->spell){
-            priority_of_the_turn_a=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_a);
-            priority_of_the_turn_b=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_b);
+        for(auto i : a->get_spell()){
+            priority_of_the_turn_a=std::max(i.first->get_priority_of_the_turn(), priority_of_the_turn_a);
+            priority_of_the_turn_b=std::max(i.first->get_priority_of_the_turn(), priority_of_the_turn_b);
         }
         if(priority_of_the_turn_a>priority_of_the_turn_b){
             return true;
@@ -50,10 +52,10 @@ namespace round_of_game {
     }
 
     void Round::play_cards(player::Player* gamer){
-        for(auto i : gamer->spell){
+        for(auto i : gamer->get_spell()){
             i.first.do_card_effects(i.second);
         }
-        gamer->spell.clear();
+        gamer->get_spell().clear();
     }
 
     void Round::play_circle() {
@@ -61,7 +63,7 @@ namespace round_of_game {
             auto b = *it;
             if(b->get_lives()<=0){
                 alive_players.erase(it);
-                b->spell.clear();
+                b->get_spell().clear();
                 continue;
             }
             Round::play_cards(b);
@@ -83,7 +85,7 @@ namespace round_of_game {
     std::vector<player::Player *> Round::get_alive_players(){
         return alive_players;
     }
-    std::vector<card::Card *> round::Round::get_main_deck(){
+    std::vector<card::Card *> round_of_game::Round::get_main_deck(){
         return main_deck;
     }
     void Round::load_players(std::vector<player::Player *>& players){
