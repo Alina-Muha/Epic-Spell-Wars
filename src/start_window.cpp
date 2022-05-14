@@ -24,7 +24,7 @@ void Start_window::on_connect_button_clicked()
 }
 
 void Start_window::send_name_to_server(QString name) {
-
+    // TODO
 }
 
 void Start_window::on_start_button_clicked()
@@ -40,7 +40,7 @@ void Start_window::slotReadyRead()
     in.setVersion(QDataStream::Qt_6_2);
     if (in.status() == QDataStream::Ok) {
         Qstring name;
-        in >> name;
+        in >> name; // ????
 
     }
 }
