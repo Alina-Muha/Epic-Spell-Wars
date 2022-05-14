@@ -18,12 +18,15 @@ namespace card{
     Card::type Card::get_type_of_the_card(){
         return type_of_the_card;
     }
+
     Card::type_of_spell_component Card::get_type_of_the_spell_component(){
         return type_of_the_spell_component;
     }
+
     std::string Card::get_card_image() {
         return card_image;
     }
+
     std::vector<std::function<void(int)>> Card::get_effects(){
         return effects;
     }

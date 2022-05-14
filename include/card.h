@@ -5,10 +5,6 @@
 #include <string>
 namespace card {
 
-
-
-
-
     class Card {
 
     private:
