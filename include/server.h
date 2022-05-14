@@ -5,10 +5,10 @@
 #include <QString>
 #include <QMap>
 namespace server{
-class server : public QObject{
+class Server : public QObject{
     Q_OBJECT
 public:
-    explicit server(QObject *parent = nullptr);
+    explicit Server(QObject *parent = nullptr);
     QString get_client(const QTcpSocket *client) const;
 public slots:
     void new_connection();

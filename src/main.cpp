@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Start_window w;
-    server::server play_server;
+    server::Server play_server;
     w.show();
     return a.exec();
 }
