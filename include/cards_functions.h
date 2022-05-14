@@ -4,38 +4,34 @@
 #include <vector>
 #include "player.h"
 #include "card.h"
-class CardsFunctions {
-    void delivery_for_one_enemy(const int sum,
-                                const int damage1,
-                                const int damage2,
-                                const int damage3,
-                                player::Player &victim);
-    void damage_for_enemy_and_current_player(const int type,
-                                             const int sum,
-                                             player::Player &enemy,
-                                             player::Player &current_player);
-    void damage_for_all_players(const int type,
-                                player::Player &current_player,
-                                std::vector<player::Player> &all_players);
-    void delivery_vigorous_synthesis(const int sum,
-                                     player::Player &victim,
-                                     player::Player &left_neigh,
-                                     player::Player &right_neigh);
-    void delivery_snake_hunger(const int sum,
-                               player::Player &left_neigh,
-                               player::Player &right_neigh,
-                               player::Player &current_player);
-    void quality_spiny(const int sum, player::Player &victim, player::Player &current_player);
-    void copy_source(player::Player &current_player);
-    void copy_delivery(player::Player &current_player);
-    void quality_discotheque(player::Player &current_player);
-    void quality_thunderous(player::Player &current_player,
-                            std::vector<player::Player> &all_players);
-    void source_bradostrel(player::Player &current_player);
-    void deck_search(const int type,
-                     std::vector<card::Card> cards,
-                     player::Player &current_player);
-    void source_for_current_player(player::Player &current_player, const int sum = 0);
+#include "round.h"
+namespace card_functions{
+struct CardFunctions{
+private:
+    round::Round round;
+public:
+    // auxiliary function
+    int get_num_of_player_in_circle(player::Player *current_player);
+    player::Player *get_the_strongest_player();
+
+    // damage is dealt depending on the number of points dropped
+    void damage_to_the_strongest_player(int type, int sum, player::Player *current_player);
+    void damage_to_the_weakest_player(int sum);
+    void damage_to_the_left_neighbour(int sum, player::Player *current_player);
+    void damage_to_the_right_neighbour(int type, int sum, player::Player *current_player);
+    void damage_to_chosen_foe(int type, int sum, player::Player *current_player, player::Player *chosen_foe, card::Card *card = nullptr);
+    void hp_to_current_player(int sum, player::Player *current_player);
+    void damage_for_several_foes(int type, int sum, player::Player *current_player);
+
+    // damage is dealt depending on the type of cards
+    void type_of_cards_damage(int type, player::Player *current_Player);
+
+    // damage doesn't depend on the numbers of point dropped or on the type of cards
+    void damage_without_parametrs(int type, player::Player *current_player, int chosen = 0);
+
+    // player rolls dice
+    void rolling_the_dice(int type, int sum_1, player::Player *current_player, std::vector<int> points_of_foes, int sum_2 = 0);
 };
+} //card_functions
 
 #endif  // CARDS_FUNCTIONS_H
