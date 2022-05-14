@@ -4,7 +4,6 @@
 #include <vector>
 #include "card.h"
 #include "player.h"
-
 namespace round {
     class Round {
 
@@ -19,6 +18,7 @@ namespace round {
         const int number_of_cards_in_hand=7;
 
         void distribute_cards();
+        std::vector<player::Player *> &get_players();
 
 
         static void sort_priority_of_the_turn();
@@ -31,6 +31,7 @@ namespace round {
 
 
         void move_cards_from_hand_to_discard();
+
 
         std::vector<player::Player *> get_alive_players();
 

@@ -92,4 +92,7 @@ namespace round{
     void Round::load_cards(std::vector<card::Card *> new_deck) {
         main_deck=new_deck;
     }
+    std::vector<player::Player *> &Round::get_players(){
+        return alive_players;
+    }
 }
