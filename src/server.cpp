@@ -43,6 +43,3 @@ QString server::get_client(const QTcpSocket *client) const{
     return client->peerName();
 }
 }
-
-
-

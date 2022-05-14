@@ -1,3 +1,4 @@
+
 #include "round.h"
 #include "algorithm"
 namespace round{
@@ -7,10 +8,12 @@ namespace round{
             return true;
         }
         if(a->get_cards().size()>b->get_cards().size()){
+
             return false;
         }
         int priority_of_the_turn_a=0;
         int priority_of_the_turn_b=0;
+
         for(auto i : a->spell){
             priority_of_the_turn_a=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_a);
             priority_of_the_turn_b=std::max(i.first.get_priority_of_the_turn(), priority_of_the_turn_b);
@@ -36,6 +39,7 @@ namespace round{
             while(i->get_cards().size()<number_of_cards_in_hand){
                 if(main_deck.size()!=0) {
                     i->add_card(main_deck.back());
+
                     main_deck.pop_back();
                 }else{
                     flag_of_end_of_deck=true;
@@ -64,15 +68,31 @@ namespace round{
         }
     }
 
-    void Round::play_round() {
+    player::Player* Round::play_round() {
         while(alive_players.size()!=1) {
             //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
         }
+        if(alive_players.size()==1){
+            return alive_players.back();
+        }else{
+            return nullptr;
+        }
+    }
+    std::vector<player::Player *> Round::get_alive_players(){
+        return alive_players;
+    }
+    std::vector<card::Card *> round::Round::get_main_deck(){
+        return main_deck;
+    }
+    void Round::load_players(std::vector<player::Player *>& players){
+        alive_players=players;
+    }
+    void Round::load_cards(std::vector<card::Card *> new_deck) {
+        main_deck=new_deck;
     }
     std::vector<player::Player *> &Round::get_players(){
         return alive_players;
     }
-
 }
