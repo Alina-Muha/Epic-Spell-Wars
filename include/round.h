@@ -31,6 +31,8 @@ namespace round {
 
         void move_cards_from_hand_to_discard();
 
+        std::vector<player::Player *> get_alive_players();
+        std::vector<card::Card *> get_main_deck();
     };
 }
 

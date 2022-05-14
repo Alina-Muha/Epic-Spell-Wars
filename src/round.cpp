@@ -71,5 +71,10 @@ namespace round{
             play_circle();
         }
     }
-
+    std::vector<player::Player *> Round::get_alive_players(){
+        return alive_players;
+    }
+    std::vector<card::Card *> round::Round::get_main_deck(){
+        return main_deck;
+    }
 }
