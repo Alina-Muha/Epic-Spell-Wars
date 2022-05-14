@@ -4,7 +4,7 @@
 #include <vector>
 #include "card.h"
 #include "player.h"
-namespace round {
+namespace round_of_game {
     class Round {
 
     private:

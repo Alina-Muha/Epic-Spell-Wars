@@ -80,15 +80,15 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Pl
                 card::Card *delivery_card = nullptr;
                 int i = 0;
                 int num = 0;
-                for (auto card: strongest_player->spell){
+                for (auto card: strongest_player->get_spell()){
                     i++;
-                    if (card.first.get_card_component() == card::Card::type_of_spell_component::delivery){
-                        delivery_card = &card.first;
+                    if (card.first->get_card_component() == card::Card::type_of_spell_component::delivery){
+                        delivery_card = card.first;
                         num = i;
                         break;
                     }
                 }
-                strongest_player->spell.erase(strongest_player->spell.begin() + num);
+                strongest_player->get_spell().erase(strongest_player->get_spell().begin() + num);
                 //current_player->spell.emplace_back(delivery_card);  //what happens with int? what happens with current spell??
             }
         }
@@ -311,8 +311,8 @@ void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *c
         }
         if (sum >= 10){
             int primal = 0;
-            for (auto card : current_player->spell){
-                if (card.first.get_card_type() == card::Card::type::primal){
+            for (auto card : current_player->get_spell()){
+                if (card.first->get_card_type() == card::Card::type::primal){
                     primal++;
                 }
                 right_neighbour->change_lives(lives_of_right - 2 * primal);
@@ -328,8 +328,8 @@ void CardFunctions::type_of_cards_damage(int type, player::Player *current_playe
     types_of_spell_cards[card::Card::type::elemental] = 0;
     types_of_spell_cards[card::Card::type::illusion] = 0;
     types_of_spell_cards[card::Card::type::primal] = 0;
-    for (auto &card : current_player->spell){
-        types_of_spell_cards[card.first.get_card_type()]++;
+    for (auto &card : current_player->get_spell()){
+        types_of_spell_cards[card.first->get_card_type()]++;
     }
     // type = 1 - card Wyrmtor's (Source)
     int unique = 0;
