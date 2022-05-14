@@ -13,32 +13,11 @@ HEADERS = \
    $$PWD/include/game.h \
    $$PWD/include/player.h \
    $$PWD/include/round.h \
-   $$PWD/include/server.h \
-   $$PWD/include/start_window.h
+   $$PWD/include/start_window.h \
+   include/client.h \
+   include/server.h
 
 SOURCES = \
-   $$PWD/cards/background_for_start.png \
-   $$PWD/cards/Delivery_1.png \
-   $$PWD/cards/Delivery_2.png \
-   $$PWD/cards/Delivery_3.png \
-   $$PWD/cards/Delivery_4.png \
-   $$PWD/cards/Delivery_5.png \
-   $$PWD/cards/Delivery_6.png \
-   $$PWD/cards/Quality_1.png \
-   $$PWD/cards/Quality_2.png \
-   $$PWD/cards/Quality_3.png \
-   $$PWD/cards/Quality_4.png \
-   $$PWD/cards/Quality_5.png \
-   $$PWD/cards/Quality_6.png \
-   $$PWD/cards/Source_1.png \
-   $$PWD/cards/Source_2.png \
-   $$PWD/cards/Source_3.png \
-   $$PWD/cards/Source_4.png \
-   $$PWD/cards/Source_5.png \
-   $$PWD/cards/Source_6.png \
-   $$PWD/cards/start_window_background.qrc \
-   $$PWD/forms/board.ui \
-   $$PWD/forms/start_window.ui \
    $$PWD/src/board.cpp \
    $$PWD/src/card.cpp \
    $$PWD/src/cards_functions.cpp \
@@ -46,11 +25,38 @@ SOURCES = \
    $$PWD/src/main.cpp \
    $$PWD/src/player.cpp \
    $$PWD/src/round.cpp \
-   $$PWD/src/server.cpp \
    $$PWD/src/start_window.cpp \
-   $$PWD/Epic-Spell-Wars.pro
+   src/client.cpp \
+   src/server.cpp
+
+FORMS = \
+   $$PWD/forms/board.ui \
+   $$PWD/forms/start_window.ui
 
 INCLUDEPATH = \
     $$PWD/include
 
 #DEFINES =
+
+DISTFILES += \
+    cards/Delivery_1.png \
+    cards/Delivery_2.png \
+    cards/Delivery_3.png \
+    cards/Delivery_4.png \
+    cards/Delivery_5.png \
+    cards/Delivery_6.png \
+    cards/Quality_1.png \
+    cards/Quality_2.png \
+    cards/Quality_3.png \
+    cards/Quality_4.png \
+    cards/Quality_5.png \
+    cards/Quality_6.png \
+    cards/Source_1.png \
+    cards/Source_2.png \
+    cards/Source_3.png \
+    cards/Source_4.png \
+    cards/Source_5.png \
+    cards/Source_6.png
+
+RESOURCES += \
+    cards/start_window_background.qrc

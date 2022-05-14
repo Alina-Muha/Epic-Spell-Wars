@@ -61,3 +61,4 @@ void CardsFunctions::deck_search(const int type,
 void CardsFunctions::source_for_current_player(player::Player &current_player, const int sum) {
     return;
 }
+
