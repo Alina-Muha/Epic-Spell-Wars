@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<<<<<<< HEAD
-<!-- Written by QtCreator 7.0.0, 2022-04-14T00:09:18. -->
-<qtcreator>
- <data>
-  <variable>EnvironmentId</variable>
-  <value type="QByteArray">{3ef8382e-88f6-4f08-9459-a3c40ca4dd2a}</value>
-=======
-<!-- Written by QtCreator 6.0.2, 2022-04-14T01:46:00. -->
+<!-- Written by QtCreator 6.0.2, 2022-05-05T21:50:45. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
   <value type="QByteArray">{f9519373-32be-420c-88b7-b7e564689263}</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -87,11 +79,7 @@
     <value type="bool" key="ClangTools.AnalyzeOpenFiles">true</value>
     <value type="bool" key="ClangTools.BuildBeforeAnalysis">true</value>
     <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.DefaultTidyAndClazy</value>
-<<<<<<< HEAD
-    <value type="int" key="ClangTools.ParallelJobs">6</value>
-=======
     <value type="int" key="ClangTools.ParallelJobs">4</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
     <valuelist type="QVariantList" key="ClangTools.SelectedDirs"/>
     <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
@@ -103,27 +91,16 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
-<<<<<<< HEAD
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.2.4 MinGW 64-bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.2.4 MinGW 64-bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.qt6.624.win64_mingw_kit</value>
-=======
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.2.3 MinGW 64-bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.2.3 MinGW 64-bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.qt6.623.win64_mingw_kit</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="int" key="EnableQmlDebugging">0</value>
-<<<<<<< HEAD
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\zilna\build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Debug</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/zilna/build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Debug</value>
-=======
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\mukha\new-qt-project\build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Debug</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/mukha/new-qt-project/build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Debug</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -161,13 +138,8 @@
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">2</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
-<<<<<<< HEAD
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\zilna\build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Release</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/zilna/build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Release</value>
-=======
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\mukha\new-qt-project\build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Release</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/mukha/new-qt-project/build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Release</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -207,13 +179,8 @@
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.2">
     <value type="int" key="EnableQmlDebugging">0</value>
-<<<<<<< HEAD
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\zilna\build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Profile</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/zilna/build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Profile</value>
-=======
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\mukha\new-qt-project\build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Profile</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/mukha/new-qt-project/build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Profile</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -273,23 +240,14 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-<<<<<<< HEAD
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/zilna/Epic-Spell-Wars/Epic-Spell-Wars.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/zilna/Epic-Spell-Wars/Epic-Spell-Wars.pro</value>
-=======
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/mukha/new-qt-project/Epic-Spell-Wars/Epic-Spell-Wars.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/mukha/new-qt-project/Epic-Spell-Wars/Epic-Spell-Wars.pro</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-<<<<<<< HEAD
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/zilna/build-Epic-Spell-Wars-Desktop_Qt_6_2_4_MinGW_64_bit-Debug</value>
-=======
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/mukha/new-qt-project/build-Epic-Spell-Wars-Desktop_Qt_6_2_3_MinGW_64_bit-Debug</value>
->>>>>>> 1ed37e42f8ec6d5f894cd04e8777323170e07407
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

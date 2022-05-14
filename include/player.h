@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-
 #include "card.h"
+#include "dice.h"
 
 namespace player {
     class Player {
@@ -13,19 +13,21 @@ namespace player {
         std::string name;
         int lives;
 
-        std::vector<card::Card *> cards;
+        std::vector<card::Card *> cards;  // list will be better?
+
+        std::vector<std::pair<card::Card *, int>> spell;
 
     public:
-
-        std::vector<std::pair<card::Card, int>> spell;  //TODO private + getter
 
         explicit Player(std::string &name_);
 
         ~Player() = default;
 
+        void set_name(std::string name_);
+
         [[nodiscard]] std::string& get_name();
 
-        void set_name(std::string name_);
+        [[nodiscard]] std::vector<std::pair<card::Card *, int>> &get_spell();
 
         [[nodiscard]] int get_lives() const;
 
@@ -34,6 +36,12 @@ namespace player {
         void change_lives(int new_lives);
 
         void add_card(card::Card *new_card);
+
+        void select_card(int index);
+
+        void sort_cards_in_spell();
+
+        bool is_move_correct();
 
     };
 }  // namespace player
