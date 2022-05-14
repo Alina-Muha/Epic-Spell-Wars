@@ -38,7 +38,10 @@ namespace card {
         void do_card_effects(int number_on_the_dice);
 
         int get_priority_of_the_turn();
-
+        type get_type_of_the_card();
+        type_of_spell_component get_type_of_the_spell_component();
+        std::string get_card_image();
+        std::vector<std::function<void(int)>> get_effects();
 
     };
 }
