@@ -9,12 +9,15 @@ namespace game {
 
     private:
 
-        std::vector<card::Card *> deck; // по идее здесь можно просто явно проинициализоровать набор на котом играем
+        std::vector<card::Card *> deck; // по идее здесь можно просто явно проинициализоровать набор на котором играем
+
         std::vector<player::Player *> players;
     public:
 
         void reload_deck();
+
         bool increase_players_wins(player::Player* winner_of_the_round);
+
         void play_game();
 
     };
