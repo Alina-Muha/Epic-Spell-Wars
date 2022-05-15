@@ -55,14 +55,14 @@ int CardFunctions::unique_types_in_spell(player::Player *current_player){
     }
     return unique;
 }
-void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Player *current_player){
+void CardFunctions::damage_to_the_strongest_player(int type, int sum, [[maybe_unused]] player::Player *current_player){
     player::Player* strongest_player = get_the_strongest_player();
     int num = get_num_of_player_in_circle(strongest_player);
     int cur_lives = strongest_player->get_lives(); // maybe need getter??
     int count = round.get_players().size();
     player::Player* right_neighbour = round.get_players()[(num + 1) % count];
     player::Player* left_neighbour = round.get_players()[(count + num - 1) % count];
-    //type = 1 - card Nuke-U-Lur Meltdown (Delivery)
+    //type = 1 - card Nuke-U-Lur Meltdown (Delivery_1.png)
     if (type == 1){
         if (sum >= 1 && sum <= 4){
            strongest_player->change_lives(cur_lives - 1);
@@ -80,7 +80,7 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Pl
             }
         }
     }
-    // type = 2 - card Gore-Nado (Delivery)
+    // type = 2 - card Gore-Nado (Delivery_5.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
             strongest_player->change_lives(cur_lives - 2);
@@ -92,7 +92,7 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Pl
             strongest_player->change_lives(cur_lives - 6);
         }
     }
-    // type = 3 - card Chicken (Delivery)
+    // type = 3 - card Chicken (Delivery_10.png)
     if (type == 3){
         if (sum < 10){
             strongest_player->change_lives(cur_lives - 1);
@@ -101,7 +101,7 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Pl
             strongest_player->change_lives(cur_lives - 7);
         }
     }
-    // type = 4 - card Pact With Devil (Delivery)
+    // type = 4 - card Pact With Devil (Delivery_14.png)
     if (type == 4){
         if (sum >= 1 && sum <= 4){
             strongest_player->change_lives(cur_lives - 1);
@@ -127,7 +127,7 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, player::Pl
     }
 }
 void CardFunctions::damage_to_the_weakest_player(int sum){
-    // card Mercy Killing (Delivery)
+    // card Mercy Killing (Delivery_2.png)
     player::Player *weakest_player = get_the_weakest_player();
     int cur_lives = weakest_player->get_lives();
     if (sum >= 1 && sum <= 4){
@@ -141,7 +141,7 @@ void CardFunctions::damage_to_the_weakest_player(int sum){
     }
 }
 void CardFunctions::damage_to_the_left_neighbour(int sum, player::Player *current_player){
-    // card Fist O'Nature (Delivery)
+    // card Fist O'Nature (Delivery_7.png)
     int num = get_num_of_player_in_circle(current_player);
     int count = round.get_players().size();
     player::Player *left_neighbour = round.get_players()[(count + num - 1) % count];
@@ -162,7 +162,7 @@ void CardFunctions::damage_to_the_right_neighbour(int type, int sum, player::Pla
     player::Player *right_neighbour = round.get_players()[num + 1 % count];
     int cur_lives = current_player->get_lives();
     int lives_of_right = right_neighbour->get_lives();
-    // type = 1 - card Death-Wish (Delivery)
+    // type = 1 - card Death-Wish (Delivery_9.png)
     if (type == 1){
         current_player->change_lives(cur_lives - 1);
         if (sum >= 1 && sum <= 4){
@@ -175,7 +175,7 @@ void CardFunctions::damage_to_the_right_neighbour(int type, int sum, player::Pla
             right_neighbour->change_lives(lives_of_right - 5);
         }
     }
-    // type = 2 - card Phantasmagoons (Delivery)
+    // type = 2 - card Phantasmagoons (Delivery_13.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
             right_neighbour->change_lives(lives_of_right - 1);
@@ -187,7 +187,7 @@ void CardFunctions::damage_to_the_right_neighbour(int type, int sum, player::Pla
             right_neighbour->change_lives(lives_of_right - 4);
         }
     }
-    // type = 3 - card Prickly (Quality)
+    // type = 3 - card Prickly (Quality_11.png)
     if (type == 3){
         if (sum >= 1 && sum <= 4){
             right_neighbour->change_lives(lives_of_right - 1);
@@ -206,7 +206,7 @@ void CardFunctions::damage_to_the_right_neighbour(int type, int sum, player::Pla
 void CardFunctions::damage_to_chosen_foe(int type, int sum, player::Player *current_player, player::Player *chosen_foe,[[maybe_unused]] card::Card *card){
     int cur_lives = current_player->get_lives();
     int foe_lives = chosen_foe->get_lives();
-   // type = 1 - card Deulicious (Quality)
+   // type = 1 - card Deulicious (Quality_3.png)
     if (type == 1){
         if (sum >= 1 && sum <= 4){
             chosen_foe->change_lives(foe_lives - 2);
@@ -220,7 +220,7 @@ void CardFunctions::damage_to_chosen_foe(int type, int sum, player::Player *curr
             current_player->change_lives(cur_lives - 2);
         }
     }
-    // type = 2 - card Ritualistic (Quality)
+    // type = 2 - card Ritualistic (Quality_12.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
             current_player->change_lives(cur_lives - 3);
@@ -232,7 +232,7 @@ void CardFunctions::damage_to_chosen_foe(int type, int sum, player::Player *curr
             chosen_foe->change_lives(foe_lives - 5);
         }
     }
-    // type = 3 - card Bedazzlement (Delivery)
+    // type = 3 - card Bedazzlement (Delivery_11.png)
     if (type == 3){
         if (sum >= 1 && sum <= 4){
             chosen_foe->change_lives(foe_lives - 1);
@@ -251,7 +251,7 @@ void CardFunctions::damage_to_chosen_foe(int type, int sum, player::Player *curr
     }
 }
 void CardFunctions::hp_to_current_player(int sum, player::Player *current_player){
-    // card Fountain Of Youth
+    // card Fountain Of Youth (Delivery_6.png)
     int cur_lives = current_player->get_lives();
     if (sum >= 5 && sum <= 9){
         current_player->change_lives(cur_lives + 2);
@@ -262,7 +262,7 @@ void CardFunctions::hp_to_current_player(int sum, player::Player *current_player
 }
 void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *current_player){
     int cur_lives = current_player->get_lives();
-    // type = 1 - card Meatier Swarm (Delivery)
+    // type = 1 - card Meatier Swarm (Delivery_3.png)
     if (type == 1){
         for (auto player : round.get_players()){
             int foe_lives = player->get_lives();
@@ -279,7 +279,7 @@ void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *c
             }
         }
     }
-    // type = 2 - card Lightning-Bolt (Delivery)
+    // type = 2 - card Lightning-Bolt (Delivery_4.png)
     if (type == 2){
         int num = get_num_of_player_in_circle(current_player);
         int count = round.get_players().size();
@@ -300,7 +300,7 @@ void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *c
             left_left_neighbour->change_lives(lives_of_left_left - 4);
         }
     }
-    // type = 3 - card Exorcism (Delivery)
+    // type = 3 - card Exorcism (Delivery_8.png)
     // here smth strange with Last Wizard Standing token, what is it??
     if (type == 3){
         for (auto player : round.get_players()){
@@ -318,7 +318,7 @@ void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *c
             }
         }
     }
-    // type = 4 - card Snakedance (Delivery)
+    // type = 4 - card Snakedance (Delivery_12.png)
     if (type == 4){
         int num = get_num_of_player_in_circle(current_player);
         int count = round.get_players().size();
@@ -349,6 +349,7 @@ void CardFunctions::damage_for_several_foes(int type, int sum, player::Player *c
 void CardFunctions::type_of_cards_damage(int type, player::Player *current_player){
     int unique = unique_types_in_spell(current_player);
     std::map<card::Card::type, int> types_of_spell_cards = number_of_types_in_spell(current_player);
+    // type = 1 - card Wyrmtor's (Source_15.png)
     if (type == 1){
         for (auto player : round.get_players()){
             int foe_lives = player->get_lives();
@@ -357,7 +358,7 @@ void CardFunctions::type_of_cards_damage(int type, player::Player *current_playe
             }
         }
     }
-    // type = 2 - card Delicious (Quality)
+    // type = 2 - card Delicious (Quality_2.png)
     if (type == 2){
         for (auto player : round.get_players()){
             int foe_lives = player->get_lives();
@@ -366,7 +367,7 @@ void CardFunctions::type_of_cards_damage(int type, player::Player *current_playe
             }
         }
     }
-    // type = 3 - card Inferno Tastic (Quality)
+    // type = 3 - card Inferno Tastic (Quality_8.png)
     if (type == 3){
         int elemental = types_of_spell_cards[card::Card::type::elemental];
         for (auto player : round.get_players()){
@@ -376,14 +377,14 @@ void CardFunctions::type_of_cards_damage(int type, player::Player *current_playe
             }
         }
     }
-    // type = 4 - card  Maggoty (Quality)
+    // type = 4 - card  Maggoty (Quality_9.png)
     if (type == 4){
         int dark = types_of_spell_cards[card::Card::type::dark];
         player::Player *strongest_player = get_the_strongest_player();
         int foe_lives = strongest_player->get_lives();
         strongest_player->change_lives(foe_lives - 2 * dark);
     }
-    // type = 5 - card Thundering (Quality)
+    // type = 5 - card Thundering (Quality_13.png)
     if (type == 5){
         int count = round.get_players().size();
         int num = rand() % count;
@@ -391,7 +392,7 @@ void CardFunctions::type_of_cards_damage(int type, player::Player *current_playe
         int foe_lives = random_player->get_lives();
         random_player->change_lives(foe_lives - 2 * unique);
     }
-    // type = 6 - card Rose Bottom's (Source)
+    // type = 6 - card Rose Bottom's (Source_11.png)
     if (type == 6){
         int cur_lives = current_player->get_lives();
         current_player->change_lives(cur_lives + unique);
@@ -401,12 +402,12 @@ void CardFunctions::damage_without_parametrs(int type, player::Player *current_p
     int count = round.get_players().size();
     player::Player *strongest_player = get_the_strongest_player();
     int foe_lives = strongest_player->get_lives();
-    // type = 1 - card King Oberon's(Source)
+    // type = 1 - card King Oberon's(Source_4.png)
     if (type == 1){
         int cur_lives = current_player->get_lives();
         current_player->change_lives(cur_lives + 2);
     }
-    // type = 2 - card Magma Gog's (Source)
+    // type = 2 - card Magma Gog's (Source_5.png)
     if (type == 2){
         if (chosen == 1){
             int num = get_num_of_player_in_circle(current_player);
@@ -424,15 +425,15 @@ void CardFunctions::damage_without_parametrs(int type, player::Player *current_p
             }
         }
     }
-    // type = 3 - card Midnight Merlin's (Source)
+    // type = 3 - card Midnight Merlin's (Source_6.png)
     if (type == 3){
         strongest_player->change_lives(foe_lives - count);
     }
-    // type = 4 - card Scorchis's (Source)
+    // type = 4 - card Scorchis's (Source_12.png)
     if (type == 4){
         strongest_player->change_lives(foe_lives - 3);
     }
-    // type = 5 - card Thai-Foon's (Source)
+    // type = 5 - card Thai-Foon's (Source_13.png)
     if (type == 5){
         int num = get_num_of_player_in_circle(current_player);
         for (int i = 0; i < num; i++){
@@ -440,7 +441,7 @@ void CardFunctions::damage_without_parametrs(int type, player::Player *current_p
             round.get_players()[i]->change_lives(foe_lives - 3);
         }
     }
-    // type = 6 - Boulder Iffic (Quality)
+    // type = 6 - Boulder Iffic (Quality_1.png)
     if (type == 6){
         int players_without_damage = count - 1;
         int i = 1;
@@ -464,7 +465,7 @@ void CardFunctions::damage_without_parametrs(int type, player::Player *current_p
     }
 }
 void CardFunctions::rolling_the_dice(int type, int sum_1, player::Player *current_player, std::map<player::Player *, int> points_of_foes, int sum_2){
-    // type = 1 - card Dicey (Quality)
+    // type = 1 - card Dicey (Quality_4.png)
     // maybe it too hard, we need client-server, now I don't know
     [[maybe_unused]] int count = round.get_players().size() - 1;
     [[maybe_unused]] int num = get_num_of_player_in_circle(current_player);
@@ -476,7 +477,7 @@ void CardFunctions::rolling_the_dice(int type, int sum_1, player::Player *curren
             }
         }
     }
-    // type = 2 - card Dr Rooty Bark's (Source)
+    // type = 2 - card Dr Rooty Bark's (Source_3.png)
     if (type == 2){
         int cur_lives = current_player->get_lives();
         current_player->change_lives(cur_lives + 3);
@@ -487,7 +488,7 @@ void CardFunctions::rolling_the_dice(int type, int sum_1, player::Player *curren
             }
         }
     }
-    // type = 3 - card Old Scratch's (Source)
+    // type = 3 - card Old Scratch's (Source_8.png)
     if (type == 3){
         int cur_lives = current_player->get_lives();
         if (sum_1 >= 1 && sum_1 <= 3){
@@ -497,8 +498,8 @@ void CardFunctions::rolling_the_dice(int type, int sum_1, player::Player *curren
              current_player->change_lives(cur_lives + sum_1);
         }
     }
-    // type = 4 - card Walker Time Ranger's
-    if (type == 4){ // maybe I need function for it??
+    // type = 4 - card Walker Time Ranger's (Source_14.png)
+    if (type == 4){
         int unique = unique_types_in_spell(current_player);
         int cur_lives = current_player->get_lives();
         current_player->change_lives(cur_lives + unique);
@@ -521,7 +522,7 @@ void CardFunctions::rolling_the_dice(int type, int sum_1, player::Player *curren
     }
 }
 void CardFunctions::copy_the_text_of_card(int type, player::Player *current_player){
-    // type = 1 - card Disco-Mirrored (Qaulity)
+    // type = 1 - card Disco-Mirrored (Qaulity_5.png)
     if (type == 1){
         int kind = rand() % 2;
         // kind = 0 - copy text of Source card
@@ -541,7 +542,7 @@ void CardFunctions::copy_the_text_of_card(int type, player::Player *current_play
             }
         }
     }
-    // type = 2 - card Beardo Blasty's (Source)
+    // type = 2 - card Beardo Blasty's (Source_1.png)
     if (type == 2){
         for (auto card : current_player->get_spell()){
             if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
@@ -555,7 +556,7 @@ void CardFunctions::change_spell(int type, player::Player *current_player){
     int count = round.get_players().size();
     player::Player *strongest_player = nullptr;
     int max_lives = 0;
-    // type = 1 - card Festering (Quality)
+    // type = 1 - card Festering (Quality_6.png)
     if (type == 1){
         for (int i = num + 1; i < count; i++){
             int foe_lives = round.get_players()[i]->get_lives();
@@ -573,7 +574,7 @@ void CardFunctions::change_spell(int type, player::Player *current_player){
             pos_in_spell++;
         }
     }
-    // type = 2 - card Mighty-Gro (Quality)
+    // type = 2 - card Mighty-Gro (Quality_10.png)
     if (type == 2){
         int cur_lives = current_player->get_lives();
         current_player->change_lives(cur_lives + 2);
@@ -583,7 +584,7 @@ void CardFunctions::change_spell(int type, player::Player *current_player){
             current_player->get_spell().emplace_back(current_player->get_cards()[rand_card]); // need setter
         }
     }
-    // type = 3 - Pam and Hecuba's (Source)
+    // type = 3 - Pam and Hecuba's (Source_9.png)
     // this card strange....
     if (type == 3){
         [[maybe_unused]] card::Card* delivery_card = nullptr;
@@ -598,20 +599,20 @@ void CardFunctions::change_spell(int type, player::Player *current_player){
     }
 }
 void CardFunctions::change_order(int type, player::Player *current_player){
-    // type = 1 - card Impatient (Quality)
+    // type = 1 - card Impatient (Quality_7.png)
     if (type == 1){
         int num = get_num_of_player_in_circle(current_player);
         std::swap (round.get_players()[0], round.get_players()[num]);
         damage_without_parametrs(7, current_player);
     }
-    // type = 2 - card Muzzlesnap's (Source)
+    // type = 2 - card Muzzlesnap's (Source_7.png)
     if (type == 2){
         // maybe we won't realize this card?
         // this player rolls +1 dice in round
     }
 }
 void CardFunctions::interaction_with_the_deck(int type,[[maybe_unused]] player::Player *current_player){
-    // type = 1 - card Bleemax Brainiac's (Source)
+    // type = 1 - card Bleemax Brainiac's (Source_2.png)
     if (type == 1){
         int size_of_deck = round.get_main_deck().size();
         card::Card *card_1 = round.get_main_deck()[size_of_deck - 1];
@@ -627,7 +628,7 @@ void CardFunctions::interaction_with_the_deck(int type,[[maybe_unused]] player::
         round.get_main_deck().pop_back();
 
     }
-    // type = 2 - card Pew and Pew's (Source)
+    // type = 2 - card Pew and Pew's (Source_10.png)
     if (type == 2){
         int size_of_deck = round.get_main_deck().size();
         std::vector<card::Card*> new_cards(4); // cards from deck
