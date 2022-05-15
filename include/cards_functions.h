@@ -2,6 +2,7 @@
 #define CARDS_FUNCTIONS_H
 #include <iostream>
 #include <vector>
+#include <map>
 #include "player.h"
 #include "card.h"
 #include "round.h"
@@ -13,6 +14,9 @@ public:
     // auxiliary function
     int get_num_of_player_in_circle(player::Player *current_player);
     player::Player *get_the_strongest_player();
+    player::Player *get_the_weakest_player();
+    std::map<card::Card::type, int> number_of_types_in_spell(player::Player *current_player);
+    int unique_types_in_spell (player::Player *current_player);
 
     // damage is dealt depending on the number of points dropped
     void damage_to_the_strongest_player(int type, int sum, player::Player *current_player);
@@ -30,7 +34,19 @@ public:
     void damage_without_parametrs(int type, player::Player *current_player, int chosen = 0);
 
     // player rolls dice
-    void rolling_the_dice(int type, int sum_1, player::Player *current_player, std::vector<int> points_of_foes, int sum_2 = 0);
+    void rolling_the_dice(int type, int sum_1, player::Player *current_player, std::map<player::Player*, int> point_of_foes = {}, int sum_2 = 0);
+
+    //copy the text of other card
+    void copy_the_text_of_card(int type, player::Player *current_player);
+
+    // change the player's spell
+    void change_spell(int type, player::Player *current_player);
+
+    // change the turn order
+    void change_order(int type, player::Player *current_player);
+
+    // the player interacts with the deck
+    void interaction_with_the_deck(int type, player::Player *current_player);
 };
 } //card_functions
 
