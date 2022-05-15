@@ -72,4 +72,9 @@ namespace player {
         }
         return true;
     }
+
+    void Player::add_card_to_spell(card::Card *new_card) {
+        spell.push_back(new_card);
+    }
+
 }  // namespace player

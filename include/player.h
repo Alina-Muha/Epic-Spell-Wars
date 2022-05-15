@@ -47,6 +47,8 @@ namespace player {
 
         bool is_move_correct();
 
+        void add_card_to_spell(card::Card *new_card);
+
     };
 }  // namespace player
 #endif // PLAYER_H
