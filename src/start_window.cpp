@@ -2,6 +2,7 @@
 #include "board.h"
 #include "player.h"
 
+namespace Ui {
 Start_window::Start_window(QWidget *parent)
         : QWidget(parent)
         , ui(new Ui::Start_window),
@@ -43,7 +44,7 @@ void Start_window::slotReadyRead()
 
     }
 }
-
+}
 
 
 

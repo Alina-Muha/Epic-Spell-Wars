@@ -7,7 +7,7 @@
 
 namespace client {
 
-    class client : {
+    class Client : {
 
 
 

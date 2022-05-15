@@ -33,6 +33,10 @@ namespace player {
 
         [[nodiscard]] const std::vector<card::Card *> &get_cards();
 
+        void add_lives(int lives_to_add, Player  &descended_player);
+
+        void subtract_lives(int lives_to_subtract, Player  &descended_player);
+
         void change_lives(int new_lives);
 
         void add_card(card::Card *new_card);

@@ -1,4 +1,4 @@
-#include "../include/player.h"
+#include "player.h"
 
 #include <utility>
 
@@ -24,6 +24,18 @@ namespace player {
 
     const std::vector<card::Card *> &Player::get_cards() {
         return cards;
+    }
+
+    void Player::add_lives(int lives_to_add, Player  &descended_player) {
+        lives += lives_to_add;
+        std::string log = "Player " + descended_player.get_name() + " casts a spell. You get " + std::to_string(lives_to_add) + "lives";
+        //TODO: передать log
+    }
+
+    void Player::subtract_lives(int lives_to_subtract, Player  &descended_player) {
+        lives -= lives_to_subtract;
+        std::string log = "Player " + descended_player.get_name() + " casts a spell. You lose " + std::to_string(lives_to_subtract) + "lives";
+        //TODO: передать log
     }
 
     void Player::change_lives(int new_lives) {

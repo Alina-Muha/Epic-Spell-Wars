@@ -16,7 +16,9 @@ HEADERS = \
    $$PWD/include/player.h \
    $$PWD/include/round.h \
    $$PWD/include/start_window.h \
-   $$PWD/include/server.h
+   $$PWD/include/server.h \
+   include/client.h \
+   include/dice.h
 
 SOURCES = \
    $$PWD/src/board.cpp \
@@ -27,7 +29,9 @@ SOURCES = \
    $$PWD/src/player.cpp \
    $$PWD/src/round.cpp \
    $$PWD/src/start_window.cpp \
-   $$PWD/src/server.cpp
+   $$PWD/src/server.cpp \
+   src/client.cpp \
+   src/dice.cpp
 
 FORMS = \
    $$PWD/forms/board.ui \
