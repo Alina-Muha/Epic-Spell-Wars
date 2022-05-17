@@ -1,6 +1,5 @@
 #ifndef START_WINDOW_H
 #define START_WINDOW_H
-
 #include "board.h"
 #include <QWidget>
 #include <QMainWindow>
@@ -20,19 +19,26 @@ public:
     ~Start_window();
 
 private slots:
-            void on_start_button_clicked();
+            void on_start_button_clicked();           
+
+            void on_registration_button_clicked();
 
             void on_connect_button_clicked();
 
-            void send_name_to_server(QString name);
+            void name_duplicate();
+
+            void successful_registration();
+
+            //void send_name_to_server(QString name);
 
 private:
     Ui::Start_window *ui;
     Board* b;
-    QTcpSocket *socket;
-    QByteArray Data;
+    // QTcpSocket *socket;
+    // QByteArray Data;
+
 
 public slots:
-    void slotReadyRead();
+   // void slotReadyRead();
 };
 #endif // START_WINDOW_H
