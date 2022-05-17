@@ -13,9 +13,9 @@ namespace player {
         std::string name;
         int lives;
 
-        std::vector<card::Card *> cards;  // list will be better?
+        std::vector<std::shared_ptr<card::Card>> cards;  // list will be better?
 
-        std::vector<std::pair<card::Card *, int>> spell;
+        std::vector<std::pair<std::shared_ptr<card::Card>, int>> spell;
 
     public:
 
