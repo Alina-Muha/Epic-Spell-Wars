@@ -42,7 +42,7 @@ namespace player {
         lives = new_lives;
     }
 
-    void Player::add_card(card::Card *new_card) {
+    void Player::add_card(std::shared_ptr<card::Card> new_card) {
         cards.push_back(new_card);
     }
 
@@ -73,8 +73,8 @@ namespace player {
         return true;
     }
 
-    void Player::add_card_to_spell(card::Card *new_card) {
-        spell.push_back(new_card);
+    void Player::add_card_to_spell(std::shared_ptr<card::Card> new_card) {
+        spell.push_back({new_card, 0});
     }
 
 }  // namespace player
