@@ -14,7 +14,7 @@ namespace player {
         return name;
     }
 
-    std::vector <std::pair<card::Card *, int>> &Player::get_spell() {
+    std::vector <std::pair<std::shared_ptr<card::Card>, int>> &Player::get_spell() {
         return spell;
     }
 
@@ -22,7 +22,7 @@ namespace player {
         return lives;
     }
 
-    const std::vector<card::Card *> &Player::get_cards() {
+    const std::vector<std::shared_ptr<card::Card>> &Player::get_cards() {
         return cards;
     }
 

@@ -4,6 +4,8 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QObject>
+#include <QString>
+#include <QUdpSocket>
 
 namespace client {
 

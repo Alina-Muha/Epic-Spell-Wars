@@ -27,11 +27,11 @@ namespace player {
 
         [[nodiscard]] std::string& get_name();
 
-        [[nodiscard]] std::vector<std::pair<card::Card *, int>> &get_spell();
+        [[nodiscard]] std::vector<std::pair<std::shared_ptr<card::Card>, int>> &get_spell();
 
         [[nodiscard]] int get_lives() const;
 
-        [[nodiscard]] const std::vector<card::Card *> &get_cards();
+        [[nodiscard]] const std::vector<std::shared_ptr<card::Card>> &get_cards();
 
         void add_lives(int lives_to_add, Player  &descended_player);
 
@@ -39,7 +39,7 @@ namespace player {
 
         void change_lives(int new_lives);
 
-        void add_card(card::Card *new_card);
+        void add_card(std::shared_ptr<card::Card> new_card);
 
         void select_card(int index);
 
@@ -47,7 +47,7 @@ namespace player {
 
         bool is_move_correct();
 
-        void add_card_to_spell(card::Card *new_card);
+        void add_card_to_spell(std::shared_ptr<card::Card> new_card);
 
     };
 }  // namespace player

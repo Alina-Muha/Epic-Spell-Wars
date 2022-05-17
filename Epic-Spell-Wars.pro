@@ -17,8 +17,9 @@ HEADERS = \
    $$PWD/include/round.h \
    $$PWD/include/start_window.h \
    $$PWD/include/server.h \
-   include/client.h \
-   include/dice.h
+   $$PWD/include/client.h \
+   $$PWD/include/dice.h \
+   $$PWD/include/socket.h
 
 SOURCES = \
    $$PWD/src/board.cpp \
@@ -30,8 +31,9 @@ SOURCES = \
    $$PWD/src/round.cpp \
    $$PWD/src/start_window.cpp \
    $$PWD/src/server.cpp \
-   src/client.cpp \
-   src/dice.cpp
+   $$PWD/src/client.cpp \
+   $$PWD/src/dice.cpp \
+   $$PWD/src/socket.cpp
 
 FORMS = \
    $$PWD/forms/board.ui \
