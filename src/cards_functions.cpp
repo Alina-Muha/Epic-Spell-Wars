@@ -55,59 +55,56 @@ int CardFunctions::unique_types_in_spell(std::shared_ptr<player::Player> current
     }
     return unique;
 }
-void CardFunctions::damage_to_the_strongest_player(int type, int sum, [[maybe_unused]] std::shared_ptr<player::Player>current_player){
+void CardFunctions::damage_to_the_strongest_player(int type, int sum, std::shared_ptr<player::Player>current_player){
     std::shared_ptr<player::Player> strongest_player = get_the_strongest_player();
     int num = get_num_of_player_in_circle(strongest_player);
-    int cur_lives = strongest_player->get_lives(); // maybe need getter??
     int count = round.get_players().size();
     std::shared_ptr<player::Player> right_neighbour = round.get_players()[(num + 1) % count];
     std::shared_ptr<player::Player> left_neighbour = round.get_players()[(count + num - 1) % count];
     //type = 1 - card Nuke-U-Lur Meltdown (Delivery_1.png)
     if (type == 1){
         if (sum >= 1 && sum <= 4){
-           strongest_player->change_lives(cur_lives - 1);
+           strongest_player->subtract_lives(1);
         }
         else{
-            int lives_of_left = left_neighbour->get_lives();
-            int lives_of_right = right_neighbour->get_lives();
-            left_neighbour->change_lives(lives_of_left - 1);
-            right_neighbour->change_lives(lives_of_right - 1);
+            left_neighbour->subtract_lives(1);
+            right_neighbour->subtract_lives(1);
             if (sum >= 5 && sum <= 9){
-                strongest_player->change_lives(cur_lives - 3);
+                strongest_player->subtract_lives(3);
             }
             if (sum >= 10){
-                strongest_player->change_lives(cur_lives - 5);
+                strongest_player->subtract_lives(5);
             }
         }
     }
     // type = 2 - card Gore-Nado (Delivery_5.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
-            strongest_player->change_lives(cur_lives - 2);
+            strongest_player->subtract_lives(2);
         }
         if (sum >= 5 && sum <= 9){
-            strongest_player->change_lives(cur_lives - 3);
+            strongest_player->subtract_lives(3);
         }
         if (sum >= 10){
-            strongest_player->change_lives(cur_lives - 6);
+            strongest_player->subtract_lives(6);
         }
     }
     // type = 3 - card Chicken (Delivery_10.png)
     if (type == 3){
         if (sum < 10){
-            strongest_player->change_lives(cur_lives - 1);
+            strongest_player->subtract_lives(1);
         }
         else{
-            strongest_player->change_lives(cur_lives - 7);
+            strongest_player->subtract_lives(7);
         }
     }
     // type = 4 - card Pact With Devil (Delivery_14.png)
     if (type == 4){
         if (sum >= 1 && sum <= 4){
-            strongest_player->change_lives(cur_lives - 1);
+            strongest_player->subtract_lives(1);
         }
         else{
-            strongest_player->change_lives(cur_lives - 2);
+            strongest_player->subtract_lives(2);
             if (sum >= 10){
                 [[maybe_unused]] std::shared_ptr<card::Card> delivery_card = nullptr;
                 int i = 0;
@@ -121,7 +118,7 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, [[maybe_un
                     }
                 }
                 strongest_player->get_spell().erase(strongest_player->get_spell().begin() + num);
-                //current_player->spell.emplace_back(delivery_card);  //what happens with int? what happens with current spell??
+                current_player->add_card_to_spell(delivery_card);  //what happens with int? what happens with current spell??
             }
         }
     }
@@ -129,15 +126,14 @@ void CardFunctions::damage_to_the_strongest_player(int type, int sum, [[maybe_un
 void CardFunctions::damage_to_the_weakest_player(int sum){
     // card Mercy Killing (Delivery_2.png)
     std::shared_ptr<player::Player> weakest_player = get_the_weakest_player();
-    int cur_lives = weakest_player->get_lives();
     if (sum >= 1 && sum <= 4){
-        weakest_player->change_lives(cur_lives - 2);
+        weakest_player->subtract_lives(2);
     }
     if (sum >= 5 && sum <= 9){
-        weakest_player->change_lives(cur_lives - 3);
+        weakest_player->subtract_lives(3);
     }
     if (sum >= 10){
-        weakest_player->change_lives(cur_lives - 4);
+        weakest_player->subtract_lives(4);
     }
 }
 void CardFunctions::damage_to_the_left_neighbour(int sum, std::shared_ptr<player::Player> current_player){
@@ -145,107 +141,102 @@ void CardFunctions::damage_to_the_left_neighbour(int sum, std::shared_ptr<player
     int num = get_num_of_player_in_circle(current_player);
     int count = round.get_players().size();
     std::shared_ptr<player::Player> left_neighbour = round.get_players()[(count + num - 1) % count];
-    int lives_of_left = left_neighbour->get_lives();
     if (sum >= 1 && sum <= 4){
-        left_neighbour->change_lives(lives_of_left - 1);
+        left_neighbour->subtract_lives(1);
     }
     if (sum >= 5 && sum <= 9){
-        left_neighbour->change_lives(lives_of_left - 2);
+        left_neighbour->subtract_lives(2);
     }
     if (sum >= 10){
-        left_neighbour->change_lives(lives_of_left - 4);
+        left_neighbour->subtract_lives(4);
     }
 };
 void CardFunctions::damage_to_the_right_neighbour(int type, int sum, std::shared_ptr<player::Player> current_player){
     int num = get_num_of_player_in_circle(current_player);
     int count = round.get_players().size();
     std::shared_ptr<player::Player> right_neighbour = round.get_players()[num + 1 % count];
-    int cur_lives = current_player->get_lives();
-    int lives_of_right = right_neighbour->get_lives();
     // type = 1 - card Death-Wish (Delivery_9.png)
     if (type == 1){
-        current_player->change_lives(cur_lives - 1);
+        current_player->subtract_lives(1);
         if (sum >= 1 && sum <= 4){
-            right_neighbour->change_lives(lives_of_right - 2);
+            right_neighbour->subtract_lives(2);
         }
         if (sum >= 5 && sum <= 9){
-            right_neighbour->change_lives(lives_of_right - 3);
+            right_neighbour->subtract_lives(3);
         }
         if (sum >= 10){
-            right_neighbour->change_lives(lives_of_right - 5);
+            right_neighbour->subtract_lives(5);
         }
     }
     // type = 2 - card Phantasmagoons (Delivery_13.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
-            right_neighbour->change_lives(lives_of_right - 1);
+            right_neighbour->subtract_lives(1);
         }
         if (sum >= 5 && sum <= 9){
-            right_neighbour->change_lives(lives_of_right - 3);
+            right_neighbour->subtract_lives(3);
         }
         if (sum >= 10){
-            right_neighbour->change_lives(lives_of_right - 4);
+            right_neighbour->subtract_lives(4);
         }
     }
     // type = 3 - card Prickly (Quality_11.png)
     if (type == 3){
         if (sum >= 1 && sum <= 4){
-            right_neighbour->change_lives(lives_of_right - 1);
+            right_neighbour->subtract_lives(1);
         }
         if (sum >= 5 && sum <= 9){
-            right_neighbour->change_lives(lives_of_right - 1);
-            current_player -> change_lives(cur_lives + 1);
+            right_neighbour->subtract_lives(1);
+            current_player->add_lives(1);
         }
         if (sum >= 10){
-            right_neighbour->change_lives(lives_of_right - 3);
-            current_player -> change_lives(cur_lives + 3);
+            right_neighbour->subtract_lives(3);
+            current_player -> add_lives(3);
         }
     }
 }
 // for this void it needs to to understand how to get information about the chosen foe, we need client-server
-void CardFunctions::damage_to_chosen_foe(int type, int sum, std::shared_ptr<player::Player> current_player, std::shared_ptr<player::Player> chosen_foe,[[maybe_unused]] card::Card *card){
-    int cur_lives = current_player->get_lives();
-    int foe_lives = chosen_foe->get_lives();
+void CardFunctions::damage_to_chosen_foe(int type, int sum, std::shared_ptr<player::Player> current_player, std::shared_ptr<player::Player> chosen_foe, std::shared_ptr<card::Card> card){
    // type = 1 - card Deulicious (Quality_3.png)
     if (type == 1){
         if (sum >= 1 && sum <= 4){
-            chosen_foe->change_lives(foe_lives - 2);
+            chosen_foe->subtract_lives(2);
         }
         if (sum >= 5 && sum <= 9){
-            chosen_foe->change_lives(foe_lives - 4);
-            current_player->change_lives(cur_lives - 1);
+            chosen_foe->subtract_lives(4);
+            current_player->subtract_lives(1);
         }
         if (sum >= 10){
-            chosen_foe->change_lives(foe_lives - 5);
-            current_player->change_lives(cur_lives - 2);
+            chosen_foe->subtract_lives(5);
+            current_player->subtract_lives(2);
         }
     }
     // type = 2 - card Ritualistic (Quality_12.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
-            current_player->change_lives(cur_lives - 3);
+            current_player->subtract_lives(3);
         }
         if (sum >= 5 && sum <= 9){
-            chosen_foe->change_lives(foe_lives - 3);
+            chosen_foe->subtract_lives(3);
         }
         if (sum >= 10){
-            chosen_foe->change_lives(foe_lives - 5);
+            chosen_foe->subtract_lives(5);
         }
     }
     // type = 3 - card Bedazzlement (Delivery_11.png)
     if (type == 3){
         if (sum >= 1 && sum <= 4){
-            chosen_foe->change_lives(foe_lives - 1);
+            chosen_foe->subtract_lives(1);
         }
         else{
-            chosen_foe->change_lives(foe_lives - 1);
+            chosen_foe->subtract_lives(1);
             if (sum >= 5 && sum <= 9){
                 int count_of_cards = chosen_foe->get_cards().size();
                 [[maybe_unused]] int num_of_card = rand() % count_of_cards;
-                //current_player->spell.emplace_back(current_player->get_cards()[num_of_card]);
+                current_player->add_card_to_spell(current_player->get_cards()[num_of_card]);
             }
             if (sum >= 10){
-                //current_player->spell.emplace_back(card); // here it needs to think about how the chosen card will be given, client-server??
+                current_player->add_card_to_spell(card);
             }
         }
     }
