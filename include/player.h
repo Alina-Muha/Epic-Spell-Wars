@@ -13,9 +13,9 @@ namespace player {
         std::string name;
         int lives;
 
-        std::vector<card::Card *> cards;  // list will be better?
+        std::vector<std::shared_ptr<card::Card>> cards;  // list will be better?
 
-        std::vector<std::pair<card::Card *, int>> spell;
+        std::vector<std::pair<std::shared_ptr<card::Card>, int>> spell;
 
     public:
 
@@ -27,21 +27,27 @@ namespace player {
 
         [[nodiscard]] std::string& get_name();
 
-        [[nodiscard]] std::vector<std::pair<card::Card *, int>> &get_spell();
+        [[nodiscard]] std::vector<std::pair<std::shared_ptr<card::Card>, int>> &get_spell();
 
         [[nodiscard]] int get_lives() const;
 
-        [[nodiscard]] const std::vector<card::Card *> &get_cards();
+        [[nodiscard]] const std::vector<std::shared_ptr<card::Card>> &get_cards();
+
+        void add_lives(int lives_to_add, Player  &descended_player);
+
+        void subtract_lives(int lives_to_subtract, Player  &descended_player);
 
         void change_lives(int new_lives);
 
-        void add_card(card::Card *new_card);
+        void add_card(std::shared_ptr<card::Card> new_card);
 
         void select_card(int index);
 
         void sort_cards_in_spell();
 
         bool is_move_correct();
+
+        void add_card_to_spell(std::shared_ptr<card::Card> new_card);
 
     };
 }  // namespace player

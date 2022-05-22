@@ -1,9 +1,11 @@
 
 #include "round.h"
 #include "algorithm"
-namespace round_of_game{
 
-    bool compare_two_players(player::Player* a,player::Player* b){
+namespace round_of_game {
+
+
+    bool compare_two_players(std::shared_ptr<player::Player>a,std::shared_ptr<player::Player> b){
         if(a->get_cards().size()<b->get_cards().size()){
             return true;
         }
@@ -49,9 +51,9 @@ namespace round_of_game{
         }
     }
 
-    void Round::play_cards(player::Player* gamer){
+    void Round::play_cards(std::shared_ptr<player::Player> gamer){
         for(auto i : gamer->get_spell()){
-            i.first.do_card_effects(i.second);
+            i.first->do_card_effects(i.second);
         }
         gamer->get_spell().clear();
     }
@@ -68,7 +70,7 @@ namespace round_of_game{
         }
     }
 
-    player::Player* Round::play_round() {
+    std::shared_ptr<player::Player> Round::play_round() {
         while(alive_players.size()!=1) {
             //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
@@ -80,19 +82,19 @@ namespace round_of_game{
             return nullptr;
         }
     }
-    std::vector<player::Player *> Round::get_alive_players(){
+    std::vector<std::shared_ptr<player::Player>> Round::get_alive_players(){
         return alive_players;
     }
-    std::vector<card::Card *> round_of_game::Round::get_main_deck(){
+    std::vector<std::shared_ptr<card::Card>> round_of_game::Round::get_main_deck(){
         return main_deck;
     }
-    void Round::load_players(std::vector<player::Player *>& players){
+    void Round::load_players(std::vector<std::shared_ptr<player::Player>>& players){
         alive_players=players;
     }
-    void Round::load_cards(std::vector<card::Card *> new_deck) {
+    void Round::load_cards(std::vector<std::shared_ptr<card::Card>> new_deck) {
         main_deck=new_deck;
     }
-    std::vector<player::Player *> &Round::get_players(){
+    std::vector<std::shared_ptr<player::Player>> &Round::get_players(){
         return alive_players;
     }
 }
