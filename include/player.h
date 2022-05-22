@@ -33,9 +33,9 @@ namespace player {
 
         [[nodiscard]] const std::vector<std::shared_ptr<card::Card>> &get_cards();
 
-        void add_lives(int lives_to_add, Player  &descended_player);
+        void add_lives(int lives_to_add);
 
-        void subtract_lives(int lives_to_subtract, Player  &descended_player);
+        void subtract_lives(int lives_to_subtract);
 
         void change_lives(int new_lives);
 
