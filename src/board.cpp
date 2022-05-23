@@ -1,8 +1,9 @@
 #include "board.h"
 #include "ui_board.h"
 
-Board::Board(QWidget *parent) :
+Board::Board(client::Client *client_, QWidget *parent) :
         QWidget(parent),
+        client(client_),
         ui(new Ui::Board)
 {
     ui->setupUi(this);
