@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1013</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="start_button">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>410</y>
+     <x>410</x>
+     <y>460</y>
      <width>301</width>
      <height>131</height>
     </rect>
@@ -36,7 +36,7 @@ background-color: rgb(205, 141, 86);</string>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>400</x>
      <y>20</y>
      <width>381</width>
      <height>141</height>
@@ -55,10 +55,10 @@ color: rgb(170, 0, 0); </string>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>330</y>
-     <width>451</width>
-     <height>61</height>
+     <x>80</x>
+     <y>280</y>
+     <width>411</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -68,7 +68,7 @@ background-color: rgb(249, 219, 134);
 color: rgb(170, 0, 0); </string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-style:italic; color:#aa0000;&quot;&gt;Please enter your name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; color:#aa0000;&quot;&gt;2) Please enter your name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -76,7 +76,7 @@ color: rgb(170, 0, 0); </string>
     <rect>
      <x>-840</x>
      <y>-480</y>
-     <width>1761</width>
+     <width>1851</width>
      <height>1181</height>
     </rect>
    </property>
@@ -97,9 +97,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>80</x>
      <y>190</y>
-     <width>431</width>
+     <width>471</width>
      <height>51</height>
     </rect>
    </property>
@@ -110,13 +110,13 @@ background-color: rgb(249, 219, 134);
 color: rgb(170, 0, 0); </string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Firstly, connect to the game:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;1) Firstly, connect to the game:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="connect_button">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>580</x>
      <y>190</y>
      <width>251</width>
      <height>61</height>
@@ -130,11 +130,11 @@ background-color: rgb(205, 141, 86);</string>
     <string>connect</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="name_edit">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>330</y>
+     <x>540</x>
+     <y>270</y>
      <width>241</width>
      <height>61</height>
     </rect>
@@ -148,13 +148,54 @@ background-color: rgb(204, 140, 86);</string>
     <string>here</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="registration_button">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>270</y>
+     <width>161</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;click on this button to send your name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 22pt &quot;Papyrus&quot;; rgb: (170, 0, 0);
+background-color: rgb(205, 141, 86);</string>
+   </property>
+   <property name="text">
+    <string>register</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="info_label">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>380</y>
+     <width>481</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 700 26pt &quot;Segoe Script&quot;;
+background-color: rgb(170, 170, 127);
+background-color: rgb(249, 219, 134);
+color: rgb(170, 0, 0); </string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>label_3</zorder>
   <zorder>start_button</zorder>
   <zorder>label</zorder>
   <zorder>label_2</zorder>
   <zorder>label_4</zorder>
   <zorder>connect_button</zorder>
-  <zorder>lineEdit</zorder>
+  <zorder>name_edit</zorder>
+  <zorder>registration_button</zorder>
+  <zorder>info_label</zorder>
  </widget>
  <resources/>
  <connections/>
