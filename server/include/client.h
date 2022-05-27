@@ -5,25 +5,30 @@
 #include <QTcpSocket>
 #include <QObject>
 #include <QString>
+#include <QDialog>
 #include <QUdpSocket>
-#include "controller.h"
+#include "../../common/controller.h"
 
 namespace client {
 
-    class Client {
+    class Client : public QObject {
 
     private:
         QTcpSocket *socket;
         QByteArray Data;
+        QString name;
 
     public:
-        Client();
+        explicit Client(QObject *parent);
         void connect(char* ip, int port);
         void send_json();
         void get_json();
 
-    public slots:
-        void slotReadyRead();
+    private slots:
+        void on_connected();
+        void on_disconnected();
+        void slot_ready_read();
+
 
 
     };

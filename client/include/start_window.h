@@ -1,7 +1,7 @@
 #ifndef START_WINDOW_H
 #define START_WINDOW_H
 #include "board.h"
-#include "client.h"
+#include "../../server/include/client.h"
 #include <QWidget>
 #include <QMainWindow>
 #include <QTcpSocket>
@@ -37,11 +37,5 @@ private:
     Ui::Start_window *ui;
     Board* b;
 
-    // QTcpSocket *socket;
-    // QByteArray Data;
-
-
-public slots:
-   // void slotReadyRead();
 };
 #endif // START_WINDOW_H

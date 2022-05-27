@@ -10,32 +10,16 @@ QT += qml quick
 
 HEADERS = \
    $$PWD/include/board.h \
-   $$PWD/include/card.h \
-   $$PWD/include/cards_functions.h \
-   $$PWD/include/game.h \
-   $$PWD/include/player.h \
-   $$PWD/include/round.h \
    $$PWD/include/start_window.h \
-   $$PWD/include/server.h \
    $$PWD/include/client.h \
-   $$PWD/include/dice.h \
-   $$PWD/include/socket.h \
-   include/controller.h
+   $$PWD/../common/include/controller.h
 
 SOURCES = \
    $$PWD/src/board.cpp \
-   $$PWD/src/card.cpp \
-   $$PWD/src/cards_functions.cpp \
-   $$PWD/src/game.cpp \
    $$PWD/src/main.cpp \
-   $$PWD/src/player.cpp \
-   $$PWD/src/round.cpp \
    $$PWD/src/start_window.cpp \
-   $$PWD/src/server.cpp \
    $$PWD/src/client.cpp \
-   $$PWD/src/dice.cpp \
-   $$PWD/src/socket.cpp \
-   src/controller.cpp
+   $$PWD/../common/src/controller.cpp
 
 FORMS = \
    $$PWD/forms/board.ui \
