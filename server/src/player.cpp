@@ -26,15 +26,15 @@ namespace player {
         return cards;
     }
 
-    void Player::add_lives(int lives_to_add, Player  &descended_player) {
+    void Player::add_lives(int lives_to_add) {
         lives += lives_to_add;
-        std::string log = "Player " + descended_player.get_name() + " casts a spell. You get " + std::to_string(lives_to_add) + "lives";
+        std::string log = "Player " + this->get_name() + " casts a spell. You get " + std::to_string(lives_to_add) + "lives";
         //TODO: передать log
     }
 
-    void Player::subtract_lives(int lives_to_subtract, Player  &descended_player) {
+    void Player::subtract_lives(int lives_to_subtract) {
         lives -= lives_to_subtract;
-        std::string log = "Player " + descended_player.get_name() + " casts a spell. You lose " + std::to_string(lives_to_subtract) + "lives";
+        std::string log = "Player " + this->get_name() + " casts a spell. You lose " + std::to_string(lives_to_subtract) + "lives";
         //TODO: передать log
     }
 
