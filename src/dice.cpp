@@ -7,7 +7,7 @@ namespace dice {
         std::mt19937 rng(dev());
         std::uniform_int_distribution<std::mt19937::result_type> roll(1, 6 * n);
         for (int i = 0; i < n; i++) {
-            result += roll(rng)
+            result += roll(rng);
         }
         return result;
     }
