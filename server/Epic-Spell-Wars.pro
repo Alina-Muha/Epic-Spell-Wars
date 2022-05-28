@@ -27,11 +27,11 @@ SOURCES = \
    $$PWD/src/round.cpp \
    $$PWD/src/server.cpp \
    $$PWD/src/dice.cpp \
-   $$PWD/src/socket.cpp \
    $$PWD/../common/src/controller.cpp
 
 INCLUDEPATH = \
-    $$PWD/include
+    $$PWD/include \
+    $$PWD/../common/include
 
 #DEFINES =
 

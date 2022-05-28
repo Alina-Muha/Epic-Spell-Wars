@@ -12,6 +12,8 @@ namespace game {
         std::vector<std::shared_ptr<card::Card>> deck; // по идее здесь можно просто явно проинициализоровать набор на котором играем
 
         std::vector<std::shared_ptr<player::Player>> players;
+
+        round_of_game::Round round;
     public:
 
         void reload_deck();

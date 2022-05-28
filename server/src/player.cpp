@@ -55,9 +55,9 @@ namespace player {
     }
 
     void Player::sort_cards_in_spell() {
-        std::sort(spell.begin(), spell.end(), [](std::pair<card::Card *, int> x, std::pair<card::Card *, int> y) {
-            return (*(x.first)).get_type_of_the_spell_component() < (*(x.first)).get_type_of_the_spell_component();
-        });
+//        std::sort(spell.begin(), spell.end(), [](std::pair<card::Card *, int> x, std::pair<card::Card *, int> y) {
+//            return (*(x.first)).get_type_of_the_spell_component() < (*(x.first)).get_type_of_the_spell_component();
+//        });
     }
 
     bool Player::is_move_correct() {

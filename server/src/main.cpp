@@ -1,4 +1,4 @@
-#include "start_window.h"
+//#include "start_window.h"
 #include "server.h"
 #include "client.h"
 #include <QApplication>
@@ -6,9 +6,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    auto c = new client::Client();
-    Start_window w(c);
+    //auto c = new client::Client();
+    //Start_window w(c);
     server::server play_server;
-    w.show();
+    ////w.show();
     return a.exec();
 }
