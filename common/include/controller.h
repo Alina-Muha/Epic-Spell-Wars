@@ -14,6 +14,7 @@ public:
 private:
     QString type_of_spell;
     int number;
+    bool need_to_roll_the_dice;
 };
 
 class CardsJsonController
@@ -27,5 +28,10 @@ private:
     QList<JsonCard> items;
 };
 
+class JsonMessage{
+public:
+private:
+
+};
 
 #endif // CONTROLLER_H
