@@ -1,6 +1,5 @@
 #include "ui_start_window.h"
 #include "board.h"
-#include "player.h"
 #include "start_window.h"
 
 Start_window::Start_window(client::Client *client_, QWidget *parent)
