@@ -7,7 +7,7 @@
 #include <QString>
 #include <QDialog>
 #include <QUdpSocket>
-#include "../../common/controller.h"
+#include "controller.h"
 
 namespace client {
 
