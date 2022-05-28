@@ -16,9 +16,19 @@
 
 namespace controller {
 
+JsonCard::JsonCard(QString type_of_spell_, int number_) : type_of_spell(type_of_spell_), number(number_) {
+}
+
 JsonCard::JsonCard(QJsonObject jObj) {
     type_of_spell = jObj.value(F_SPELL).toString();
     number = jObj.value(F_NUM).toInt();
+}
+
+QString JsonCard::get_type_of_spell() {
+    return type_of_spell;
+}
+int JsonCard::get_number(){
+    return number;
 }
 
 QJsonObject JsonCard::to_json_object() {
@@ -28,9 +38,19 @@ QJsonObject JsonCard::to_json_object() {
     return jObj;
 }
 
+JsonPlayer::JsonPlayer(QString name_, int lifes_) : name(name_), lifes(lifes_){
+}
+
 JsonPlayer::JsonPlayer(QJsonObject jObj) {
     name = jObj.value(F_NAME).toString();
     lifes = jObj.value(F_LIFES).toInt();
+}
+
+QString JsonPlayer::get_name() {
+    return name;
+}
+int JsonPlayer::get_lifes(){
+    return lifes;
 }
 
 QJsonObject JsonPlayer::to_json_object() {
@@ -40,69 +60,10 @@ QJsonObject JsonPlayer::to_json_object() {
     return jObj;
 }
 
-Request_1::Request_1(QJsonObject jObj) {
-    name = jObj.value(F_NAME).toString();
-    type = jObj.value(F_TYPE).toInt();
+СardPlayedResult::СardPlayedResult (QString from_, QString to_, int dice_, QString type_of_spell_, int number_) : from(from_), to(to_), dice(dice_), card(JsonCard(type_of_spell_, number_)) {
 }
 
-QJsonObject  Request_1::to_json_object() {
-    QJsonObject jObj;
-    jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-    jObj.insert(F_NAME, QJsonValue::fromVariant(name));
-    return jObj;
-}
-
-Request_2::Request_2(QJsonObject jObj) {
-    type = jObj.value(F_TYPE).toInt();
-}
-
-QJsonObject  Request_2::to_json_object() {
-    QJsonObject jObj;
-    jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-    return jObj;
-}
-
-Request_3::Request_3(QJsonObject jObj) {
-    type = jObj.value(F_TYPE).toInt();
-    QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
-    foreach (QJsonValue json_val, json_players) {
-        QJsonObject json_player = json_val.toObject();
-        players.append(JsonPlayer(json_player));
-    }
-}
-
-QJsonObject  Request_3::to_json_object() {
-    QJsonObject jObj;
-    jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-    QJsonArray json_players;
-    foreach (JsonPlayer player, players) {
-        json_players.append(player.to_json_object());
-    }
-    jObj.insert(F_PLAYERS, json_players);
-    return jObj;
-}
-
-Request_4::Request_4(QJsonObject jObj) {
-    type = jObj.value(F_TYPE).toInt();
-    QJsonArray json_cards = jObj.value(F_CARDS).toArray();
-    foreach (QJsonValue json_val, json_cards) {
-        QJsonObject json_card = json_val.toObject();
-        cards.append(JsonCard(json_card));
-    }
-}
-
-QJsonObject  Request_4::to_json_object() {
-    QJsonObject jObj;
-    jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-    QJsonArray json_cards;
-    foreach (JsonCard card, cards) {
-        json_cards.append(card.to_json_object());
-    }
-    jObj.insert(F_CARDS, json_cards);
-    return jObj;
-}
-
-Request_5::Request_5(QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
+СardPlayedResult::СardPlayedResult (QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
     type = jObj.value(F_TYPE).toInt();
     from = jObj.value(F_FROM).toString();
     from = jObj.value(F_TO).toString();
@@ -114,7 +75,30 @@ Request_5::Request_5(QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
     }
 }
 
-QJsonObject  Request_5::to_json_object() {
+QString СardPlayedResult::get_from() {
+    return from;
+}
+QString СardPlayedResult::get_to(){
+    return to;
+}
+int СardPlayedResult::get_dice() {
+    return dice;
+}
+JsonCard СardPlayedResult::get_card(){
+    return card;
+}
+std::shared_ptr<QList<JsonPlayer>> СardPlayedResult::get_players(){
+     return std::make_shared<QList<JsonPlayer>> (players);
+}
+
+void СardPlayedResult::add_player(JsonPlayer player_) {
+    players.append(player_);
+}
+void СardPlayedResult::players_clear() {
+    players.clear();
+}
+
+QJsonObject  СardPlayedResult ::to_json_object() {
     QJsonObject jObj;
     jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
     jObj.insert(F_FROM, QJsonValue::fromVariant(from));
@@ -126,30 +110,6 @@ QJsonObject  Request_5::to_json_object() {
         json_players.append(player.to_json_object());
     }
     jObj.insert(F_PLAYERS, json_players);
-    return jObj;
-}
-
-Request_6::Request_6(QJsonObject jObj) {
-    name = jObj.value(F_NAME).toString();
-    type = jObj.value(F_TYPE).toInt();
-}
-
-QJsonObject  Request_6::to_json_object() {
-    QJsonObject jObj;
-    jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-    jObj.insert(F_NAME, QJsonValue::fromVariant(name));
-    return jObj;
-}
-
-Request_7::Request_7(QJsonObject jObj) {
-    name = jObj.value(F_NAME).toString();
-    type = jObj.value(F_TYPE).toInt();
-}
-
-QJsonObject  Request_7::to_json_object() {
-    QJsonObject jObj;
-    jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-    jObj.insert(F_NAME, QJsonValue::fromVariant(name));
     return jObj;
 }
 
@@ -238,10 +198,6 @@ QJsonObject  Request::to_json_object() {
     }
     return jObj;
 }
-
-
-
-
 
 }  // namespace controller
 

@@ -11,8 +11,11 @@ namespace controller {
 class JsonCard
 {
 public:
+    JsonCard(QString type_of_spell_, int number_);
     JsonCard(QJsonObject jObj);
     QJsonObject to_json_object();
+    QString get_type_of_spell();
+    int get_number();
 private:
     QString type_of_spell;
     int number;
@@ -20,56 +23,28 @@ private:
 
 class JsonPlayer {
 public:
+    JsonPlayer(QString name_, int lifes_);
     JsonPlayer(QJsonObject jObj);
     QJsonObject to_json_object();
+    QString get_name();
+    int get_lifes();
 private:
     QString name;
     int lifes;
 };
 
-class Request_1 {
+class СardPlayedResult {
 public:
-    Request_1(QJsonObject jObj);
+    СardPlayedResult (QString from_, QString to_, int dice_, QString type_of_spell_, int number_);
+    СardPlayedResult (QJsonObject jObj);
     QJsonObject to_json_object();
-
-private:
-    int type = 1;
-    QString name;
-};
-
-class Request_2 {
-public:
-    Request_2(QJsonObject jObj);
-    QJsonObject to_json_object();
-
-private:
-    int type = 2;
-};
-
-class Request_3 {
-public:
-    Request_3(QJsonObject jObj);
-    QJsonObject to_json_object();
-
-private:
-    int type = 3;
-    QList<JsonPlayer> players;
-};
-
-class Request_4 {
-public:
-    Request_4(QJsonObject jObj);
-    QJsonObject to_json_object();
-
-private:
-    int type = 4;
-    QList<JsonCard> cards;
-};
-
-class Request_5 {
-public:
-    Request_5(QJsonObject jObj);
-    QJsonObject to_json_object();
+    QString get_from();
+    QString get_to();
+    int get_dice();
+    JsonCard get_card();
+    std::shared_ptr<QList<JsonPlayer>> get_players();
+    void add_player(JsonPlayer player_);
+    void players_clear();
 
 private:
     int type = 5;
@@ -78,26 +53,6 @@ private:
     int dice;
     JsonCard card;
     QList<JsonPlayer> players;
-};
-
-class Request_6 {
-public:
-    Request_6(QJsonObject jObj);
-    QJsonObject to_json_object();
-
-private:
-    int type = 6;
-    QString name;
-};
-
-class Request_7 {
-public:
-    Request_7(QJsonObject jObj);
-    QJsonObject to_json_object();
-
-private:
-    int type = 7;
-    QString name;
 };
 
 class Request {
