@@ -60,7 +60,9 @@ QJsonObject JsonPlayer::to_json_object() {
     return jObj;
 }
 
-СardPlayedResult::СardPlayedResult (QString from_, QString to_, int dice_, QString type_of_spell_, int number_) : from(from_), to(to_), dice(dice_), card(JsonCard(type_of_spell_, number_)) {
+СardPlayedResult::СardPlayedResult (QString from_, QList<QString> to_, int dice_,
+                                    QString type_of_spell_, int number_) : from(from_),
+                                    to(to_), dice(dice_), card(JsonCard(type_of_spell_, number_)) {
 }
 
 СardPlayedResult::СardPlayedResult (QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
@@ -78,7 +80,7 @@ QJsonObject JsonPlayer::to_json_object() {
 QString СardPlayedResult::get_from() {
     return from;
 }
-QString СardPlayedResult::get_to(){
+QList<QString> СardPlayedResult::get_to(){
     return to;
 }
 int СardPlayedResult::get_dice() {
@@ -102,7 +104,11 @@ QJsonObject  СardPlayedResult ::to_json_object() {
     QJsonObject jObj;
     jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
     jObj.insert(F_FROM, QJsonValue::fromVariant(from));
-    jObj.insert(F_TO, QJsonValue::fromVariant(to));
+    QJsonArray to_arr;
+    foreach (QString name, to) {
+        to_arr.append(QJsonValue(name).toObject());
+    }
+    jObj.insert(F_TO, to_arr);
     jObj.insert(F_DICE, QJsonValue::fromVariant(dice));
     jObj.insert(F_CARD, card.to_json_object());
     QJsonArray json_players;

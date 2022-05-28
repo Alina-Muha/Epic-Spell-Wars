@@ -35,11 +35,11 @@ private:
 
 class СardPlayedResult {
 public:
-    СardPlayedResult (QString from_, QString to_, int dice_, QString type_of_spell_, int number_);
+    СardPlayedResult (QString from_, QList<QString> to, int dice_, QString type_of_spell_, int number_);
     СardPlayedResult (QJsonObject jObj);
     QJsonObject to_json_object();
     QString get_from();
-    QString get_to();
+    QList<QString> get_to();
     int get_dice();
     JsonCard get_card();
     std::shared_ptr<QList<JsonPlayer>> get_players();
@@ -49,7 +49,7 @@ public:
 private:
     int type = 5;
     QString from;
-    QString to;
+    QList<QString> to;
     int dice;
     JsonCard card;
     QList<JsonPlayer> players;
