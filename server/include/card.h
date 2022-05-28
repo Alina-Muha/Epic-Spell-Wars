@@ -41,7 +41,6 @@ namespace card {
         std::string get_card_image();
         //std::vector<std::function<void(int)>> get_effects();
 
-        void do_card_effects(int number_on_the_dice = 0);
 
     };
 }
