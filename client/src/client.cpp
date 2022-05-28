@@ -6,36 +6,52 @@
 
 namespace client {
 Client::Client(QObject *parent)
-    : QObject(parent) {
-    socket = new QTcpSocket(this);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(slot_ready_read()));
-    connect(socket, SIGNAL(connected()), this, SLOT(on_connected()));
-    connect(socket, SIGNAL(disconnected()), this, SLOT(on_disconnected()));
+    : QObject(parent),
+      socket(new QTcpSocket(this))
+{
+    QObject::connect(socket, &QTcpSocket::connected, this, &Client::connected);
+    QObject::connect(socket, &QTcpSocket::readyRead, this, &Client::on_ready_read);
+    QObject::connect(socket, &QTcpSocket::disconnected, this, &Client::disconnected);
 }
 
-void Client::connect(char* ip, int port) {
+void Client::connect(const QHostAddress &ip, qint16 port) {
     socket->connectToHost(ip, port);
 }
 
 void Client::on_connected(){
-    QDataStream out()
+    QDataStream out();
+}
+
+void Client::disconnect() {
+    socket->disconnectFromHost();
 }
 
 
 void Client::send_json() {
-
+    QDataStream client_stream(socket);
+    client_stream.setVersion(QDataStream::Qt_6_2);
+    client_stream << Data;
+    Data.clear();
 }
 
 void Client::get_json(){
 
 }
 
-void Client::slot_ready_read() {
-    QDataStream in(socket);
-    in.setVersion(QDataStream::Qt_6_2);
-    if (in.status() == QDataStream::Ok) {
+void Client::json_received(const QJsonObject &doc) {
+    const QJsonValue type_val = doc.value(QString("type"));
+}
 
+void Client::on_ready_read() {
+    QByteArray jsonData;
+    QDataStream socket_stream(socket);
+    socket_stream.setVersion(QDataStream::Qt_6_2);
+    if (socket_stream.status() == QDataStream::Ok) {
+        for(;;) {
+            socket_stream >> jsonData;
+            // распарсить json;
 
+        }
     }
 }
 

@@ -7,7 +7,7 @@
 #include <QString>
 #include <QDialog>
 #include <QUdpSocket>
-#include "../../common/include/controller.h"
+#include "../../common/controller.h"
 
 namespace client {
 
@@ -17,17 +17,24 @@ namespace client {
         QTcpSocket *socket;
         QByteArray Data;
         QString name;
+        void json_received(const QJsonObject &doc);
 
     public:
-        explicit Client(QObject *parent);
-        void connect(char* ip, int port);
+        explicit Client(QObject *parent=nullptr);
+    public slots:
+        void connect(const QHostAddress &ip, qint16 port);
         void send_json();
         void get_json();
+        void disconnect();
 
     private slots:
         void on_connected();
         void on_disconnected();
-        void slot_ready_read();
+        void on_ready_read();
+
+    signals:
+        void connected();
+        void disconnected();
 
 
 

@@ -48,16 +48,16 @@ namespace player {
 
     void Player::select_card(int index) {
         spell.push_back({cards[index], 0});
-        for (int j = index; j < cards.size() - 1; j++) {  // list will be better?
+        for (int j = index; j < cards.size() - 1; j++) {
             cards[j] = cards[j+1];
             cards.pop_back();
         }
     }
 
     void Player::sort_cards_in_spell() {
-        std::sort(spell.begin(), spell.end(), [](std::pair<card::Card *, int> x, std::pair<card::Card *, int> y) {
-            return (*(x.first)).get_type_of_the_spell_component() < (*(x.first)).get_type_of_the_spell_component();
-        });
+//        std::sort(spell.begin(), spell.end(), [](std::pair<card::Card *, int> x, std::pair<card::Card *, int> y) {
+//            return (*(x.first)).get_type_of_the_spell_component() < (*(x.first)).get_type_of_the_spell_component();
+//        });
     }
 
     bool Player::is_move_correct() {

@@ -9,9 +9,9 @@ namespace round_of_game {
 
     private:
 
-        static std::vector<std::shared_ptr<player::Player>> alive_players;
+        std::vector<std::shared_ptr<player::Player>> alive_players;
 
-        static std::vector<std::shared_ptr<card::Card>> main_deck;
+        std::vector<std::shared_ptr<card::Card>> main_deck;
 
     public:
 
@@ -21,13 +21,13 @@ namespace round_of_game {
         std::vector<std::shared_ptr<player::Player>> &get_players();
 
 
-        static void sort_priority_of_the_turn();
+        void sort_priority_of_the_turn();
 
-        static void play_circle();
+        void play_circle();
 
-        static std::shared_ptr<player::Player> play_round();
+        std::shared_ptr<player::Player> play_round();
 
-        static void play_cards(std::shared_ptr<player::Player> gamer);
+        void play_cards(std::shared_ptr<player::Player> gamer);
 
 
         void move_cards_from_hand_to_discard();
@@ -37,9 +37,9 @@ namespace round_of_game {
 
         std::vector<std::shared_ptr<card::Card>> get_main_deck();
 
-        static void load_players(std::vector<std::shared_ptr<player::Player>>& players);
+        void load_players(std::vector<std::shared_ptr<player::Player>>& players);
 
-        static void load_cards(std::vector<std::shared_ptr<card::Card>> new_deck);
+        void load_cards(std::vector<std::shared_ptr<card::Card>> new_deck);
 
     };
 }

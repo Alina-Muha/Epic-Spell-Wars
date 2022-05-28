@@ -33,5 +33,4 @@ Card::type_of_spell_component Card::get_card_component(){
         return number;
     }
 
-
 }

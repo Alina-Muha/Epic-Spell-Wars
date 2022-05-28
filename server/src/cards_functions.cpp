@@ -17,7 +17,7 @@ std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(){
     std::shared_ptr<player::Player>strongest_player = nullptr;
     for (auto player : round.get_players()){
         if (player->get_lives() > life){
-            strongest_player = std::make_shared<player::Player>(player);
+           strongest_player = player;
         }
     }
     return strongest_player;
@@ -27,12 +27,12 @@ std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(){
     std::shared_ptr<player::Player>weakest_player = nullptr;
     for (auto player : round.get_players()){
         if (player->get_lives() < life){
-            weakest_player = std::make_shared<player::Player>(player);
+            weakest_player = player;
         }
     }
     return weakest_player;
 }
-std::map<card::Card::type, int> number_of_types_in_spell(std::shared_ptr<player::Player> current_player){
+std::map<card::Card::type, int> CardFunctions::number_of_types_in_spell(std::shared_ptr<player::Player> current_player){
     std::map<card::Card::type, int> types_of_spell_cards; // for different types in spell
     types_of_spell_cards[card::Card::type::ahcane] = 0;
     types_of_spell_cards[card::Card::type::dark] = 0;
@@ -572,7 +572,7 @@ void CardFunctions::change_spell(int type, std::shared_ptr<player::Player>curren
         std::shared_ptr<player::Player> weakest_player = get_the_weakest_player();
         if (current_player == weakest_player){
             int rand_card = rand() % current_player->get_cards().size();
-            current_player->get_spell().emplace_back(current_player->get_cards()[rand_card]); // need setter
+            //current_player->get_spell().emplace_back(current_player->get_cards()[rand_card]); // need setter
         }
     }
     // type = 3 - Pam and Hecuba's (Source_9.png)
@@ -609,12 +609,12 @@ void CardFunctions::interaction_with_the_deck(int type,[[maybe_unused]] std::sha
         std::shared_ptr<card::Card> card_1 = round.get_main_deck()[size_of_deck - 1];
         std::shared_ptr<card::Card> card_2 = round.get_main_deck()[size_of_deck - 2];
         if (card_1->get_card_type() == card::Card::type::ahcane){
-            current_player->get_spell().emplace_back(card_1); //need setter
+         //   current_player->get_spell().emplace_back(card_1); //need setter
         }
 
         round.get_main_deck().pop_back();
         if (card_2->get_card_type() == card::Card::type::ahcane){
-            current_player->get_spell().emplace_back(card_2);
+      //      current_player->get_spell().emplace_back(card_2);
         }
         round.get_main_deck().pop_back();
 
