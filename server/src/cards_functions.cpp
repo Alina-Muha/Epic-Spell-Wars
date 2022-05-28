@@ -633,4 +633,143 @@ void CardFunctions::interaction_with_the_deck(int type,[[maybe_unused]] std::sha
         }
     }
 }
+void CardFunctions::do_card_effects(std::shared_ptr<card::Card> executable_card, int sum, std::shared_ptr<player::Player> current_player, int sum_1, int sum_2,
+                                    std::map<std::shared_ptr<player::Player>, int> points_of_foes, int chosen, std::shared_ptr<card::Card> chosen_card, std::shared_ptr<player::Player> chosen_foe){
+    /*for(auto i : effects){
+        i(number_on_the_dice);
+    }*/
+
+    if (executable_card->get_card_component() == card::Card::type_of_spell_component::source) {
+        if (executable_card->get_number() == 1) {
+            copy_the_text_of_card(2, current_player);
+        }
+        if (executable_card->get_number() == 2) {
+            interaction_with_the_deck(1, current_player);
+        }
+        if (executable_card->get_number() == 3) {
+            rolling_the_dice(2, sum_1, current_player, points_of_foes, sum_2);
+        }
+        if (executable_card->get_number() == 4) {
+            damage_without_parametrs(1, current_player, chosen);
+        }
+        if (executable_card->get_number() == 5) {
+            damage_without_parametrs(2, current_player, chosen);
+        }
+        if (executable_card->get_number() == 6) {
+            damage_without_parametrs(3, current_player, chosen);
+        }
+        if (executable_card->get_number() == 7) {
+            change_order(2, current_player);
+        }
+        if (executable_card->get_number() == 8) {
+            rolling_the_dice(3, sum_1, current_player, points_of_foes, sum_2);
+        }
+        if (executable_card->get_number() == 9) {
+            change_spell(3, current_player);
+        }
+        if (executable_card->get_number() == 10) {
+            interaction_with_the_deck(2, current_player);
+        }
+        if (executable_card->get_number() == 11) {
+            type_of_cards_damage(6, current_player);
+        }
+        if (executable_card->get_number() == 12) {
+            damage_without_parametrs(4, current_player, chosen);
+        }
+        if (executable_card->get_number() == 13) {
+            damage_without_parametrs(5, current_player, chosen);
+        }
+        if (executable_card->get_number() == 14) {
+            rolling_the_dice(4, sum_1, current_player, points_of_foes, sum_2);
+        }
+        if (executable_card->get_number() == 15) {
+            type_of_cards_damage(1, current_player);
+        }
+
+    } else if (executable_card->get_card_component() == card::Card::type_of_spell_component::quality) {
+        if (executable_card->get_number() == 1) {
+            damage_without_parametrs(6, current_player, chosen);
+        }
+        if (executable_card->get_number() == 2) {
+            type_of_cards_damage(2, current_player)
+        }
+        if (executable_card->get_number() == 3) {
+            damage_to_chosen_foe(1, sum, current_player, chosen_foe, chosen_card);
+        }
+        if (executable_card->get_number() == 4) {
+            rolling_the_dice(1, sum_1, current_player, points_of_foes, sum_2);
+        }
+        if (executable_card->get_number() == 5) {
+            //TODO
+        }
+        if (executable_card->get_number() == 6) {
+            change_spell(1, current_player);
+        }
+        if (executable_card->get_number() == 7) {
+            change_order(1, current_player);
+        }
+        if (executable_card->get_number() == 8) {
+            type_of_cards_damage(3, current_player);
+        }
+        if (executable_card->get_number() == 9) {
+            type_of_cards_damage(4, current_player);
+        }
+        if (executable_card->get_number() == 10) {
+            change_spell(2, current_player);
+        }
+        if (executable_card->get_number() == 11) {
+            damage_to_the_right_neighbour(3, sum, current_player);
+        }
+        if (executable_card->get_number() == 12) {
+            damage_to_chosen_foe(2, sum, current_player, chosen_foe, chosen_card);
+        }
+        if (executable_card->get_number() == 13) {
+            type_of_cards_damage(5, current_player);
+        }
+
+    } else /*(type_of_the_spell_component == type_of_spell_component::delivery)*/ {
+        if (executable_card->get_number() == 1) {
+            damage_to_the_strongest_player(1, sum, current_player);
+        }
+        if (executable_card->get_number() == 2) {
+            damage_to_the_weakest_player(sum);
+        }
+        if (executable_card->get_number() == 3) {
+            damage_for_several_foes(1, sum, current_player);
+        }
+        if (executable_card->get_number() == 4) {
+            damage_for_several_foes(2, sum, current_player);
+        }
+        if (executable_card->get_number() == 5) {
+            damage_to_the_strongest_player(2, sum, current_player);
+        }
+        if (executable_card->get_number() == 6) {
+            hp_to_current_player(6, current_player);
+        }
+        if (executable_card->get_number() == 7) {
+            damage_to_the_left_neighbour(sum, current_player);
+        }
+        if (executable_card->get_number() == 8) {
+            damage_for_several_foes(3, sum, current_player);
+        }
+        if (executable_card->get_number() == 9) {
+            damage_to_the_right_neighbour(1, sum, current_player);
+        }
+        if (executable_card->get_number() == 10) {
+            damage_to_the_strongest_player(3, sum, current_player);
+        }
+        if (executable_card->get_number() == 11) {
+            damage_to_chosen_foe(3, sum, current_player, chosen_foe, chosen_card);
+        }
+        if (executable_card->get_number() == 12) {
+            damage_for_several_foes(4, sum, current_player);
+        }
+        if (executable_card->get_number() == 13) {
+            damage_to_the_right_neighbour(2, sum, current_player);
+        }
+        if (executable_card->get_number() == 14) {
+            damage_to_the_strongest_player(4, sum, current_player);
+        }
+    }
+}
 } //card_functions
