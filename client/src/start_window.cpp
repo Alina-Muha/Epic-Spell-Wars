@@ -1,5 +1,5 @@
 #include "ui_start_window.h"
-//#include "client.h"
+#include "client.h"
 #include "board.h"
 #include "start_window.h"
 
