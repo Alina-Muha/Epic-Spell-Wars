@@ -30,7 +30,8 @@ SOURCES = \
    $$PWD/../common/src/controller.cpp
 
 INCLUDEPATH = \
-    $$PWD/include
+    $$PWD/include \
+    $$PWD/../common/include
 
 #DEFINES =
 
