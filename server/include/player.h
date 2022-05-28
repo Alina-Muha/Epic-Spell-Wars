@@ -13,6 +13,7 @@ namespace player {
         std::string name;
         int lives;
 
+
         std::vector<std::shared_ptr<card::Card>> cards;
 
         std::vector<std::pair<std::shared_ptr<card::Card>, int>> spell;
