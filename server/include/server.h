@@ -7,17 +7,25 @@
 namespace server{
 class Server : public QObject{
     Q_OBJECT
+    Q_DISABLE_COPY(Server)
 public:
     explicit Server(QObject *parent = nullptr);
-    QString get_client(const QTcpSocket *client) const;
+    virtual bool set_socket_descriptor(qintptr socket_descriptor);
+    QString user_name() const;
+    void set_user_name(const QString &user_name);
+    void send_json(const QJsonObject &json_data);
+signals:
+    void json_received(const QJsonObject &json_doc);
+    void disconnected_from_client();
+    void error();
+    void log_message (const QString &msg);
 public slots:
-    void new_connection();
-    void read_connection();
-    void disconnection();
-    int get_cube_value();
+    void disconnect_from_client();
+private slots:
+    void receive_json();
 private:
-    QTcpServer *tcp_server;
-    QMap<QString, QTcpSocket*> clients;
+    QTcpSocket *m_server_socket;
+    QString m_user_name;
 
 };
 } // namespace server

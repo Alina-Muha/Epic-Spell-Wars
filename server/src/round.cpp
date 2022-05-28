@@ -53,7 +53,7 @@ namespace round_of_game {
 
     void Round::play_cards(std::shared_ptr<player::Player> gamer){
         for(auto i : gamer->get_spell()){
-            i.first->do_card_effects(i.second);
+            //do_card_effects(i.first);
         }
         gamer->get_spell().clear();
     }

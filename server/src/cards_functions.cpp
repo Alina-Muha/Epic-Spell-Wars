@@ -691,7 +691,7 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> executable_card,
             damage_without_parametrs(6, current_player, chosen);
         }
         if (executable_card->get_number() == 2) {
-            type_of_cards_damage(2, current_player)
+            type_of_cards_damage(2, current_player);
         }
         if (executable_card->get_number() == 3) {
             damage_to_chosen_foe(1, sum, current_player, chosen_foe, chosen_card);
