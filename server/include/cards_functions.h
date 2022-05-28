@@ -47,6 +47,9 @@ public:
 
     // the player interacts with the deck
     void interaction_with_the_deck(int type, std::shared_ptr<player::Player> current_player);
+
+    void do_card_effects(std::shared_ptr<card::Card> executable_card, int sum = 0, std::shared_ptr<player::Player> current_player = nullptr, int sum_1 = 0, int sum_2 = 0,
+                         std::map<std::shared_ptr<player::Player>, int> points_of_foes = {}, int chosen = 0, std::shared_ptr<card::Card> chosen_card = nullptr, std::shared_ptr<player::Player> chosen_foe = nullptr);
 };
 } //card_functions
 

@@ -48,7 +48,7 @@ namespace player {
 
     void Player::select_card(int index) {
         spell.push_back({cards[index], 0});
-        for (int j = index; j < cards.size() - 1; j++) {  // list will be better?
+        for (int j = index; j < cards.size() - 1; j++) {
             cards[j] = cards[j+1];
             cards.pop_back();
         }
