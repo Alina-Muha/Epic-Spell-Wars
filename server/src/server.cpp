@@ -9,8 +9,9 @@
 #include <QJsonObject>
 namespace server{
 Server::Server (QObject *parent)
- : QObject(parent)
-, m_server_socket(new QTcpSocket(this))
+ : QObject(parent),
+   m_server(new QTcpServer(this)),
+   m_server_socket(new QTcpSocket(this))
 {
     connect(m_server_socket, &QTcpSocket::readyRead, this, &Server::receive_json);
     connect (m_server_socket, &QTcpSocket::disconnected, this, &Server::disconnected_from_client);
@@ -23,13 +24,13 @@ void Server::disconnect_from_client(){
     m_server_socket->disconnectFromHost();
 }
 
-QString Server::user_name() const{
-    return m_user_name;
+QString Server::user_name(QTcpSocket *client_socket) const{
+    return clients[client_socket].second;
 }
 
-void Server::set_user_name(const QString &user_name)
+void Server::set_user_name(QTcpSocket *client_socket, const QString &user_name)
 {
-   m_user_name = user_name;
+   clients[client_socket].second = user_name;
 }
 void Server::receive_json(){
     QByteArray json_data;
@@ -56,9 +57,90 @@ void Server::receive_json(){
 }
 void Server::send_json(const QJsonObject &json){
     const QByteArray json_data = QJsonDocument(json).toJson(QJsonDocument::Compact);
-    emit log_message("Sending to " + user_name() + " - " + QString::fromUtf8(json_data));
+    emit log_message("Sending to - " + QString::fromUtf8(json_data));
     QDataStream socket_stream(m_server_socket);
     socket_stream.setVersion(QDataStream::Qt_6_2);
     socket_stream << json_data;
+}
+void Server::accept_all_connections(){
+    while (true){
+        qDebug() << QString::fromUtf8("New Connection");
+        QTcpSocket* client_socket = m_server->nextPendingConnection();
+//        clients[client_socket].first = std::make_shared<player::Player>(client_socket);
+        clients[client_socket].second = "";
+        QJsonDocument doc = QJsonDocument::fromJson(client_socket->readAll());
+        QJsonObject obj = doc.object();
+        /*clients[client_socket] = ...
+        round.set_players.emplace_back(player(client_socket))
+        if in json sent "game started":
+            for (auto client : clients){
+                send json
+            }
+            break; */
+    }
+}
+void Server::give_cards_to_players(round_of_game::Round &round){
+    for (auto iter = clients.begin(); iter != clients.end();){
+        round.distribute_cards();
+        // write json: cards, lives
+        // send_json()
+        iter++;
+    }
+}
+void Server::fill_the_spell(round_of_game::Round &round){
+    for (auto iter = clients.begin(); iter != clients.end();){
+        QTcpSocket *client_socket = iter.key();
+        std::shared_ptr<player::Player> player = iter.value().first;
+        /*recieve json with spell
+        player->set_spell(); */
+        iter++;
+    }
+}
+void Server::complete_the_number_of_cards(round_of_game::Round &round){
+    for (auto iter = clients.begin(); iter != clients.end();){
+        QTcpSocket *client_socket = iter.key();
+        std::shared_ptr<player::Player> player = iter.value().first;
+        int num_to_add = round.number_of_cards_in_hand - player->get_cards().size();
+        // distribute_card(num_to_add)
+        // send json
+    }
+}
+void Server::applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions){
+    for (auto iter = clients.begin(); iter != clients.end();){
+        QTcpSocket *client_socket = iter.key();
+        std::shared_ptr<player::Player> player = iter.value().first;
+        // recieve json with count of cards
+        std::vector<std::pair<std::shared_ptr<card::Card>, int>> players_spell = player->get_spell();
+        int num = players_spell.size();
+        // there may be other jsons
+        for (int i = 0; i < num; i++){
+            card_functions.do_card_effects(players_spell[i].first, player);
+            // write to json
+        }
+        iter++;
+    }
+    for (auto iter = clients.begin(); iter != clients.end();){
+        QTcpSocket *client_socket = iter.key();
+        //client_socket->... : send_json;
+    }
+}
+void Server::play_the_game(){
+    // checking if there is a live player
+    int alive = 0;
+    while (true){
+        // play game
+        /*for (auto iter = clients.begin(); iter != clients.end();){
+            std::shared_ptr<player::Player> player = iter.value().first;
+            if (player->get_lives() > 0){
+                alive++;
+            }
+        }*/
+        if (alive == 1){
+            for (auto iter = clients.begin(); iter != clients.end();){
+                // send json : game_finished, name of the winner : player with != 0 count of lives
+            }
+            break;
+        }
+    }
 }
 }
