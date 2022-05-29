@@ -38,6 +38,7 @@ private:
     QTcpSocket *m_server_socket;
     QMap<QTcpSocket *, QString> clients;
     QMap<QString, std::shared_ptr<player::Player>> players;
+
 };
 } // namespace server
 
