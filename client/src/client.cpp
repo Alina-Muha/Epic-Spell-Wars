@@ -5,17 +5,25 @@
 #include "board.h"
 
 namespace client {
-Client::Client(QObject *parent)
+Client::Client(QHostAddress ip_, qint16 port_, QString name_, QObject *parent)
     : QObject(parent),
-      socket(new QTcpSocket(this))
+      socket(new QTcpSocket(this)),
+      ip(ip_),
+      port(port_),
+      name(name_)
 {
     QObject::connect(socket, &QTcpSocket::connected, this, &Client::connected);
     QObject::connect(socket, &QTcpSocket::readyRead, this, &Client::on_ready_read);
     QObject::connect(socket, &QTcpSocket::disconnected, this, &Client::disconnected);
 }
 
-void Client::connect(const QHostAddress &ip, qint16 port) {
+void Client::set_name(QString name_) {
+    name = name_;
+}
+
+void Client::connect() {
     socket->connectToHost(ip, port);
+    // send name to server
 }
 
 void Client::on_connected(){

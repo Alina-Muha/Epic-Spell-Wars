@@ -24,13 +24,9 @@ private slots:
 
             void on_registration_button_clicked();
 
-            void on_connect_button_clicked();
-
             void name_duplicate();
 
             void successful_registration();
-
-            void send_name_to_server(std::string name);
 
 private:
     client::Client *client;
