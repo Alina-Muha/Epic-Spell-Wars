@@ -82,7 +82,7 @@ void Server::accept_all_connections(){
 }
 void Server::give_cards_to_players(round_of_game::Round &round){
     round.distribute_cards();
-    for (auto iter = clients.begin(); iter != clients.end();){
+    for (auto iter = clients.begin(); iter != clients.end();/* iter++ */){
         std::shared_ptr<player::Player> player = players[user_name(iter.key())];
         /*player->get_cards();
         // write json: cards, lives = 20
@@ -91,7 +91,7 @@ void Server::give_cards_to_players(round_of_game::Round &round){
     }
 }
 void Server::fill_the_spell(round_of_game::Round &round){
-    for (auto iter = clients.begin(); iter != clients.end();){
+    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
         QTcpSocket *client_socket = iter.key();
         std::shared_ptr<player::Player> player = players[user_name(iter.key())];
         /*recieve json with spell
@@ -100,7 +100,7 @@ void Server::fill_the_spell(round_of_game::Round &round){
     }
 }
 void Server::complete_the_number_of_cards(round_of_game::Round &round){
-    for (auto iter = clients.begin(); iter != clients.end();){
+    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
         QTcpSocket *client_socket = iter.key();
         std::shared_ptr<player::Player> player = players[user_name(iter.key())];
         int num_to_add = round.number_of_cards_in_hand - player->get_cards().size();
@@ -109,7 +109,7 @@ void Server::complete_the_number_of_cards(round_of_game::Round &round){
     }
 }
 void Server::applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions){
-    for (auto iter = clients.begin(); iter != clients.end();){
+    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
         QTcpSocket *client_socket = iter.key();
         std::shared_ptr<player::Player> player = players[user_name(iter.key())];
         // recieve json with count of cards
@@ -122,7 +122,7 @@ void Server::applying_of_card_functions(round_of_game::Round &round, card_functi
         }
         iter++;
     }
-    for (auto iter = clients.begin(); iter != clients.end();){
+    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
         QTcpSocket *client_socket = iter.key();
         //client_socket->... : send_json;
     }
@@ -132,14 +132,14 @@ void Server::play_the_game(){
     int alive = 0;
     while (true){
         // play game
-        /*for (auto iter = clients.begin(); iter != clients.end();){
+        /*for (auto iter = clients.begin(); iter != clients.end();iter++){
             std::shared_ptr<player::Player> player = iter.value().first;
             if (player->get_lives() > 0){
                 alive++;
             }
         }*/
         if (alive == 1){
-            for (auto iter = clients.begin(); iter != clients.end();){
+            for (auto iter = clients.begin(); iter != clients.end();/* iter++ */){
                 // send json : game_finished, name of the winner : player with != 0 count of lives
             }
             break;
