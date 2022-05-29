@@ -20,8 +20,9 @@ Start_window::~Start_window()
 
 void Start_window::on_start_button_clicked()
 {
-    b->show();
-    Start_window::close();
+    client->send_start_signal();
+    //b->show();
+    //Start_window::close();
 }
 
 void Start_window::on_registration_button_clicked()
