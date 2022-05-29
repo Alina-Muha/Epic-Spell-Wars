@@ -36,7 +36,9 @@ private slots:
 private:
     QTcpServer *m_server;
     QTcpSocket *m_server_socket;
-    QMap<QTcpSocket *, std::pair<std::shared_ptr<player::Player>, QString>> clients;
+    QMap<QTcpSocket *, QString> clients;
+    QMap<QString, std::shared_ptr<player::Player>> players;
+
 };
 } // namespace server
 
