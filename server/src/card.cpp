@@ -32,5 +32,61 @@ Card::type_of_spell_component Card::get_card_component(){
     int Card::get_number(){
         return number;
     }
-
+    bool Card::check_roll_power(){
+        if(type_of_the_spell_component==type_of_spell_component::delivery){
+            if(number==1){
+                return true;
+            }
+            if(number==2){
+                return true;
+            }
+            if(number==3){
+                return true;
+            }
+            if(number==4){
+                return true;
+            }
+            if(number==5){
+                return true;
+            }
+            if(number==6){
+                return true;
+            }
+            if(number==7){
+                return true;
+            }
+            if(number==8){
+                return true;
+            }
+            if(number==9){
+                return true;
+            }
+            if(number==10){
+                return true;
+            }
+            if(number==11){
+                return true;
+            }
+            if(number==12){
+                return true;
+            }
+            if(number==13){
+                return true;
+            }
+            if(number==14){
+                return true;
+            }
+        }
+        if(type_of_the_spell_component==type_of_spell_component::quality){
+            if(number==3){
+                return true;
+            }
+            if(number==11){
+                return true;
+            }
+            if(number==12){
+                return true;
+            }
+        }
+    }
 }
