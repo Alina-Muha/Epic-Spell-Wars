@@ -633,7 +633,7 @@ void CardFunctions::interaction_with_the_deck(int type,[[maybe_unused]] std::sha
         }
     }
 }
-void CardFunctions::do_card_effects(std::shared_ptr<card::Card> executable_card, int sum, std::shared_ptr<player::Player> current_player, int sum_1, int sum_2,
+void CardFunctions::do_card_effects(std::shared_ptr<card::Card> executable_card, std::shared_ptr<player::Player> current_player, int sum, int sum_1, int sum_2,
                                     std::map<std::shared_ptr<player::Player>, int> points_of_foes, int chosen, std::shared_ptr<card::Card> chosen_card, std::shared_ptr<player::Player> chosen_foe){
     /*for(auto i : effects){
         i(number_on_the_dice);
