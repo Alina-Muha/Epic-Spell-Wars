@@ -40,7 +40,7 @@ namespace card {
         type_of_spell_component get_type_of_the_spell_component();
         std::string get_card_image();
         //std::vector<std::function<void(int)>> get_effects();
-
+        bool check_roll_power();
 
     };
 }
