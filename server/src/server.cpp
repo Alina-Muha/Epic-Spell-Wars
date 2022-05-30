@@ -7,15 +7,21 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QDebug>
 namespace server{
 Server::Server (QObject *parent)
  : QObject(parent),
    m_server(new QTcpServer(this)),
    m_server_socket(new QTcpSocket(this))
 {
-    connect(m_server_socket, &QTcpSocket::readyRead, this, &Server::receive_json);
-    connect (m_server_socket, &QTcpSocket::disconnected, this, &Server::disconnected_from_client);
-    connect(m_server_socket, &QAbstractSocket:: errorOccurred, this, &Server::error);
+    if (m_server->listen(QHostAddress::Any, 1234)) {
+        connect(m_server_socket, &QTcpSocket::readyRead, this, &Server::receive_json);
+        connect (m_server_socket, &QTcpSocket::disconnected, this, &Server::disconnected_from_client);
+        connect(m_server_socket, &QAbstractSocket:: errorOccurred, this, &Server::error);
+        qDebug() << "Server starts...";
+    } else {
+        // TODO: Server start fail
+    }
 }
 bool Server::set_socket_descriptor (qintptr socket_descriptor){
     return m_server_socket->setSocketDescriptor(socket_descriptor);
