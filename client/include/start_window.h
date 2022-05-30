@@ -28,6 +28,8 @@ private slots:
 
             void successful_registration();
 
+            void update_from_server();
+
 private:
     client::Client *client;
     Ui::Start_window *ui;

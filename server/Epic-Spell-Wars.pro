@@ -34,5 +34,5 @@ SOURCES = \
 INCLUDEPATH = \
     $$PWD/include
 
-#DEFINES = 
+#DEFINES =
 

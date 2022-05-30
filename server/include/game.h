@@ -23,6 +23,7 @@ namespace game {
         void play_game();
 
         std::shared_ptr<player::Player> find_player(const std::string & name);
+        round_of_game::Round& get_round();
 
         void add_player(std::shared_ptr<player::Player> gamer);
     };

@@ -1,5 +1,6 @@
 #include "server.h"
 #include "controller.h"
+#include "card.h"
 #include "player.h"
 #include <QDebug>
 #include <QCoreApplication>
@@ -104,11 +105,35 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
         qDebug() << QString("Client registered, name: %1").arg(request.get_name());
     }
     if (request.get_type() == 2) {
-        qDebug() << QString("Client %1 started game").arg(socket->socketDescriptor());
-        // TODO: Start game
-        auto request = controller::Request(2);
-        server_data = request.to_json_object();
-        send_json_to_all_clients();
+        auto gameStateRequest = controller::Request(2);
+        auto data = gameStateRequest.to_json_object();
+        send_json_to_all_clients(data);
+
+        game_of_players.play_game();
+        send_players();
+        send_cards();
+    }
+}
+
+void Server::send_players() {
+    auto playersRequest = controller::Request(3);
+    foreach (std::shared_ptr<player::Player> gamer, game_of_players.get_round().get_alive_players()) {
+        playersRequest.add_player(controller::JsonPlayer(QString::fromStdString(gamer->get_name()), gamer->get_lives()));
+    }
+    auto data = playersRequest.to_json_object();
+    send_json_to_all_clients(data);
+}
+
+void Server::send_cards() {
+    foreach (QTcpSocket* socket, clients.keys()) {
+        auto gamer = game_of_players.find_player(clients[socket].toStdString());
+        if (gamer == nullptr) continue;
+        auto cardsRequest = controller::Request(4);
+        foreach (std::shared_ptr<card::Card> card_of_game, gamer->get_cards()) {
+            cardsRequest.add_player(controller::JsonPlayer(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_type())), card_of_game->get_number()));
+        }
+        auto data = cardsRequest.to_json_object();
+        send_json(socket, data);
     }
 }
 
@@ -120,19 +145,19 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
 //    socket_stream << json_data;
 //}
 
-void Server::send_json(QTcpSocket* socket) {
+void Server::send_json(QTcpSocket* socket, QJsonObject data) {
     if (!socket) return;
     if (!socket->isOpen()) return;
     QDataStream server_stream(socket);
     server_stream.setVersion(QDataStream::Qt_6_2);
-    QJsonDocument doc(server_data);
+    QJsonDocument doc(data);
     server_stream << doc.toJson();
 }
 
-void Server::send_json_to_all_clients() {
+void Server::send_json_to_all_clients(QJsonObject data) {
     foreach (QTcpSocket* socket, clients.keys()) {
         qDebug() << QString("Sending json to %1").arg(socket->socketDescriptor());
-        send_json(socket);
+        send_json(socket, data);
     }
 }
 
@@ -203,7 +228,7 @@ void Server::applying_of_card_functions(round_of_game::Round &round, card_functi
         //client_socket->... : send_json;
     }
 }
-void Server::play_the_game(){
+bool Server::check_game_state(){
     // checking if there is a live player
     int alive = 0;
     while (true){

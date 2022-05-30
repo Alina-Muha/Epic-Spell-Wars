@@ -65,6 +65,7 @@ void Client::json_received(const QJsonObject &json_data) {
     qDebug() << QString("New request, type: %1").arg(type.toString());
     if (type != 5) {
         auto request = controller::Request(json_data);
+        requestsQueue.push_back(request);
     } else /* type == 5 */ {
         auto request = controller::СardPlayedResult(json_data);
     }
@@ -74,16 +75,29 @@ void Client::on_ready_read() {
     QByteArray byte_data;
     QDataStream socket_stream(socket);
     socket_stream.setVersion(QDataStream::Qt_6_2);
-    if (socket_stream.status() == QDataStream::Ok) {
-        for(;;) {
-            socket_stream >> byte_data;
-            QJsonObject json_data = QJsonDocument::fromJson(byte_data).object();
-            json_received(json_data);
+
+    socket_stream.setVersion(QDataStream::Qt_6_2);
+    while (true) {
+        socket_stream.startTransaction();
+        socket_stream >> byte_data;
+        if (socket_stream.commitTransaction()) {
+            QJsonParseError parseError;
+            const QJsonDocument jsonDoc = QJsonDocument::fromJson(byte_data, &parseError);
+            if (parseError.error == QJsonParseError::NoError) {
+                if (jsonDoc.isObject()) {
+                    json_received(jsonDoc.object());
+                }
+                else {
+//                    emit log_message("Invalid message: " + QString::fromUtf8(byte_data));
+                }
+            } else {
+//                emit log_message("Invalid message: " + QString::fromUtf8(byte_data));
+            }
+        } else {
+            break;
         }
     }
 }
-
-
 
 }  // namespace client
 
