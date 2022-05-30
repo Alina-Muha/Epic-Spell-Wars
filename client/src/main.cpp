@@ -22,10 +22,12 @@ qint16 read_port(){
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QHostAddress ip = read_ip();
-    qint16 port = read_port();
+//    QHostAddress ip = read_ip();
+//    qint16 port = read_port();
+    QHostAddress ip = QHostAddress::LocalHost;
+    qint16 port = 1234;
     client::Client c(ip, port, "", nullptr);
-    Start_window w(c);
+    Start_window w(&c, nullptr);
     w.show();
     return a.exec();
 }

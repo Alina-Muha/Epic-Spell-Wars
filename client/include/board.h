@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include <QWidget>
-#include "../../server/include/client.h"
+#include "client.h"
 
 namespace Ui {
     class Board;

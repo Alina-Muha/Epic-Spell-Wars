@@ -18,15 +18,18 @@ namespace client {
         QHostAddress ip;
         qint16 port;
         QString name;
-        QByteArray Data;
+        QJsonObject Data;
 
         void json_received(const QJsonObject &doc);
 
     public:
         explicit Client(QHostAddress ip_, qint16 port_, QString name_ = "", QObject *parent=nullptr);
         void set_name(QString name_);
+
     public slots:
         void connect();
+        void send_name();
+        void send_start_signal();
         void send_json();
         void get_json();
         void disconnect();

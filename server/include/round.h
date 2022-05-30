@@ -4,6 +4,7 @@
 #include <vector>
 #include "card.h"
 #include "player.h"
+#include "dice.h"
 namespace round_of_game {
     class Round {
 
@@ -40,6 +41,10 @@ namespace round_of_game {
         void load_players(std::vector<std::shared_ptr<player::Player>>& players);
 
         void load_cards(std::vector<std::shared_ptr<card::Card>> new_deck);
+
+        int count_the_number_of_dices(std::vector<std::pair<std::shared_ptr<card::Card>, int>>& cur_spell, std::pair<std::shared_ptr<card::Card>, int>& cur_card);
+
+
 
     };
 }

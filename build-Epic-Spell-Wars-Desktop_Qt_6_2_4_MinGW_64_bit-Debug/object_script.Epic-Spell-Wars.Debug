@@ -1,0 +1,10 @@
+debug/card.o
+debug/cards_functions.o
+debug/game.o
+debug/main.o
+debug/player.o
+debug/round.o
+debug/server.o
+debug/dice.o
+debug/controller.o
+debug/moc_server.o
