@@ -3,6 +3,7 @@
 
 #TARGET = Epic-Spell-Wars
 
+
 QT = core gui widgets
 QT += network
 QMAKE_CXXFLAGS += -std=c++17
