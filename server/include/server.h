@@ -4,20 +4,27 @@
 #include <QTcpSocket>
 #include <QString>
 #include <QMap>
+#include <QJsonObject>
 #include "round.h"
 #include "player.h"
 #include "cards_functions.h"
+#include "game.h"
 namespace server{
 class Server : public QObject{
     Q_OBJECT
     Q_DISABLE_COPY(Server)
 
 public:
+
+    game::Game game_of_players;
     explicit Server(QObject *parent = nullptr);
+    ~Server();
     virtual bool set_socket_descriptor(qintptr socket_descriptor);
     QString user_name(QTcpSocket *client_socket) const;
     void set_user_name(QTcpSocket *client_socket, const QString &user_name);
-    void send_json(const QJsonObject &json_data);
+//    void send_json(const QJsonObject &json_data);
+    void send_json(QTcpSocket* socket);
+    void send_json_to_all_clients();
     void accept_all_connections();
     void give_cards_to_players(round_of_game::Round &round);
     void fill_the_spell(round_of_game::Round &round);
@@ -25,19 +32,21 @@ public:
     void applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions);
     void play_the_game();
 signals:
-    void json_received(const QJsonObject &json_doc);
+    void json_received(QTcpSocket* socket, const QJsonObject &json_doc);
     void disconnected_from_client();
     void error();
     void log_message (const QString &msg);
 public slots:
     void disconnect_from_client();
 private slots:
-    void receive_json();
+    void receive_data();
+    void new_connection();
+    void receive_json(QTcpSocket* socket, const QJsonObject &json_obj);
 private:
+    QJsonObject server_data;
     QTcpServer *m_server;
     QTcpSocket *m_server_socket;
     QMap<QTcpSocket *, QString> clients;
-    QMap<QString, std::shared_ptr<player::Player>> players;
 
 };
 } // namespace server

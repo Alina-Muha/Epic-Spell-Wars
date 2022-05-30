@@ -36,5 +36,15 @@ namespace game{
             //не знаю надо ли как то выводить имя победителя
         }
     }
-
+   std::shared_ptr<player::Player> Game::find_player(const std::string & name){
+        for(auto i : players){
+            if(i->get_name()==name){
+                return i;
+            }
+        }
+        return nullptr;
+    }
+   void Game::add_player(std::shared_ptr<player::Player> gamer){
+       players.push_back(gamer);
+   }
 }

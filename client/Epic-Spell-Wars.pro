@@ -12,14 +12,14 @@ HEADERS = \
    $$PWD/include/board.h \
    $$PWD/include/start_window.h \
    $$PWD/include/client.h \
-   $$PWD/../common/include/controller.h
+   $$PWD/include/controller.h
 
 SOURCES = \
    $$PWD/src/board.cpp \
    $$PWD/src/main.cpp \
    $$PWD/src/start_window.cpp \
    $$PWD/src/client.cpp \
-   $$PWD/../common/src/controller.cpp
+   $$PWD/src/controller.cpp
 
 FORMS = \
    $$PWD/forms/board.ui \
