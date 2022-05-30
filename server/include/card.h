@@ -41,7 +41,8 @@ namespace card {
         std::string get_card_image();
         //std::vector<std::function<void(int)>> get_effects();
         bool check_roll_power();
-
+        std::string convert_type_in_string(type type_of_card);
+        static type convert_string_it_type(const std::string& type_of_card);
     };
 }
 

@@ -23,14 +23,17 @@ public:
     QString user_name(QTcpSocket *client_socket) const;
     void set_user_name(QTcpSocket *client_socket, const QString &user_name);
 //    void send_json(const QJsonObject &json_data);
-    void send_json(QTcpSocket* socket);
-    void send_json_to_all_clients();
+    void send_json(QTcpSocket* socket, QJsonObject data);
+    void send_json_to_all_clients(QJsonObject data);
     void accept_all_connections();
     void give_cards_to_players(round_of_game::Round &round);
     void fill_the_spell(round_of_game::Round &round);
     void complete_the_number_of_cards(round_of_game::Round &round);
     void applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions);
     void play_the_game();
+    bool check_game_state();
+    void send_players();
+    void send_cards();
 signals:
     void json_received(QTcpSocket* socket, const QJsonObject &json_doc);
     void disconnected_from_client();
@@ -43,7 +46,6 @@ private slots:
     void new_connection();
     void receive_json(QTcpSocket* socket, const QJsonObject &json_obj);
 private:
-    QJsonObject server_data;
     QTcpServer *m_server;
     QTcpSocket *m_server_socket;
     QMap<QTcpSocket *, QString> clients;

@@ -18,6 +18,7 @@ public:
 
 private slots:
             void on_pushButton_clicked();
+            void update_from_server();
 
 private:
             client::Client *client;

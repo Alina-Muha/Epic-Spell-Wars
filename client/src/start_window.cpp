@@ -3,6 +3,7 @@
 #include "board.h"
 #include "start_window.h"
 #include <QDebug>
+#include <QTimer>
 
 Start_window::Start_window(client::Client *client_, QWidget *parent)
         : QWidget(parent),
@@ -10,6 +11,9 @@ Start_window::Start_window(client::Client *client_, QWidget *parent)
           ui(new Ui::Start_window),
           b(new Board(client_))
 {
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Start_window::update_from_server);
+    timer->start(1000);
     ui->setupUi(this);
 }
 
@@ -24,6 +28,18 @@ void Start_window::on_start_button_clicked()
     client->send_start_signal();
     //b->show();
     //Start_window::close();
+}
+
+void Start_window::update_from_server() {
+    while (!client->requestsQueue.empty()) {
+        auto request = client->requestsQueue.front();
+        client->requestsQueue.pop_front();
+        if (request.get_type() == 2) {
+            b->show();
+            Start_window::close();
+            break;
+        }
+    }
 }
 
 
