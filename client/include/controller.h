@@ -23,14 +23,14 @@ namespace controller {
 
     class JsonPlayer {
     public:
-        JsonPlayer(QString name_, int lifes_);
+        JsonPlayer(QString name_, int lives_);
         JsonPlayer(QJsonObject jObj);
         QJsonObject to_json_object();
         QString get_name();
-        int get_lifes();
+        int get_lives();
     private:
         QString name;
-        int lifes;
+        int lives;
     };
 
     class СardPlayedResult {
@@ -65,6 +65,7 @@ namespace controller {
         std::shared_ptr<QList<JsonCard>> get_cards();
         std::shared_ptr<QList<JsonPlayer>> get_players();
         void set_name(QString name_);
+        void set_cards(QList<JsonCard> cards_);
         void add_card(JsonCard card_);
         void add_player(JsonPlayer player_);
         void clear();
