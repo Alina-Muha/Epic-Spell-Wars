@@ -2,7 +2,7 @@
 #include <vector>
 #include "cards_functions.h"
 namespace card_functions{
-int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<round_of_game::Round> round, std::shared_ptr<player::Player> current_player){
+int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<round_of_game::Round> &round, std::shared_ptr<player::Player> &current_player){
     int num = 0; // the number of the player in the circle
     for (auto &player : round.get()->get_players()){
         if (player.get()->get_name() == current_player.get()->get_name()){ // players have different names
@@ -12,7 +12,8 @@ int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<round_of_game::Ro
     }
     return num;
 }
-std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::shared_ptr<round_of_game::Round> round){
+
+std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::shared_ptr<round_of_game::Round> &round){
     int life = 0;
     std::shared_ptr<player::Player>strongest_player = nullptr;
     for (auto &player : round.get()->get_players()){
@@ -23,7 +24,8 @@ std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::sha
     }
     return strongest_player;
 }
-std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::shared_ptr<round_of_game::Round> round){
+
+std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::shared_ptr<round_of_game::Round> &round){
     int life = 200;
     std::shared_ptr<player::Player>weakest_player = nullptr;
     for (auto &player : round.get()->get_players()){
@@ -34,29 +36,63 @@ std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::share
     }
     return weakest_player;
 }
-std::map<card::Card::type, int> CardFunctions::number_of_types_in_spell(std::shared_ptr<player::Player> current_player){
-    std::map<card::Card::type, int> types_of_spell_cards; // for different types in spell
-    types_of_spell_cards[card::Card::type::ahcane] = 0;
-    types_of_spell_cards[card::Card::type::dark] = 0;
-    types_of_spell_cards[card::Card::type::elemental] = 0;
-    types_of_spell_cards[card::Card::type::illusion] = 0;
-    types_of_spell_cards[card::Card::type::primal] = 0;
-    for (auto &card : current_player->get_spell()){
-        types_of_spell_cards[card.first->get_card_type()]++;
-    }
-    return types_of_spell_cards;
 
-}
-int CardFunctions::unique_types_in_spell(std::shared_ptr<player::Player> current_player){
-    std::map<card::Card::type, int> types_of_spell_cards = number_of_types_in_spell(current_player);
-    int unique = 0;
-    for (auto el : types_of_spell_cards){
-        if (el.second != 0){
-            unique++;
+int CardFunctions::get_achane_num_in_spell(std::shared_ptr<player::Player> &current_player){
+    int num = 0;
+    for (auto &card: current_player.get()->get_spell()){
+        if (card.first.get()->get_card_type() == card::Card::type::ahcane){
+            num++;
         }
     }
-    return unique;
+    return num;
 }
+
+int CardFunctions::get_dark_num_in_spell(std::shared_ptr<player::Player> &current_player){
+    int num = 0;
+    for (auto &card: current_player.get()->get_spell()){
+        if (card.first.get()->get_card_type() == card::Card::type::dark){
+            num++;
+        }
+    }
+    return num;
+}
+
+int CardFunctions::get_illusion_num_in_spell(std::shared_ptr<player::Player> &current_player){
+    int num = 0;
+    for (auto &card: current_player.get()->get_spell()){
+        if (card.first.get()->get_card_type() == card::Card::type::illusion){
+            num++;
+        }
+    }
+    return num;
+}
+
+int CardFunctions::get_primal_num_in_spell(std::shared_ptr<player::Player> &current_player){
+    int num = 0;
+    for (auto &card: current_player.get()->get_spell()){
+        if (card.first.get()->get_card_type() == card::Card::type::primal){
+            num++;
+        }
+    }
+    return num;
+}
+
+int CardFunctions::get_elemental_num_in_spell(std::shared_ptr<player::Player> &current_player){
+    int num = 0;
+    for (auto &card: current_player.get()->get_spell()){
+        if (card.first.get()->get_card_type() == card::Card::type::elemental){
+            num++;
+        }
+    }
+    return num;
+}
+
+int CardFunctions::unique_types_in_spell(std::shared_ptr<player::Player> &current_player){
+    return static_cast<int>(get_achane_num_in_spell(current_player) != 0) + static_cast<int>(get_dark_num_in_spell(current_player) != 0)
+            + static_cast<int>(get_illusion_num_in_spell(current_player) != 0)
+            + static_cast<int>(get_primal_num_in_spell(current_player) != 0) + static_cast<int>(get_elemental_num_in_spell(current_player) != 0);
+}
+
 void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<round_of_game::Round> round, int type, int sum, std::shared_ptr<player::Player>current_player){
     std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(round);
     int num = get_num_of_player_in_circle(round, strongest_player);
@@ -341,7 +377,6 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<round_of_game::Round
 }
 void CardFunctions::type_of_cards_damage(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player){
     int unique = unique_types_in_spell(current_player);
-    std::map<card::Card::type, int> types_of_spell_cards = number_of_types_in_spell(current_player);
     // type = 1 - card Wyrmtor's (Source_15.png)
     if (type == 1){
         for (auto player : round->get_players()){
@@ -362,7 +397,7 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<round_of_game::Round> r
     }
     // type = 3 - card Inferno Tastic (Quality_8.png)
     if (type == 3){
-        int elemental = types_of_spell_cards[card::Card::type::elemental];
+        int elemental = get_elemental_num_in_spell(current_player);
         for (auto player : round->get_players()){
             int foe_lives = player->get_lives();
             if (player != current_player){
@@ -372,7 +407,7 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<round_of_game::Round> r
     }
     // type = 4 - card  Maggoty (Quality_9.png)
     if (type == 4){
-        int dark = types_of_spell_cards[card::Card::type::dark];
+        int dark = get_dark_num_in_spell(current_player);
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(round);
         int foe_lives = strongest_player->get_lives();
         strongest_player->change_lives(foe_lives - 2 * dark);
