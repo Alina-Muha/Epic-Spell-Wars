@@ -36,8 +36,8 @@ background-color: rgb(205, 141, 86);</string>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>20</y>
+     <x>320</x>
+     <y>40</y>
      <width>381</width>
      <height>141</height>
     </rect>
@@ -48,8 +48,11 @@ background-color: rgb(170, 170, 127);
 background-color: rgb(249, 219, 134);
 color: rgb(170, 0, 0); </string>
    </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; font-style:italic; color:#aa0000;&quot;&gt;Hello, wizard!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; font-style:italic; color:#aa0000;&quot;&gt; Hello, wizard!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -85,6 +88,9 @@ color: rgb(170, 0, 0); </string>
      <width>861</width>
      <height>621</height>
     </size>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
    </property>
    <property name="text">
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
