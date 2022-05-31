@@ -8,8 +8,8 @@
 namespace round_of_game {
     class Round {
 
-    private:
-
+    //private:
+    public:
         std::vector<std::shared_ptr<player::Player>> alive_players;
 
         std::vector<std::shared_ptr<card::Card>> main_deck;

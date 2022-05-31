@@ -20,7 +20,7 @@ namespace player {
 
     public:
 
-        explicit Player(std::string &name_);
+        explicit Player(const std::string &name_);
 
         ~Player() = default;
 

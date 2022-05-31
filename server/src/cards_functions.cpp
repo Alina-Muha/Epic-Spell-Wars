@@ -4,8 +4,8 @@
 namespace card_functions{
 int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<round_of_game::Round> round, std::shared_ptr<player::Player> current_player){
     int num = 0; // the number of the player in the circle
-    for (auto player : round->get_players()){
-        if (player == current_player){
+    for (auto &player : round.get()->get_players()){
+        if (player.get()->get_name() == current_player.get()->get_name()){ // players have different names
             break;
         }
         num++;
@@ -15,9 +15,10 @@ int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<round_of_game::Ro
 std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::shared_ptr<round_of_game::Round> round){
     int life = 0;
     std::shared_ptr<player::Player>strongest_player = nullptr;
-    for (auto player : round->get_players()){
-        if (player->get_lives() > life){
+    for (auto &player : round.get()->get_players()){
+        if (player.get()->get_lives() > life){
            strongest_player = player;
+           life = player.get()->get_lives();
         }
     }
     return strongest_player;
@@ -25,9 +26,10 @@ std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::sha
 std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::shared_ptr<round_of_game::Round> round){
     int life = 200;
     std::shared_ptr<player::Player>weakest_player = nullptr;
-    for (auto player : round->get_players()){
-        if (player->get_lives() < life){
+    for (auto &player : round.get()->get_players()){
+        if (player.get()->get_lives() < life){
             weakest_player = player;
+            life = player.get()->get_lives();
         }
     }
     return weakest_player;

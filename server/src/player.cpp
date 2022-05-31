@@ -3,7 +3,7 @@
 #include <utility>
 
 namespace player {
-    Player::Player(std::string &name_) : name(std::move(name_)), lives(20) {
+    Player::Player(const std::string &name_) : name(std::move(name_)), lives(20) {
     }
 
     void Player::set_name(std::string name_) {
