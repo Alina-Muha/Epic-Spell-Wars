@@ -22,11 +22,14 @@ void Client::set_name(QString name_) {
     name = name_;
 }
 
+QString Client::get_name() {
+    return name;
+}
+
 void Client::send_name() {
     auto request = controller::Request(1);
     request.set_name(name);
-    Data = request.to_json_object();
-    send_json();
+    send_json(request.to_json_object());
 }
 
 void Client::connect() {
@@ -36,8 +39,7 @@ void Client::connect() {
 
 void Client::send_start_signal() {
     auto request = controller::Request(2);
-    Data = request.to_json_object();
-    send_json();
+    send_json(request.to_json_object());
 }
 
 void Client::on_connected(){
@@ -49,15 +51,11 @@ void Client::disconnect() {
 }
 
 
-void Client::send_json() {
+void Client::send_json(QJsonObject Data) {
     QDataStream client_stream(socket);
     client_stream.setVersion(QDataStream::Qt_6_2);
     QJsonDocument doc(Data);
     client_stream << doc.toJson();
-}
-
-void Client::get_json(){
-
 }
 
 void Client::json_received(const QJsonObject &json_data) {

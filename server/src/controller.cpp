@@ -7,7 +7,7 @@
 #define F_NAME "name"
 #define F_PLAYERS "players"
 #define F_PLAYER "player"
-#define F_LIFES "lifes"
+#define F_LIVES "lives"
 #define F_CARDS "cards"
 #define F_CARD "card"
 #define F_FROM "from"
@@ -38,25 +38,25 @@ namespace controller {
         return jObj;
     }
 
-    JsonPlayer::JsonPlayer(QString name_, int lifes_) : name(name_), lifes(lifes_){
+    JsonPlayer::JsonPlayer(QString name_, int lives_) : name(name_), lives(lives_){
     }
 
     JsonPlayer::JsonPlayer(QJsonObject jObj) {
         name = jObj.value(F_NAME).toString();
-        lifes = jObj.value(F_LIFES).toInt();
+        lives = jObj.value(F_LIVES).toInt();
     }
 
     QString JsonPlayer::get_name() {
         return name;
     }
-    int JsonPlayer::get_lifes(){
-        return lifes;
+    int JsonPlayer::get_lives(){
+        return lives;
     }
 
     QJsonObject JsonPlayer::to_json_object() {
         QJsonObject jObj;
         jObj.insert(F_NAME, QJsonValue::fromVariant(name));
-        jObj.insert(F_LIFES, QJsonValue::fromVariant(lifes));
+        jObj.insert(F_LIVES, QJsonValue::fromVariant(lives));
         return jObj;
     }
 
