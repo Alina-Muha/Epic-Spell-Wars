@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>691</height>
+    <width>1691</width>
+    <height>722</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,10 +19,10 @@
   <widget class="QLabel" name="hart_image">
    <property name="geometry">
     <rect>
-     <x>1260</x>
-     <y>0</y>
+     <x>870</x>
+     <y>-20</y>
      <width>101</width>
-     <height>121</height>
+     <height>91</height>
     </rect>
    </property>
    <property name="text">
@@ -32,8 +32,8 @@
   <widget class="QLabel" name="life">
    <property name="geometry">
     <rect>
-     <x>1170</x>
-     <y>20</y>
+     <x>780</x>
+     <y>-10</y>
      <width>81</width>
      <height>71</height>
     </rect>
@@ -74,15 +74,15 @@
     <string notr="true">font: 9pt &quot;Papyrus&quot;;</string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700; font-style:italic; color:#aa0000;&quot;&gt;Lives of other wizards:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700; font-style:italic; color:#aa0000;&quot;&gt;Lives of wizards:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QLabel" name="lifes_of_players">
+  <widget class="QLabel" name="lives_of_players">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>70</y>
-     <width>461</width>
+     <width>541</width>
      <height>191</height>
     </rect>
    </property>
@@ -97,10 +97,10 @@ font: 9pt &quot;Papyrus&quot;;</string>
   <widget class="QLabel" name="logs">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>130</y>
-     <width>721</width>
-     <height>91</height>
+     <x>620</x>
+     <y>70</y>
+     <width>951</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -109,6 +109,122 @@ font: 9pt &quot;Papyrus&quot;;</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="card_1">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>271</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="card_2">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>330</y>
+     <width>271</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="card_3">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>330</y>
+     <width>271</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="card_4">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>330</y>
+     <width>271</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="card_5">
+   <property name="geometry">
+    <rect>
+     <x>1130</x>
+     <y>330</y>
+     <width>271</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="card_6">
+   <property name="geometry">
+    <rect>
+     <x>1410</x>
+     <y>330</y>
+     <width>271</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>10</y>
+     <width>171</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 9pt &quot;Papyrus&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700; color:#aa0000;&quot;&gt;Your lives:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="do_move_button">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>230</y>
+     <width>321</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;select the game cards and click this button to lay them out&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 16pt &quot;Papyrus&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Do move</string>
    </property>
   </widget>
  </widget>

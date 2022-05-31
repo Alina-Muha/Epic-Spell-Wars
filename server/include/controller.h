@@ -23,14 +23,14 @@ namespace controller {
 
     class JsonPlayer {
     public:
-        JsonPlayer(QString name_, int lifes_);
+        JsonPlayer(QString name_, int lives_);
         JsonPlayer(QJsonObject jObj);
         QJsonObject to_json_object();
         QString get_name();
-        int get_lifes();
+        int get_lives();
     private:
         QString name;
-        int lifes;
+        int lives;
     };
 
     class СardPlayedResult {
