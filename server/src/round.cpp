@@ -51,9 +51,26 @@ namespace round_of_game {
         }
     }
 
+
+    int Round::count_the_number_of_dices(std::vector<std::pair<std::shared_ptr<card::Card>, int>>& cur_spell, std::pair<std::shared_ptr<card::Card>, int>& cur_card){
+        int result=0;
+        for(auto i : cur_spell){
+            if(i.first->get_type_of_the_spell_component()==cur_card.first->get_type_of_the_spell_component()){
+                result++;
+            }
+        }
+        return result;
+    }
+
+
     void Round::play_cards(std::shared_ptr<player::Player> gamer){
         for(auto i : gamer->get_spell()){
-            i.first->do_card_effects(i.second);
+            int number_of_dices=0;
+            if(i.first->check_roll_power()){
+                number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
+            }
+            int dice_result= dice::roll_the_dice(number_of_dices);
+            //do_card_effects(i.first);
         }
         gamer->get_spell().clear();
     }

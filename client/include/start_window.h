@@ -1,7 +1,7 @@
 #ifndef START_WINDOW_H
 #define START_WINDOW_H
 #include "board.h"
-#include "../../server/include/client.h"
+#include "client.h"
 #include <QWidget>
 #include <QMainWindow>
 #include <QTcpSocket>
@@ -27,6 +27,8 @@ private slots:
             void name_duplicate();
 
             void successful_registration();
+
+            void update_from_server();
 
 private:
     client::Client *client;

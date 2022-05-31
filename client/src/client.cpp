@@ -3,7 +3,7 @@
 #include "client.h"
 #include "start_window.h"
 #include "board.h"
-#include "../common/include/controller.h"
+#include "controller.h"
 
 namespace client {
 Client::Client(QHostAddress ip_, qint16 port_, QString name_, QObject *parent)
@@ -13,14 +13,15 @@ Client::Client(QHostAddress ip_, qint16 port_, QString name_, QObject *parent)
       port(port_),
       name(name_)
 {
-    QObject::connect(socket, &QTcpSocket::connected, this, &Client::connected);
+    QObject::connect(socket, &QTcpSocket::connected, this, &Client::on_connected);
     QObject::connect(socket, &QTcpSocket::readyRead, this, &Client::on_ready_read);
-    QObject::connect(socket, &QTcpSocket::disconnected, this, &Client::disconnected);
+    QObject::connect(socket, &QTcpSocket::disconnected, this, &Client::disconnect);
 }
 
 void Client::set_name(QString name_) {
     name = name_;
 }
+
 void Client::send_name() {
     auto request = controller::Request(1);
     request.set_name(name);
@@ -61,8 +62,10 @@ void Client::get_json(){
 
 void Client::json_received(const QJsonObject &json_data) {
     const QJsonValue type =json_data.value(QString("type"));
+    qDebug() << QString("New request, type: %1").arg(type.toString());
     if (type != 5) {
         auto request = controller::Request(json_data);
+        requestsQueue.push_back(request);
     } else /* type == 5 */ {
         auto request = controller::СardPlayedResult(json_data);
     }
@@ -72,16 +75,29 @@ void Client::on_ready_read() {
     QByteArray byte_data;
     QDataStream socket_stream(socket);
     socket_stream.setVersion(QDataStream::Qt_6_2);
-    if (socket_stream.status() == QDataStream::Ok) {
-        for(;;) {
-            socket_stream >> byte_data;
-            QJsonObject json_data = QJsonDocument::fromJson(byte_data).object();
-            json_received(json_data);
+
+    socket_stream.setVersion(QDataStream::Qt_6_2);
+    while (true) {
+        socket_stream.startTransaction();
+        socket_stream >> byte_data;
+        if (socket_stream.commitTransaction()) {
+            QJsonParseError parseError;
+            const QJsonDocument jsonDoc = QJsonDocument::fromJson(byte_data, &parseError);
+            if (parseError.error == QJsonParseError::NoError) {
+                if (jsonDoc.isObject()) {
+                    json_received(jsonDoc.object());
+                }
+                else {
+//                    emit log_message("Invalid message: " + QString::fromUtf8(byte_data));
+                }
+            } else {
+//                emit log_message("Invalid message: " + QString::fromUtf8(byte_data));
+            }
+        } else {
+            break;
         }
     }
 }
-
-
 
 }  // namespace client
 

@@ -28,13 +28,26 @@ namespace game{
     }
 
     void Game::play_game() {
-        bool signal_to_stop_game=false;
-        while(!signal_to_stop_game) {
+
             round.load_players(Game::players);
             reload_deck();
-            signal_to_stop_game=increase_players_wins(round.play_round());
-            //не знаю надо ли как то выводить имя победителя
+
+
+    }
+   std::shared_ptr<player::Player> Game::find_player(const std::string & name){
+        for(auto i : players){
+            if(i->get_name()==name){
+                return i;
+            }
         }
+        return nullptr;
     }
 
+   round_of_game::Round& Game::get_round() {
+       return round;
+   }
+
+   void Game::add_player(std::shared_ptr<player::Player> gamer){
+       players.push_back(gamer);
+   }
 }

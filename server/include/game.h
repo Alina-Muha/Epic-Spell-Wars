@@ -21,9 +21,11 @@ namespace game {
         bool increase_players_wins(std::shared_ptr<player::Player> winner_of_the_round);
 
         void play_game();
-        void load_players();
-        void load_cards();
 
+        std::shared_ptr<player::Player> find_player(const std::string & name);
+        round_of_game::Round& get_round();
+
+        void add_player(std::shared_ptr<player::Player> gamer);
     };
 }
 
