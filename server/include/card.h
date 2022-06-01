@@ -22,18 +22,16 @@ namespace card {
         type_of_spell_component type_of_the_spell_component;
         int priority_of_the_turn = 0;
         //std::vector<std::function<void(int)>> effects;
-        std::string card_image;
 
 
     public:
         type get_card_type();
         type_of_spell_component get_card_component();
         int get_number();
-        Card(int number_, type type_, type_of_spell_component type_of_spell_component_, int priority_of_the_turn_new,
-                /*std::vector<std::function<void(int)>>& effects_,*/ const std::string& card_image_): number(number_), type_of_the_card(type_),
+        Card(int number_, type type_, type_of_spell_component type_of_spell_component_, int priority_of_the_turn_new): number(number_), type_of_the_card(type_),
 
-                                                                                                      type_of_the_spell_component(type_of_spell_component_), priority_of_the_turn(priority_of_the_turn_new), /*effects(effects_),*/
-                                                                                                      card_image(card_image_){}
+                                                                                                      type_of_the_spell_component(type_of_spell_component_), priority_of_the_turn(priority_of_the_turn_new) /*effects(effects_),*/
+                                                                                                  {}
 
         int get_priority_of_the_turn();
         type get_type_of_the_card();
@@ -41,8 +39,8 @@ namespace card {
         std::string get_card_image();
         //std::vector<std::function<void(int)>> get_effects();
         bool check_roll_power();
-        std::string convert_type_in_string(type type_of_card);
-        static type convert_string_it_type(const std::string& type_of_card);
+        std::string convert_type_in_string(type_of_spell_component type_of_card);
+        static type_of_spell_component convert_string_it_type(const std::string& type_of_card);
     };
 }
 

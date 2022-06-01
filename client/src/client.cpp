@@ -59,11 +59,14 @@ void Client::send_json(QJsonObject Data) {
 }
 
 void Client::json_received(const QJsonObject &json_data) {
-    const QJsonValue type =json_data.value(QString("type"));
-    qDebug() << QString("New request, type: %1").arg(type.toString());
+    const int type = json_data.value("type").toInt();
     if (type != 5) {
         auto request = controller::Request(json_data);
+        qDebug() << json_data;
+        qDebug() << "bla name " << name;
+        qDebug() << "bla bla bla" << request.to_json_object();
         requestsQueue.push_back(request);
+        qDebug() << "bla bla bla size of queue " <<requestsQueue.size() << "\n";
     } else /* type == 5 */ {
         auto request = controller::СardPlayedResult(json_data);
     }

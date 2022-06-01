@@ -94,19 +94,23 @@ void Server::receive_data(){
 
 void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
     controller::Request request(json_obj);
-    qDebug() << QString("New request, type: %1").arg(request.get_type());
+    qDebug() << "REQUEST " << QString("New request, type: %1").arg(request.get_type()) << "\n";
+    if (request.get_type() == 4) {
+        qDebug() << request.to_json_object();
+    }
     if (request.get_type() == 1) {
         set_user_name(socket, request.get_name()); // name will be in json
         std::string temp_name = request.get_name().toStdString();
-        player::Player gamer(temp_name);
+        //player::Player gamer(temp_name);
         // players[request.get_name()] = gamer; // in map players add new player with name
 
-        game_of_players.add_player(std::make_shared<player::Player>(gamer));
+        game_of_players.add_player(std::make_shared<player::Player>(temp_name));
         qDebug() << QString("Client registered, name: %1").arg(request.get_name());
     }
     if (request.get_type() == 2) {
         auto gameStateRequest = controller::Request(2);
         auto data = gameStateRequest.to_json_object();
+        qDebug() << data;
         send_json_to_all_clients(data);
 
         game_of_players.play_game();
@@ -117,10 +121,13 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
 
 void Server::send_players() {
     auto playersRequest = controller::Request(3);
+    qDebug() << QString("players_size: ") << game_of_players.get_round().get_alive_players().size();
     foreach (std::shared_ptr<player::Player> gamer, game_of_players.get_round().get_alive_players()) {
+        qDebug() << (gamer->get_name()).c_str()<<"\n";
         playersRequest.add_player(controller::JsonPlayer(QString::fromStdString(gamer->get_name()), gamer->get_lives()));
     }
     auto data = playersRequest.to_json_object();
+    qDebug() << data;
     send_json_to_all_clients(data);
 }
 
@@ -129,8 +136,15 @@ void Server::send_cards() {
         auto gamer = game_of_players.find_player(clients[socket].toStdString());
         if (gamer == nullptr) continue;
         auto cardsRequest = controller::Request(4);
+        qDebug() << "abpba";
+
+
+        qDebug() << gamer->get_cards().size();
         foreach (std::shared_ptr<card::Card> card_of_game, gamer->get_cards()) {
-            cardsRequest.add_player(controller::JsonPlayer(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_type())), card_of_game->get_number()));
+
+            cardsRequest.add_card(controller::JsonCard(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_component())), card_of_game->get_number()));
+            qDebug() << cardsRequest.to_json_object();
+
         }
         auto data = cardsRequest.to_json_object();
         send_json(socket, data);
@@ -218,7 +232,7 @@ void Server::applying_of_card_functions(round_of_game::Round &round, card_functi
         int num = players_spell.size();
         // there may be other jsons
         for (int i = 0; i < num; i++){
-            card_functions.do_card_effects(players_spell[i].first, player);
+            //card_functions.do_card_effects(players_spell[i].first, player);
             // write to json
         }
         iter++;

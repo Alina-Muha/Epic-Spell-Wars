@@ -15,7 +15,7 @@
 #define F_DICE "dice"
 
 namespace controller {
-
+    JsonCard::JsonCard(){}
     JsonCard::JsonCard(QString type_of_spell_, int number_) : type_of_spell(type_of_spell_), number(number_) {
     }
 
@@ -96,12 +96,14 @@ namespace controller {
     void СardPlayedResult::add_player(JsonPlayer player_) {
         players.append(player_);
     }
+
     void СardPlayedResult::players_clear() {
         players.clear();
     }
 
     QJsonObject  СardPlayedResult ::to_json_object() {
         QJsonObject jObj;
+
         jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
         jObj.insert(F_FROM, QJsonValue::fromVariant(from));
         QJsonArray to_arr;
@@ -128,11 +130,10 @@ namespace controller {
             name = jObj.value(F_NAME).toString();
         }
         if (type == 3) {
-            QJsonArray json_players;
-            foreach (JsonPlayer player, players) {
-                json_players.append(player.to_json_object());
+            QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
+            for (auto player : json_players) {
+                players.append(JsonPlayer(player.toObject()));
             }
-            jObj.insert(F_PLAYERS, json_players);
         }
         if (type == 4) {
             QJsonArray json_cards = jObj.value(F_CARDS).toArray();
@@ -170,6 +171,10 @@ namespace controller {
     void Request::add_card(JsonCard card_) {
         assert(type == 4);
         cards.append(card_);
+    }
+
+    void Request::set_cards(QList<JsonCard> cards_) {
+        cards = std::move(cards_);
     }
 
     void Request::add_player(JsonPlayer player_) {

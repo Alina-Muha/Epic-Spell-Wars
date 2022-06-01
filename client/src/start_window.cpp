@@ -5,12 +5,12 @@
 #include <QDebug>
 #include <QTimer>
 
-Start_window::Start_window(client::Client *client_, QWidget *parent)
+Start_window::Start_window(client::Client* client_, QWidget *parent)
         : QWidget(parent),
-          client(client_),
           ui(new Ui::Start_window),
           b(new Board(client_))
 {
+    client = client_;
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Start_window::update_from_server);
     timer->start(1000);
@@ -29,10 +29,15 @@ void Start_window::on_start_button_clicked()
 }
 
 void Start_window::update_from_server() {
+    qDebug() << "name " << client->get_name();
+    qDebug() << "update_from_server"<< client->requestsQueue.size()<< "\n";
     while (!client->requestsQueue.empty()) {
+        qDebug() << "in while\n";
         auto request = client->requestsQueue.front();
         client->requestsQueue.pop_front();
+        qDebug() << request.get_type() << "\n";
         if (request.get_type() == 2) {
+            qDebug() <<  "snons";
             b->show();
             Start_window::close();
             break;

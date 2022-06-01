@@ -31,8 +31,7 @@ namespace game{
 
             round.load_players(Game::players);
             reload_deck();
-
-
+            round.distribute_cards();
     }
    std::shared_ptr<player::Player> Game::find_player(const std::string & name){
         for(auto i : players){
@@ -50,4 +49,5 @@ namespace game{
    void Game::add_player(std::shared_ptr<player::Player> gamer){
        players.push_back(gamer);
    }
+
 }

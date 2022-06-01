@@ -11,6 +11,7 @@ namespace controller {
     class JsonCard
     {
     public:
+        JsonCard();
         JsonCard(QString type_of_spell_, int number_);
         JsonCard(QJsonObject jObj);
         QJsonObject to_json_object();
@@ -65,6 +66,7 @@ namespace controller {
         std::shared_ptr<QList<JsonCard>> get_cards();
         std::shared_ptr<QList<JsonPlayer>> get_players();
         void set_name(QString name_);
+        void set_cards(QList<JsonCard> cards_);
         void add_card(JsonCard card_);
         void add_player(JsonPlayer player_);
         void clear();
