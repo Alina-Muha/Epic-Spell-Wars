@@ -34,23 +34,21 @@ public:
     void damage_to_the_right_neighbour(std::shared_ptr<round_of_game::Round> &round, int type, int sum, std::shared_ptr<player::Player> &current_player); // it works!
     void damage_to_chosen_foe(int type, int sum, std::shared_ptr<player::Player> &current_player, std::shared_ptr<player::Player> &chosen_foe,
                               std::shared_ptr<card::Card> card = nullptr); // it works!
-    void hp_to_current_player(int sum, std::shared_ptr<player::Player> &current_player); // it works!
+    void hp_to_current_player(int type, int sum, std::shared_ptr<player::Player> &current_player); // it works!
     void damage_for_several_foes(std::shared_ptr<round_of_game::Round> &round, int type, int sum, std::shared_ptr<player::Player> &current_player); // it works!
 
     // damage is dealt depending on the type of cards
     void type_of_cards_damage(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player); // it works!
 
     // damage doesn't depend on the numbers of point dropped or on the type of cards
-    void damage_without_parametrs(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player, int chosen = 0);
-
-    // player rolls dice
-    void rolling_the_dice(std::shared_ptr<round_of_game::Round> round, int type, int sum_1, std::shared_ptr<player::Player> current_player, std::map<std::shared_ptr<player::Player>, int> point_of_foes = {}, int sum_2 = 0);
+    void damage_without_parametrs(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player, int chosen = 0); // it works!
 
     //copy the text of other card
-    void copy_the_text_of_card(int type, std::shared_ptr<player::Player> current_player);
+    //TODO: check
+    void copy_the_text_of_card(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player); // it's not verified
 
     // change the player's spell
-    void change_spell(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player);
+    void change_spell(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player);
 
     // change the turn order
     void change_order(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player);

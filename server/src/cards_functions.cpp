@@ -327,14 +327,27 @@ void CardFunctions::damage_to_chosen_foe(int type, int sum, std::shared_ptr<play
     }
 }
 
-void CardFunctions::hp_to_current_player(int sum, std::shared_ptr<player::Player> &current_player){
-    // card Fountain Of Youth (Delivery_6.png)
+void CardFunctions::hp_to_current_player(int type, int sum, std::shared_ptr<player::Player> &current_player){
+    // type = 1 - card Fountain of Youth (Delivery_6.png)
     // it works!
-    if (sum >= 5 && sum <= 9){
-        current_player.get()->add_lives(2);
+    if (type == 1){
+        if (sum >= 5 && sum <= 9){
+            current_player.get()->add_lives(2);
+        }
+        if (sum >= 10){
+            current_player.get()->add_lives(4);
+        }
     }
-    if (sum >= 10){
-        current_player.get()->add_lives(4);
+
+    // type = 2 - card Old Scratch's (Source_8.png)
+    // it works!
+    if (type == 2){
+        if (sum >= 1 && sum <= 3){
+            current_player.get()->subtract_lives(sum);
+        }
+        if (sum >= 4 && sum <= 6){
+            current_player.get()->add_lives(sum);
+        }
     }
 }
 
@@ -570,7 +583,7 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<round_of_game::Roun
     }
 
     // type = 7 - helper function for Impatient card (Source)
-    //
+    // it works!
     if (type == 7){
         for (auto &player : round.get()->get_alive_players()){
             if (player.get()->get_name() != current_player.get()->get_name()){
@@ -578,95 +591,55 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<round_of_game::Roun
             }
         }
     }
+
+    // type = 8 - card Dr Rooty Bark's (Source_3.png)
+    // it works!
+    if (type == 8){
+        current_player.get()->add_lives(3);
+    }
 }
 
-void CardFunctions::rolling_the_dice(std::shared_ptr<round_of_game::Round> round, int type, int sum_1, std::shared_ptr<player::Player> current_player, std::map<std::shared_ptr<player::Player>, int> points_of_foes, int sum_2){
-    // type = 1 - card Dicey (Quality_4.png)
-    // maybe it too hard, we need client-server, now I don't know
-    [[maybe_unused]] int count = round->get_alive_players().size() - 1;
-    [[maybe_unused]] int num = get_num_of_player_in_circle(round, current_player);
+void CardFunctions::copy_the_text_of_card(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player){
+    // type = 1 - card Disco-Mirrored (Quality_5.png)
+    //
     if (type == 1){
-        for (auto [player, sum] : points_of_foes){
-            int foe_lives = player->get_lives();
-            if (sum == sum_1 || sum == sum_2){
-                player->change_lives(foe_lives - sum);
-            }
-        }
-    }
-    // type = 2 - card Dr Rooty Bark's (Source_3.png)
-    if (type == 2){
-        int cur_lives = current_player->get_lives();
-        current_player->change_lives(cur_lives + 3);
-        for (auto [player, sum] : points_of_foes){
-            int foe_lives = player->get_lives();
-            if (sum == 6){
-                player->change_lives(foe_lives + 3);
-            }
-        }
-    }
-    // type = 3 - card Old Scratch's (Source_8.png)
-    if (type == 3){
-        int cur_lives = current_player->get_lives();
-        if (sum_1 >= 1 && sum_1 <= 3){
-            current_player->change_lives(cur_lives - sum_1);
-        }
-        if (sum_1 >= 4 && sum_1 <= 6){
-             current_player->change_lives(cur_lives + sum_1);
-        }
-    }
-    // type = 4 - card Walker Time Ranger's (Source_14.png)
-    if (type == 4){
-        int unique = unique_types_in_spell(current_player);
-        int cur_lives = current_player->get_lives();
-        current_player->change_lives(cur_lives + unique);
-        std::vector<std::shared_ptr<player::Player>> weakest_players;
-        int min_sum = 7; // to lowest score on a dice
-        for (auto [player, sum] : points_of_foes){
-            if (sum < min_sum){
-                min_sum = sum;
-            }
-        }
-        for (auto [player, sum] : points_of_foes){
-            if (sum == min_sum){
-                weakest_players.push_back(player);
-            }
-        }
-        for (auto player : weakest_players){
-            int foe_lives = player->get_lives();
-            player->change_lives(foe_lives - 3);
-        }
-    }
-}
-void CardFunctions::copy_the_text_of_card(int type, std::shared_ptr<player::Player>current_player){
-    // type = 1 - card Disco-Mirrored (Qaulity_5.png)
-    if (type == 1){
-        int kind = rand() % 2;
+        std::random_device dev;
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<std::mt19937::result_type> roll(0, 1);
+        int kind = roll(rng);
         // kind = 0 - copy text of Source card
-        if (kind % 2 == 0){
-            for (auto card : current_player->get_spell()){
-                if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
-                    //play this type of card. How does they play??
+        if (kind == 0){
+            for (auto &card : current_player.get()->get_spell()){
+                std::shared_ptr<card::Card> executable_card = card.first;
+                if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::source){
+                    do_card_effects(round, executable_card, current_player);
                 }
             }
         }
+
         // kind = 1 - copy text of Delivery card
         else{
-            for (auto card : current_player->get_spell()){
-                if (card.first->get_card_component() == card::Card::type_of_spell_component::delivery){
-                    //play this type of card. How does they play??
+            for (auto &card : current_player.get()->get_spell()){
+                std::shared_ptr<card::Card> executable_card = card.first;
+                if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::delivery){
+                    do_card_effects(round, executable_card, current_player);
                 }
             }
         }
     }
+
     // type = 2 - card Beardo Blasty's (Source_1.png)
+    //
     if (type == 2){
-        for (auto card : current_player->get_spell()){
+        for (auto &card : current_player.get()->get_spell()){
+            std::shared_ptr<card::Card> executable_card = card.first;
             if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
-                // play this card of type
+                do_card_effects(round, executable_card, current_player);
             }
         }
     }
 }
+
 void CardFunctions::change_spell(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player>current_player){
     int num = get_num_of_player_in_circle(round, current_player);
     int count = round->get_alive_players().size();
@@ -772,7 +745,7 @@ void CardFunctions::do_card_effects(std::shared_ptr<round_of_game::Round> round,
             interaction_with_the_deck(round, 1, current_player);
         }
         if (executable_card->get_number() == 3) {
-            rolling_the_dice(round, 2, sum_1, current_player, points_of_foes, sum_2);
+            damage_without_parametrs(round, 8, current_player);
         }
         if (executable_card->get_number() == 4) {
             damage_without_parametrs(round, 1, current_player, chosen);
@@ -786,9 +759,7 @@ void CardFunctions::do_card_effects(std::shared_ptr<round_of_game::Round> round,
         if (executable_card->get_number() == 7) {
             change_order(round, 2, current_player);
         }
-        if (executable_card->get_number() == 8) {
-            rolling_the_dice(round, 3, sum_1, current_player, points_of_foes, sum_2);
-        }
+
         if (executable_card->get_number() == 9) {
             change_spell(round, 3, current_player);
         }
@@ -804,9 +775,6 @@ void CardFunctions::do_card_effects(std::shared_ptr<round_of_game::Round> round,
         if (executable_card->get_number() == 13) {
             damage_without_parametrs(round, 5, current_player, chosen);
         }
-        if (executable_card->get_number() == 14) {
-            rolling_the_dice(round, 4, sum_1, current_player, points_of_foes, sum_2);
-        }
         if (executable_card->get_number() == 15) {
             type_of_cards_damage(round, 1, current_player);
         }
@@ -820,9 +788,6 @@ void CardFunctions::do_card_effects(std::shared_ptr<round_of_game::Round> round,
         }
         if (executable_card->get_number() == 3) {
             damage_to_chosen_foe(1, sum, current_player, chosen_foe, chosen_card);
-        }
-        if (executable_card->get_number() == 4) {
-            rolling_the_dice(round, 1, sum_1, current_player, points_of_foes, sum_2);
         }
         if (executable_card->get_number() == 5) {
             //TODO
@@ -869,7 +834,7 @@ void CardFunctions::do_card_effects(std::shared_ptr<round_of_game::Round> round,
             damage_to_the_strongest_player(round, 2, sum, current_player);
         }
         if (executable_card->get_number() == 6) {
-            hp_to_current_player(6, current_player);
+            hp_to_current_player(1, 6, current_player);
         }
         if (executable_card->get_number() == 7) {
             damage_to_the_left_neighbour(round, sum, current_player);
