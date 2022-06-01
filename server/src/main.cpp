@@ -29,13 +29,9 @@ int main(int argc, char *argv[])
     player_ptr_3.get()->change_lives(23);
     player_ptr_4.get()->change_lives(10);
 
-
-    for (auto player : round_ptr.get()->get_alive_players()){
-        std::cout << player.get()->get_name() << ": " << player.get()->get_lives() << '\n';
-    }
     card_functions::CardFunctions card_functions;
-    std::cout << "Strongest player is: " << card_functions.get_the_strongest_player(round_ptr).get()->get_name() << '\n';
-    std::cout << "Weakest player is: " << card_functions.get_the_weakest_player(round_ptr).get()->get_name() << '\n';
+    std::cout << "Strongest player is: " << card_functions.get_the_strongest_player(round_ptr, player_ptr_2).get()->get_name() << '\n';
+    std::cout << "Weakest player is: " << card_functions.get_the_weakest_player(round_ptr, player_ptr_1).get()->get_name() << '\n';
 
 
     card::Card card_for_player1_1(1, card::Card::type::elemental, card::Card::type_of_spell_component::delivery, 1);
@@ -125,30 +121,15 @@ int main(int argc, char *argv[])
     player_ptr_4.get()->add_card_to_spell(card_for_player4_2_ptr);
     player_ptr_4.get()->add_card_to_spell(card_for_player4_3_ptr);
 
-    std::cout << player_ptr_1.get()->get_name() << ":\n" << "achane: " << card_functions.get_achane_num_in_spell(player_ptr_1) << ", dark: " <<
-                 card_functions.get_dark_num_in_spell(player_ptr_1) << ", illusion: " <<
-                 card_functions.get_illusion_num_in_spell(player_ptr_1) << ", primal: " <<
-                 card_functions.get_primal_num_in_spell(player_ptr_1) << ", elemental: " <<
-                 card_functions.get_elemental_num_in_spell(player_ptr_1) << "; unique: " << card_functions.unique_types_in_spell(player_ptr_1) << '\n';
-
-    std::cout << player_ptr_2.get()->get_name() << ":\n" << "achane: " << card_functions.get_achane_num_in_spell(player_ptr_2) << ", dark: " <<
-                 card_functions.get_dark_num_in_spell(player_ptr_2) << ", illusion: " <<
-                 card_functions.get_illusion_num_in_spell(player_ptr_2) << ", primal: " <<
-                 card_functions.get_primal_num_in_spell(player_ptr_2) << ", elemental: " <<
-                 card_functions.get_elemental_num_in_spell(player_ptr_2) << "; unique: " << card_functions.unique_types_in_spell(player_ptr_2) << '\n';
-
-    std::cout << player_ptr_3.get()->get_name() << ":\n" << "achane: " << card_functions.get_achane_num_in_spell(player_ptr_3) << ", dark: " <<
-                 card_functions.get_dark_num_in_spell(player_ptr_3) << ", illusion: " <<
-                 card_functions.get_illusion_num_in_spell(player_ptr_3) << ", primal: " <<
-                 card_functions.get_primal_num_in_spell(player_ptr_3) << ", elemental: " <<
-                 card_functions.get_elemental_num_in_spell(player_ptr_3) << "; unique: " << card_functions.unique_types_in_spell(player_ptr_3) << '\n';
-
-    std::cout << player_ptr_4.get()->get_name() << ":\n" << "achane: " << card_functions.get_achane_num_in_spell(player_ptr_4) << ", dark: " <<
-                 card_functions.get_dark_num_in_spell(player_ptr_4) << ", illusion: " <<
-                 card_functions.get_illusion_num_in_spell(player_ptr_4) << ", primal: " <<
-                 card_functions.get_primal_num_in_spell(player_ptr_4) << ", elemental: " <<
-                 card_functions.get_elemental_num_in_spell(player_ptr_4) << "; unique: " << card_functions.unique_types_in_spell(player_ptr_4) << '\n';
-
-
+    card_functions.damage_for_several_foes(round_ptr, 4, 10, player_ptr_3);
+    for (auto &player : round_ptr.get()->get_alive_players()){
+        std::cout << player.get()->get_name() << ": " << player.get()->get_lives() << '\n';
+    }
+    /*for (auto &player: round_ptr.get()->get_alive_players()){
+        for (auto &card : player.get()->get_spell()){
+            std::cout << card.first.get()->get_number() << ' ';
+        }
+        std::cout << '\n';
+    }*/
     return 0;
 }
