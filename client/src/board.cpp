@@ -64,8 +64,8 @@ void Board::update_from_server() {
                 qDebug() << path;
                 QIcon card_icon(pixmap);
                 qDebug() << pixmap.rect().size();
-//                cards_buttons[i]->setIcon(card_icon);
-//                cards_buttons[i]->setIconSize(pixmap.rect().size());
+                cards_buttons[i]->setIcon(card_icon);
+                cards_buttons[i]->setIconSize(pixmap.rect().size());
                 i++;
             }
         }
