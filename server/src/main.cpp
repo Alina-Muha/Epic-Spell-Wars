@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     player_ptr_4.get()->add_card_to_spell(card_for_player4_2_ptr);
     player_ptr_4.get()->add_card_to_spell(card_for_player4_3_ptr);
 
-    card_functions.type_of_cards_damage(round_ptr, 5, player_ptr_3);
+    card_functions.damage_without_parametrs(round_ptr, 7, player_ptr_4);
     for (auto &player : round_ptr.get()->get_alive_players()){
         std::cout << player.get()->get_name() << ": " << player.get()->get_lives() << '\n';
     }
