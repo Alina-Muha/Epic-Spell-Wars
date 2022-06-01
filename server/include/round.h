@@ -16,7 +16,7 @@ namespace round_of_game {
 
     public:
 
-        const int number_of_cards_in_hand=7;
+        const int number_of_cards_in_hand=6;
 
         void distribute_cards();
         std::vector<std::shared_ptr<player::Player>> &get_players();
