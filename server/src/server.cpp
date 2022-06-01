@@ -135,7 +135,7 @@ void Server::send_cards() {
         qDebug() << gamer->get_cards().size();
         foreach (std::shared_ptr<card::Card> card_of_game, gamer->get_cards()) {
 
-            cardsRequest.add_card(controller::JsonCard(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_type())), card_of_game->get_number()));
+            cardsRequest.add_card(controller::JsonCard(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_component())), card_of_game->get_number()));
             qDebug() << cardsRequest.to_json_object();
 
         }
