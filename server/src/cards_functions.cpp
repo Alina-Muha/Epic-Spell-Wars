@@ -430,51 +430,66 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<round_of_game::Round
     }
 }
 
-void CardFunctions::type_of_cards_damage(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player){
+void CardFunctions::type_of_cards_damage(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player){
     int unique = unique_types_in_spell(current_player);
+
     // type = 1 - card Wyrmtor's (Source_15.png)
+    // it works!
     if (type == 1){
-        for (auto player : round->get_alive_players()){
-            int foe_lives = player->get_lives();
-            if (player != current_player){
-                player->change_lives(foe_lives - unique);
+        for (auto &player : round.get()->get_alive_players()){
+            if (player.get()->get_name() != current_player.get()->get_name()){ // all players have different names
+                player->subtract_lives(unique);
             }
         }
     }
+
     // type = 2 - card Delicious (Quality_2.png)
+    // it works!
     if (type == 2){
-        for (auto player : round->get_alive_players()){
-            int foe_lives = player->get_lives();
-            if (player != current_player && foe_lives % 2 != 0){
-                player->change_lives(foe_lives - unique);
+        for (auto &player : round.get()->get_alive_players()){
+            int foe_lives = player.get()->get_lives();
+            if (player.get()->get_name() != current_player.get()->get_name() && foe_lives % 2 != 0){ // all players have different names
+                player.get()->subtract_lives(unique);
             }
         }
     }
+
     // type = 3 - card Inferno Tastic (Quality_8.png)
+    // it works!
     if (type == 3){
         int elemental = get_elemental_num_in_spell(current_player);
-        for (auto player : round->get_alive_players()){
-            int foe_lives = player->get_lives();
-            if (player != current_player){
-                player->change_lives(foe_lives - elemental);
+        for (auto &player : round.get()->get_alive_players()){
+            if (player.get()->get_name() != current_player.get()->get_name()){ // all players have different names
+                player.get()->subtract_lives(elemental);
             }
         }
     }
+
     // type = 4 - card  Maggoty (Quality_9.png)
+    // it works!
     if (type == 4){
         int dark = get_dark_num_in_spell(current_player);
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(round, current_player);
-        int foe_lives = strongest_player->get_lives();
-        strongest_player->change_lives(foe_lives - 2 * dark);
+        strongest_player.get()->subtract_lives(2 * dark);
     }
+
     // type = 5 - card Thundering (Quality_13.png)
+    //
     if (type == 5){
-        int count = round->get_alive_players().size();
-        int num = rand() % count;
-        std::shared_ptr<player::Player> random_player = round->get_alive_players()[num];
-        int foe_lives = random_player->get_lives();
-        random_player->change_lives(foe_lives - 2 * unique);
+        std::vector<std::shared_ptr<player::Player>> foes;
+        for (auto &player : round.get()->get_alive_players()){
+            if (player.get()->get_name() != current_player.get()->get_name()){
+                foes.push_back(player);
+            }
+        }
+        int count = round.get()->get_alive_players().size();
+        for (int i = 0; i < unique; i++){
+            int num = rand() % count;
+            std::shared_ptr<player::Player> random_player = round.get()->get_alive_players()[num];
+            random_player.get()->subtract_lives(2);
+        }
     }
+
     // type = 6 - card Rose Bottom's (Source_11.png)
     if (type == 6){
         int cur_lives = current_player->get_lives();

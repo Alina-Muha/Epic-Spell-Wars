@@ -38,7 +38,7 @@ public:
     void damage_for_several_foes(std::shared_ptr<round_of_game::Round> &round, int type, int sum, std::shared_ptr<player::Player> &current_player); // it works!
 
     // damage is dealt depending on the type of cards
-    void type_of_cards_damage(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_Player);
+    void type_of_cards_damage(std::shared_ptr<round_of_game::Round> &round, int type, std::shared_ptr<player::Player> &current_player);
 
     // damage doesn't depend on the numbers of point dropped or on the type of cards
     void damage_without_parametrs(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player, int chosen = 0);
