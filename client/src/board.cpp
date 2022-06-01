@@ -13,7 +13,7 @@ Board::Board(client::Client *client_, QWidget *parent) :
     connect(timer, &QTimer::timeout, this, &Board::update_from_server);
     timer->start(1000);
     ui->setupUi(this);
-    cards_in_hand.resize(6);
+    cards_in_hand.resize(6, {"", 0});
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
