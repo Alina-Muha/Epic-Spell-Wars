@@ -13,6 +13,7 @@ Board::Board(client::Client *client_, QWidget *parent) :
     connect(timer, &QTimer::timeout, this, &Board::update_from_server);
     timer->start(1000);
     ui->setupUi(this);
+    cards_in_hand.resize(6);
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
@@ -33,9 +34,9 @@ void Board::update_from_server() {
         client->requestsQueue.pop_front();
 
         if (request.get_type() == 3) {
-            auto players = request.get_players();
+            auto players_ptr = request.get_players();
             ui->lives_of_players->clear();
-            for(auto player : *players) {
+            for(auto player : *players_ptr) {
                 if (player.get_name() == client->get_name()) {
                     ui->life->setText(QString::number(player.get_lives()));
                 }
@@ -49,12 +50,14 @@ void Board::update_from_server() {
             qDebug() << QString("Got cards, size: %1").arg(request.get_cards()->size());
             auto json_cards_ptr = request.get_cards();
             assert(json_cards_ptr->size() == 6);
-            for (int i = 0; i < 6; i++) {
-                cards_in_hand[i] = (*json_cards_ptr)[i];
-                QPixmap pixmap((*json_cards_ptr)[i].get_type_of_spell() + "_" + QString::number((*json_cards_ptr)[i].get_number()) + ".png");
+            int i = 0;
+            for (auto card: *json_cards_ptr) {
+                cards_in_hand[i] = card;
+                QPixmap pixmap(card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png");
                 QIcon card_icon(pixmap);
                 cards_buttons[i]->setIcon(card_icon);
                 cards_buttons[i]->setIconSize(pixmap.rect().size());
+                i++;
             }
         }
         if (request.get_type() == 6) {
