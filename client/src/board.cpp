@@ -1,6 +1,8 @@
 #include "board.h"
 #include "controller.h"
 #include "ui_board.h"
+#include <algorithm>
+#include <string>
 #include <QTimer>
 
 Board::Board(client::Client *client_, QWidget *parent) :
@@ -13,7 +15,7 @@ Board::Board(client::Client *client_, QWidget *parent) :
     connect(timer, &QTimer::timeout, this, &Board::update_from_server);
     timer->start(1000);
     ui->setupUi(this);
-    cards_in_hand.resize(6);
+    cards_in_hand.resize(6, {"aboba", 0});
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
@@ -50,13 +52,20 @@ void Board::update_from_server() {
             qDebug() << QString("Got cards, size: %1").arg(request.get_cards()->size());
             auto json_cards_ptr = request.get_cards();
             assert(json_cards_ptr->size() == 6);
+            qDebug() << request.to_json_object();
             int i = 0;
             for (auto card: *json_cards_ptr) {
                 cards_in_hand[i] = card;
-                QPixmap pixmap(card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png");
+                std::string lower_type_of_spell = card.get_type_of_spell().toStdString();
+                std::transform(lower_type_of_spell.begin(), lower_type_of_spell.end(), lower_type_of_spell.begin(),
+                    [](unsigned char c){ return std::tolower(c); });
+                auto path = ":/" + QString::fromStdString(lower_type_of_spell) + "_cards/" + card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png";
+                QPixmap pixmap(path);
+                qDebug() << path;
                 QIcon card_icon(pixmap);
-                cards_buttons[i]->setIcon(card_icon);
-                cards_buttons[i]->setIconSize(pixmap.rect().size());
+                qDebug() << pixmap.rect().size();
+//                cards_buttons[i]->setIcon(card_icon);
+//                cards_buttons[i]->setIconSize(pixmap.rect().size());
                 i++;
             }
         }

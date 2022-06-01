@@ -11,6 +11,7 @@ namespace controller {
     class JsonCard
     {
     public:
+        JsonCard();
         JsonCard(QString type_of_spell_, int number_);
         JsonCard(QJsonObject jObj);
         QJsonObject to_json_object();

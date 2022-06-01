@@ -129,8 +129,15 @@ void Server::send_cards() {
         auto gamer = game_of_players.find_player(clients[socket].toStdString());
         if (gamer == nullptr) continue;
         auto cardsRequest = controller::Request(4);
+        qDebug() << "abpba";
+
+
+        qDebug() << gamer->get_cards().size();
         foreach (std::shared_ptr<card::Card> card_of_game, gamer->get_cards()) {
-            cardsRequest.add_player(controller::JsonPlayer(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_type())), card_of_game->get_number()));
+
+            cardsRequest.add_card(controller::JsonCard(QString::fromStdString(card_of_game->convert_type_in_string(card_of_game->get_card_component())), card_of_game->get_number()));
+            qDebug() << cardsRequest.to_json_object();
+
         }
         auto data = cardsRequest.to_json_object();
         send_json(socket, data);
@@ -218,7 +225,7 @@ void Server::applying_of_card_functions(round_of_game::Round &round, card_functi
         int num = players_spell.size();
         // there may be other jsons
         for (int i = 0; i < num; i++){
-            card_functions.do_card_effects(players_spell[i].first, player);
+            //card_functions.do_card_effects(players_spell[i].first, player);
             // write to json
         }
         iter++;

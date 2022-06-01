@@ -15,7 +15,7 @@
 #define F_DICE "dice"
 
 namespace controller {
-
+    JsonCard::JsonCard(){}
     JsonCard::JsonCard(QString type_of_spell_, int number_) : type_of_spell(type_of_spell_), number(number_) {
     }
 
