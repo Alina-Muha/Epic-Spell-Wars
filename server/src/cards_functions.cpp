@@ -727,7 +727,7 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
         }
     }
 
-    // type = 7 - helper function for Impatient card (Source)
+    // type = 7 - helper function for Impatient card (Quality_7)
     // it works!
     if (type == 7){
         for (auto &player : round.get()->get_alive_players()){
@@ -919,45 +919,45 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
             type_of_cards_damage(current_player, round, sum, 1, chosen_foe);
         }
 
-    } /*else if (executable_card->get_card_component() == card::Card::type_of_spell_component::quality) {
+    } else if (executable_card->get_card_component() == card::Card::type_of_spell_component::quality) {
         if (executable_card->get_number() == 1) {
-            damage_without_parametrs(round, 6, current_player);
+            damage_without_parametrs(current_player, round, sum, 6, chosen_foe);
         }
         if (executable_card->get_number() == 2) {
-            type_of_cards_damage(round, 2, current_player);
+            type_of_cards_damage(current_player, round, sum, 2, chosen_foe);
         }
         if (executable_card->get_number() == 3) {
-            damage_to_chosen_foe(1, sum, current_player, chosen_foe);
+            damage_to_chosen_foe(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 5) {
-            //TODO
+            copy_the_text_of_card(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 6) {
-            change_spell(round, 1, current_player);
+            change_spell(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 7) {
-            change_order(round, 1, current_player);
+            change_order(current_player, round, sum, type, chosen_foe);
         }
         if (executable_card->get_number() == 8) {
-            type_of_cards_damage(round, 3, current_player);
+            type_of_cards_damage(current_player, round, sum, 3, chosen_foe);
         }
         if (executable_card->get_number() == 9) {
-            type_of_cards_damage(round, 4, current_player);
+            type_of_cards_damage(current_player, round, sum, 4, chosen_foe);
         }
         if (executable_card->get_number() == 10) {
-            change_spell(round, 2, current_player);
+            change_spell(current_player, round, sum, 2, chosen_foe);
         }
         if (executable_card->get_number() == 11) {
-            damage_to_the_right_neighbour(round, 3, sum, current_player);
+            damage_to_the_right_neighbour(current_player, round, sum, 3, chosen_foe);
         }
         if (executable_card->get_number() == 12) {
-            damage_to_chosen_foe(2, sum, current_player, chosen_foe);
+            damage_to_chosen_foe(current_player, round, sum, 2, chosen_foe);
         }
         if (executable_card->get_number() == 13) {
-            type_of_cards_damage(round, 5, current_player);
+            type_of_cards_damage(current_player, round, sum, 5, chosen_foe);
         }
 
-    } else*/ /*(type_of_the_spell_component == type_of_spell_component::delivery)*/ /*{
+    } /*else*/ /*(type_of_the_spell_component == type_of_spell_component::delivery)*/ /*{
         if (executable_card->get_number() == 1) {
             damage_to_the_strongest_player(round, 1, sum, current_player);
         }
@@ -1002,5 +1002,4 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
         }
     }
 }*/
-}
 } //card_functions
