@@ -1,4 +1,5 @@
 #include "board.h"
+#include "client.h"
 #include "controller.h"
 #include "ui_board.h"
 #include <algorithm>
@@ -30,12 +31,39 @@ void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
     }
 }
 
+QString Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played_res) {
+    QString log = "Wizard " + card_played_res->get_from() + "played card " + card_played_res->get_card().get_card_name();
+    if (!card_played_res->get_to().empty()) {
+        log += " against ";
+        bool not_first = false;
+        for (auto &player_name : card_played_res->get_to()) {
+            if (not not_first) {
+                log += ", ";
+            }
+            log += player_name;
+        }
+    }
+    log +=". ";
+    if (card_played_res->get_dice() != 0)
+    {
+        log += "The result of the dice roll is ";
+        log += QString::number(card_played_res->get_dice());
+    }
+    return log;
+}
+
+
 void Board::update_from_server() {
     while (!client->requestsQueue.empty()) {
         auto request = client->requestsQueue.front();
         client->requestsQueue.pop_front();
+        if (request.get_type() == 5) {
+            std::shared_ptr<controller::CardPlayedResult> card_played_res = request.get_card_played_result();
+            QString log = get_log(card_played_res);
+            ui->logs->setText(ui->logs->text() + "\n" + log);
+         }
 
-        if (request.get_type() == 3) {
+        if (request.get_type() == 3 || request.get_type() == 5) {
             auto players_ptr = request.get_players();
             ui->lives_of_players->clear();
             for(auto player : *players_ptr) {
@@ -48,6 +76,7 @@ void Board::update_from_server() {
                 }
             }
         }
+
         if (request.get_type() == 4) {
             cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
             qDebug() << QString("Got cards, size: %1").arg(request.get_cards()->size());
@@ -68,12 +97,6 @@ void Board::update_from_server() {
                     cards_buttons[i]->setIcon(icon);
                     cards_buttons[i]->setIconSize(QSize(ui->card_1->width(), ui->card_1->height()));
                 }
-                //qDebug() << path;
-                //QIcon card_icon(pixmap);
-                //qDebug() << pixmap.rect().size();
-                //cards_buttons[i]->setIcon(QIcon(path));
-                //cards_buttons[i]->setStyleSheet("qproperty-icon: url(:/delivery_cards/Delivery_1.png);");
-
                 i++;
             }
         }
