@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     player_ptr_4.get()->change_lives(10);
 
     card_functions::CardFunctions card_functions;
-    std::cout << "Strongest player is: " << card_functions.get_the_strongest_player(round_ptr, player_ptr_2).get()->get_name() << '\n';
-    std::cout << "Weakest player is: " << card_functions.get_the_weakest_player(round_ptr, player_ptr_1).get()->get_name() << '\n';
+    std::cout << "Strongest player is: " << card_functions.get_the_strongest_player(player_ptr_2, round_ptr).get()->get_name() << '\n';
+    std::cout << "Weakest player is: " << card_functions.get_the_weakest_player(player_ptr_1, round_ptr).get()->get_name() << '\n';
 
 
     card::Card card_for_player1_1(1, card::Card::type::elemental, card::Card::type_of_spell_component::delivery, 1);
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     player_ptr_4.get()->add_card_to_spell(card_for_player4_2_ptr);
     player_ptr_4.get()->add_card_to_spell(card_for_player4_3_ptr);
 
-    card_functions.hp_to_current_player(2, 4, player_ptr_2);
+    //card_functions.hp_to_current_player(2, 4, player_ptr_2);
     for (auto &player : round_ptr.get()->get_alive_players()){
         std::cout << player.get()->get_name() << ": " << player.get()->get_lives() << '\n';
     }
