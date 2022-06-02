@@ -40,6 +40,7 @@ private:
     QVector<controller::JsonCard> cards_in_hand;
     QList<controller::JsonCard> selected_cards;
     void players_death(std::shared_ptr<controller::JsonPlayer> request);
+    QString get_log(std::shared_ptr<controller::CardPlayedResult> card_played_res);
 };
 
 #endif // BOARD_H
