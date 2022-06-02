@@ -3,7 +3,7 @@
 #include <utility>
 
 namespace player {
-    Player::Player(const std::string &name_) : name(std::move(name_)), lives(20) {
+    Player::Player(std::string &name_) : name(std::move(name_)), lives(20) {
     }
 
     void Player::set_name(std::string name_) {
@@ -14,7 +14,7 @@ namespace player {
         return name;
     }
 
-    std::vector <std::pair<std::shared_ptr<card::Card>, int>> &Player::get_spell() {
+    std::vector <std::shared_ptr<card::Card>> &Player::get_spell() {
         return spell;
     }
 
@@ -66,7 +66,7 @@ namespace player {
         }
         sort_cards_in_spell();
         for (int i = 0; i < spell.size(); i++) {
-            if ((*(spell[i].first)).get_type_of_the_spell_component() == (*(spell[i + 1].first)).get_type_of_the_spell_component()) {
+            if ((*(spell[i])).get_type_of_the_spell_component() == (*(spell[i + 1])).get_type_of_the_spell_component()) {
                 return false;
             }
         }
@@ -74,7 +74,7 @@ namespace player {
     }
 
     void Player::add_card_to_spell(std::shared_ptr<card::Card> new_card) {
-        spell.push_back({new_card, 0});
+        spell.push_back(new_card);
     }
 
 }  // namespace player

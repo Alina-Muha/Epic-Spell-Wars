@@ -46,7 +46,7 @@ std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::share
 int CardFunctions::get_achane_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
-        if (card.first.get()->get_card_type() == card::Card::type::ahcane){
+        if (card.get()->get_card_type() == card::Card::type::ahcane){
             num++;
         }
     }
@@ -56,7 +56,7 @@ int CardFunctions::get_achane_num_in_spell(std::shared_ptr<player::Player> &curr
 int CardFunctions::get_dark_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
-        if (card.first.get()->get_card_type() == card::Card::type::dark){
+        if (card.get()->get_card_type() == card::Card::type::dark){
             num++;
         }
     }
@@ -67,7 +67,7 @@ int CardFunctions::get_dark_num_in_spell(std::shared_ptr<player::Player> &curren
 int CardFunctions::get_illusion_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
-        if (card.first.get()->get_card_type() == card::Card::type::illusion){
+        if (card.get()->get_card_type() == card::Card::type::illusion){
             num++;
         }
     }
@@ -78,7 +78,7 @@ int CardFunctions::get_illusion_num_in_spell(std::shared_ptr<player::Player> &cu
 int CardFunctions::get_primal_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
-        if (card.first.get()->get_card_type() == card::Card::type::primal){
+        if (card.get()->get_card_type() == card::Card::type::primal){
             num++;
         }
     }
@@ -89,7 +89,7 @@ int CardFunctions::get_primal_num_in_spell(std::shared_ptr<player::Player> &curr
 int CardFunctions::get_elemental_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
-        if (card.first.get()->get_card_type() == card::Card::type::elemental){
+        if (card.get()->get_card_type() == card::Card::type::elemental){
             num++;
         }
     }
@@ -108,7 +108,7 @@ int CardFunctions::get_delivery_card_in_spell(std::shared_ptr<player::Player> &c
     int num = -1;
     int i = 0;
     for (auto &card : current_player.get()->get_spell()){
-        if (card.first.get()->get_type_of_the_spell_component() == card::Card::type_of_spell_component::delivery){
+        if (card.get()->get_type_of_the_spell_component() == card::Card::type_of_spell_component::delivery){
             num = i;
             break;
         }
@@ -182,7 +182,7 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<player::Playe
                 int delivery_num = get_delivery_card_in_spell(strongest_player);
                 int current_player_num = get_num_of_player_in_circle(current_player, round);
                 if (delivery_num != -1 && num > current_player_num){
-                    std::shared_ptr<card::Card> delivery_card = strongest_player.get()->get_spell()[delivery_num].first;
+                    std::shared_ptr<card::Card> delivery_card = strongest_player.get()->get_spell()[delivery_num];
                     strongest_player.get()->get_spell().erase(strongest_player.get()->get_spell().begin() + delivery_num);
                     current_player.get()->add_card_to_spell(delivery_card);
                 }
@@ -280,7 +280,7 @@ void CardFunctions::damage_to_the_right_neighbour(std::shared_ptr<player::Player
 }
 
 // for this void it needs to to understand how to get information about the chosen foe, we need client-server
-void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player, [[maybe_unused]] std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                                          std::shared_ptr<player::Player> &chosen_foe){
     // type = 1 - card Deulicious (Quality_3.png)
     // it works!
@@ -459,7 +459,7 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
         int primal = get_primal_num_in_spell(current_player);
         int num = get_delivery_card_in_spell(current_player);
         if (num != -1){
-            std::shared_ptr<card::Card> delivery_card = current_player.get()->get_spell()[num].first;
+            std::shared_ptr<card::Card> delivery_card = current_player.get()->get_spell()[num];
             current_player.get()->get_spell().erase(current_player.get()->get_spell().begin() + num);
             for (auto &player : round.get()->get_alive_players()){
                 if (player.get()->get_name() != current_player.get()->get_name()){
@@ -577,6 +577,7 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
                             player.get()->add_lives(5);
                         }
                     }
+
                 }
             }
             if (delivery_card.get()->get_number() == 9){
@@ -586,7 +587,7 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
     }
 }
 
-void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, [[maybe_unused]] int sum, int type,
                                          [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foee){
     int unique = unique_types_in_spell(current_player);
 
@@ -757,7 +758,7 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
         // kind = 0 - copy text of Source card
         if (kind == 0){
             for (auto &card : current_player.get()->get_spell()){
-                std::shared_ptr<card::Card> executable_card = card.first;
+                std::shared_ptr<card::Card> executable_card = card;
                 if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::source){
                     do_card_effects(executable_card, current_player, round, sum, chosen_foe);
                 }
@@ -767,7 +768,7 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
         // kind = 1 - copy text of Delivery card
         else{
             for (auto &card : current_player.get()->get_spell()){
-                std::shared_ptr<card::Card> executable_card = card.first;
+                std::shared_ptr<card::Card> executable_card = card;
                 if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::delivery){
                     do_card_effects(executable_card, current_player, round, sum, chosen_foe);
                 }
@@ -779,8 +780,8 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
     //
     if (type == 2){
         for (auto &card : current_player.get()->get_spell()){
-            std::shared_ptr<card::Card> executable_card = card.first;
-            if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
+            std::shared_ptr<card::Card> executable_card = card;
+            if (card->get_card_component() == card::Card::type_of_spell_component::source){
                 do_card_effects(executable_card, current_player, round, sum, chosen_foe);
             }
         }
@@ -805,7 +806,7 @@ void CardFunctions::change_spell(std::shared_ptr<player::Player> &current_player
         }
         int pos_in_spell = 0;
         for (auto &card : strongest_player.get()->get_spell()){
-            if (card.first.get()->get_card_component() == card::Card::type_of_spell_component::quality){
+            if (card.get()->get_card_component() == card::Card::type_of_spell_component::quality){
                 strongest_player.get()->get_spell().erase(strongest_player.get()->get_spell().begin() + pos_in_spell);
                 break;
             }

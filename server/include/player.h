@@ -16,11 +16,11 @@ namespace player {
 
         std::vector<std::shared_ptr<card::Card>> cards;
 
-        std::vector<std::pair<std::shared_ptr<card::Card>, int>> spell;
+        std::vector<std::shared_ptr<card::Card>> spell;
 
     public:
 
-        explicit Player(const std::string &name_);
+        explicit Player(std::string &name_);
 
         ~Player() = default;
 
@@ -28,7 +28,7 @@ namespace player {
 
         [[nodiscard]] std::string& get_name();
 
-        [[nodiscard]] std::vector<std::pair<std::shared_ptr<card::Card>, int>> &get_spell();
+        [[nodiscard]] std::vector<std::shared_ptr<card::Card>> &get_spell();
 
         [[nodiscard]] int get_lives() const;
 

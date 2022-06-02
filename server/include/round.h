@@ -8,15 +8,15 @@
 namespace round_of_game {
     class Round {
 
-    //private:
-    public:
+    private:
+
         std::vector<std::shared_ptr<player::Player>> alive_players;
 
         std::vector<std::shared_ptr<card::Card>> main_deck;
 
     public:
 
-        const int number_of_cards_in_hand=7;
+        const int number_of_cards_in_hand=6;
 
         void distribute_cards();
         std::vector<std::shared_ptr<player::Player>> &get_players();
@@ -42,7 +42,7 @@ namespace round_of_game {
 
         void load_cards(std::vector<std::shared_ptr<card::Card>> new_deck);
 
-        int count_the_number_of_dices(std::vector<std::pair<std::shared_ptr<card::Card>, int>>& cur_spell, std::pair<std::shared_ptr<card::Card>, int>& cur_card);
+        int count_the_number_of_dices(std::vector<std::shared_ptr<card::Card>>& cur_spell, std::shared_ptr<card::Card>& cur_card);
 
 
 
