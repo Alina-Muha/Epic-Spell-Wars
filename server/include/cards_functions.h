@@ -11,44 +11,64 @@ struct CardFunctions{
 private:
 public:
     // auxiliary function
-    int get_num_of_player_in_circle(std::shared_ptr<round_of_game::Round> round, std::shared_ptr<player::Player> current_player);
-    std::shared_ptr<player::Player> get_the_strongest_player(std::shared_ptr<round_of_game::Round> round);
-    std::shared_ptr<player::Player> get_the_weakest_player(std::shared_ptr<round_of_game::Round> round);
-    std::map<card::Card::type, int> number_of_types_in_spell(std::shared_ptr<player::Player> current_player);
-    int unique_types_in_spell (std::shared_ptr<player::Player> current_player);
+    int get_num_of_player_in_circle(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round); // it works!
+    std::shared_ptr<player::Player> get_the_strongest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round); // it works!
+    std::shared_ptr<player::Player> get_the_weakest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round); // it works!
+
+    int get_achane_num_in_spell(std::shared_ptr<player::Player> &current_player); // it works!
+    int get_dark_num_in_spell(std::shared_ptr<player::Player> &current_player); // it works!
+    int get_illusion_num_in_spell(std::shared_ptr<player::Player> &current_player); // it works!
+    int get_primal_num_in_spell(std::shared_ptr<player::Player> &current_player); // it works!
+    int get_elemental_num_in_spell(std::shared_ptr<player::Player> &current_player); // it works!
+
+    int unique_types_in_spell (std::shared_ptr<player::Player> &current_player); // it works!
+
+    int get_delivery_card_in_spell(std::shared_ptr<player::Player> &current_player); // it works!
 
     // damage is dealt depending on the number of points dropped
-    void damage_to_the_strongest_player(std::shared_ptr<round_of_game::Round> round, int type, int sum, std::shared_ptr<player::Player> current_player);
-    void damage_to_the_weakest_player(std::shared_ptr<round_of_game::Round> round, int sum);
-    void damage_to_the_left_neighbour(std::shared_ptr<round_of_game::Round> round, int sum, std::shared_ptr<player::Player> current_player);
-    void damage_to_the_right_neighbour(std::shared_ptr<round_of_game::Round> round, int type, int sum, std::shared_ptr<player::Player> current_player);
-    void damage_to_chosen_foe(int type, int sum, std::shared_ptr<player::Player> current_player, std::shared_ptr<player::Player> chosen_foe, std::shared_ptr<card::Card> card = nullptr);
-    void hp_to_current_player(int sum, std::shared_ptr<player::Player> current_player);
-    void damage_for_several_foes(std::shared_ptr<round_of_game::Round> round, int type, int sum, std::shared_ptr<player::Player> current_player);
+    void damage_to_the_strongest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                                        std::shared_ptr<player::Player> &chosen_foe); // it works!
+    void damage_to_the_weakest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                                      std::shared_ptr<player::Player> &chosen_foe); // it works!
+    void damage_to_the_left_neighbour(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                                      std::shared_ptr<player::Player> &chosen_foe); // it works!
+    void damage_to_the_right_neighbour(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                                       std::shared_ptr<player::Player> &chosen_foe); // it works!
+    void damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                              std::shared_ptr<player::Player> &chosen_foe); // it works!
+    void hp_to_current_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                              std::shared_ptr<player::Player> &chosen_foe); // it works!//
+    // TODO: check Pam and Hecuba's function (type = 5)
+    void damage_for_several_foes(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                                 std::shared_ptr<player::Player> &chosen_foe); // it works!
 
     // damage is dealt depending on the type of cards
-    void type_of_cards_damage(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_Player);
+    void type_of_cards_damage(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                              std::shared_ptr<player::Player> &chosen_foe); // it works!
 
     // damage doesn't depend on the numbers of point dropped or on the type of cards
-    void damage_without_parametrs(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player, int chosen = 0);
-
-    // player rolls dice
-    void rolling_the_dice(std::shared_ptr<round_of_game::Round> round, int type, int sum_1, std::shared_ptr<player::Player> current_player, std::map<std::shared_ptr<player::Player>, int> point_of_foes = {}, int sum_2 = 0);
+    void damage_without_parametrs(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                                  std::shared_ptr<player::Player> &chosen_foe); // it works!
 
     //copy the text of other card
-    void copy_the_text_of_card(int type, std::shared_ptr<player::Player> current_player);
+    //TODO: check
+    void copy_the_text_of_card(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                               std::shared_ptr<player::Player> &chosen_foe); // it's not verified
 
     // change the player's spell
-    void change_spell(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player);
+    void change_spell(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                      std::shared_ptr<player::Player> &chosen_foe); // it's not verified
 
     // change the turn order
-    void change_order(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player);
+    void change_order(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                      std::shared_ptr<player::Player> &chosen_foe); // it's not verified
 
     // the player interacts with the deck
-    void interaction_with_the_deck(std::shared_ptr<round_of_game::Round> round, int type, std::shared_ptr<player::Player> current_player);
+    /*void interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                      std::shared_ptr<player::Player> &chosen_foe);*/ // it's not verified
 
-    void do_card_effects(std::shared_ptr<round_of_game::Round> round, std::shared_ptr<card::Card> executable_card, std::shared_ptr<player::Player> current_player, int sum = 0,  int sum_1 = 0, int sum_2 = 0,
-                         std::map<std::shared_ptr<player::Player>, int> points_of_foes = {}, int chosen = 0, std::shared_ptr<card::Card> chosen_card = nullptr, std::shared_ptr<player::Player> chosen_foe = nullptr);
+    void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
+                         std::shared_ptr<player::Player> &chosen_foe);
 };
 } //card_functions
 
