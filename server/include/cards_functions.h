@@ -14,6 +14,7 @@ public:
     int get_num_of_player_in_circle(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round);
     std::shared_ptr<player::Player> get_the_strongest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round);
     std::shared_ptr<player::Player> get_the_weakest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round);
+    std::shared_ptr<player::Player> get_the_weakest_player_in_round(std::shared_ptr<round_of_game::Round> &round);
 
     int get_achane_num_in_spell(std::shared_ptr<player::Player> &current_player);
     int get_dark_num_in_spell(std::shared_ptr<player::Player> &current_player);
@@ -24,6 +25,7 @@ public:
     int unique_types_in_spell (std::shared_ptr<player::Player> &current_player); // it works!
 
     int get_delivery_card_in_spell(std::shared_ptr<player::Player> &current_player);
+    int get_source_card_in_spell(std::shared_ptr<player::Player> &current_player);
 
     // damage is dealt depending on the number of points dropped
     void damage_to_the_strongest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,

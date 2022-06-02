@@ -39,6 +39,18 @@ std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::share
     return weakest_player;
 }
 
+std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player_in_round(std::shared_ptr<round_of_game::Round> &round){
+    int life = 200;
+    std::shared_ptr<player::Player>weakest_player = nullptr;
+    for (auto &player : round.get()->get_alive_players()){
+        if (player.get()->get_lives() < life){
+            weakest_player = player;
+            life = player.get()->get_lives();
+        }
+    }
+    return weakest_player;
+}
+
 int CardFunctions::get_achane_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
@@ -100,6 +112,19 @@ int CardFunctions::get_delivery_card_in_spell(std::shared_ptr<player::Player> &c
     int i = 0;
     for (auto &card : current_player.get()->get_spell()){
         if (card.get()->get_type_of_the_spell_component() == card::Card::type_of_spell_component::delivery){
+            num = i;
+            break;
+        }
+        i++;
+    }
+    return num;
+}
+
+int CardFunctions::get_source_card_in_spell(std::shared_ptr<player::Player> &current_player){
+    int num = -1;
+    int i = 0;
+    for (auto &card : current_player.get()->get_spell()){
+        if (card.get()->get_type_of_the_spell_component() == card::Card::type_of_spell_component::source){
             num = i;
             break;
         }
@@ -716,23 +741,21 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
         std::mt19937 rng(dev());
         std::uniform_int_distribution<std::mt19937::result_type> roll(0, 1);
         int kind = roll(rng);
-        // kind = 0 - copy text of Source card
+        std::cout << "kind = " << kind << '\n';
         if (kind == 0){
-            for (auto &card : current_player.get()->get_spell()){
-                std::shared_ptr<card::Card> executable_card = card;
-                if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::source){
-                    do_card_effects(executable_card, current_player, round, sum, chosen_foe);
-                }
+            int num_of_source = get_source_card_in_spell(current_player);
+            if (num_of_source != -1){
+                std::shared_ptr<card::Card> executable_card = current_player.get()->get_cards()[num_of_source];
+                do_card_effects(executable_card, current_player, round, sum, chosen_foe);
             }
         }
 
         // kind = 1 - copy text of Delivery card
         else{
-            for (auto &card : current_player.get()->get_spell()){
-                std::shared_ptr<card::Card> executable_card = card;
-                if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::delivery){
-                    do_card_effects(executable_card, current_player, round, sum, chosen_foe);
-                }
+            int num_of_delivery = get_delivery_card_in_spell(current_player);
+            if (num_of_delivery != -1){
+                std::shared_ptr<card::Card> executable_card = current_player.get()->get_cards()[num_of_delivery];
+                do_card_effects(executable_card, current_player, round, sum, chosen_foe);
             }
         }
     }
@@ -777,14 +800,15 @@ void CardFunctions::change_spell(std::shared_ptr<player::Player> &current_player
     // type = 2 - card Mighty-Gro (Quality_10.png)
     if (type == 2){
         current_player.get()->add_lives(2);
-        std::shared_ptr<player::Player> weakest_player = get_the_weakest_player(current_player, round);
-        if (current_player.get()->get_name() == weakest_player.get()->get_name()){ // all players have different names
+        std::shared_ptr<player::Player> weakest_player = get_the_weakest_player_in_round(round);
+        if (current_player.get()->get_name() == weakest_player.get()->get_name()){
             int count_of_cards = current_player.get()->get_cards().size();
             std::random_device dev; // random card
             std::mt19937 rng(dev());
             std::uniform_int_distribution<std::mt19937::result_type> roll(0, count_of_cards - 1);
             int rand_card = roll(rng);
             current_player.get()->add_card_to_spell(current_player.get()->get_cards()[rand_card]);
+            current_player.get()->get_cards().erase(current_player.get()->get_cards().begin() + rand_card);
         }
     }
 
@@ -794,7 +818,7 @@ void CardFunctions::change_order(std::shared_ptr<player::Player> &current_player
                                  [[maybe_unused]]int sum, [[maybe_unused]] int type,
                                  [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
     // card Impatient (Quality_7.png)
-    //
+    // TODO: check, that player first in round
     int num = get_num_of_player_in_circle(current_player, round);
     std::swap (round.get()->get_alive_players()[0], round.get()->get_alive_players()[num]);
     damage_without_parametrs(current_player, round, 0, 7, current_player);
