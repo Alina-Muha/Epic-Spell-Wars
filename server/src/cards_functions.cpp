@@ -40,7 +40,7 @@ std::map<card::Card::type, int> CardFunctions::number_of_types_in_spell(std::sha
     types_of_spell_cards[card::Card::type::illusion] = 0;
     types_of_spell_cards[card::Card::type::primal] = 0;
     for (auto &card : current_player->get_spell()){
-        types_of_spell_cards[card.first->get_card_type()]++;
+        types_of_spell_cards[card->get_card_type()]++;
     }
     return types_of_spell_cards;
 
@@ -111,8 +111,8 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<round_of_game
                 int num = 0;
                 for (auto card: strongest_player->get_spell()){
                     i++;
-                    if (card.first->get_card_component() == card::Card::type_of_spell_component::delivery){
-                        delivery_card = card.first;
+                    if (card->get_card_component() == card::Card::type_of_spell_component::delivery){
+                        delivery_card = card;
                         num = i;
                         break;
                     }
@@ -328,7 +328,7 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<round_of_game::Round
         if (sum >= 10){
             int primal = 0;
             for (auto card : current_player->get_spell()){
-                if (card.first->get_card_type() == card::Card::type::primal){
+                if (card->get_card_type() == card::Card::type::primal){
                     primal++;
                 }
                 right_neighbour->change_lives(lives_of_right - 2 * primal);
@@ -519,7 +519,7 @@ void CardFunctions::copy_the_text_of_card(int type, std::shared_ptr<player::Play
         // kind = 0 - copy text of Source card
         if (kind % 2 == 0){
             for (auto card : current_player->get_spell()){
-                if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
+                if (card->get_card_component() == card::Card::type_of_spell_component::source){
                     //play this type of card. How does they play??
                 }
             }
@@ -527,7 +527,7 @@ void CardFunctions::copy_the_text_of_card(int type, std::shared_ptr<player::Play
         // kind = 1 - copy text of Delivery card
         else{
             for (auto card : current_player->get_spell()){
-                if (card.first->get_card_component() == card::Card::type_of_spell_component::delivery){
+                if (card->get_card_component() == card::Card::type_of_spell_component::delivery){
                     //play this type of card. How does they play??
                 }
             }
@@ -536,7 +536,7 @@ void CardFunctions::copy_the_text_of_card(int type, std::shared_ptr<player::Play
     // type = 2 - card Beardo Blasty's (Source_1.png)
     if (type == 2){
         for (auto card : current_player->get_spell()){
-            if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
+            if (card->get_card_component() == card::Card::type_of_spell_component::source){
                 // play this card of type
             }
         }
@@ -558,7 +558,7 @@ void CardFunctions::change_spell(std::shared_ptr<round_of_game::Round> round, in
         }
         int pos_in_spell = 0;
         for (auto card : strongest_player->get_spell()){
-            if (card.first->get_card_component() == card::Card::type_of_spell_component::quality){
+            if (card->get_card_component() == card::Card::type_of_spell_component::quality){
                 strongest_player->get_spell().erase(strongest_player->get_spell().begin() + pos_in_spell);
                 break;
             }
@@ -580,8 +580,8 @@ void CardFunctions::change_spell(std::shared_ptr<round_of_game::Round> round, in
     if (type == 3){
         [[maybe_unused]] std::shared_ptr<card::Card> delivery_card = nullptr;
         for (auto card : current_player->get_spell()){
-            if (card.first->get_card_component() == card::Card::type_of_spell_component::delivery){
-                delivery_card  = card.first;
+            if (card->get_card_component() == card::Card::type_of_spell_component::delivery){
+                delivery_card  = card;
             }
         }
         for ([[maybe_unused]] auto player : round->get_players()){
