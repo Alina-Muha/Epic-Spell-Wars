@@ -9,7 +9,7 @@
 Board::Board(client::Client* client_, QWidget *parent) :
         QWidget(parent),
         ui(new Ui::Board),
-        cards_buttons({ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6})
+        game_status(status::laying_out_cards)
 {
     client = client_;
     QTimer *timer = new QTimer(this);
@@ -17,11 +17,13 @@ Board::Board(client::Client* client_, QWidget *parent) :
     timer->start(1000);
     ui->setupUi(this);
     cards_in_hand.resize(6, {"", 0});
+    ui->info->setText("Select 1 - 3 cards of different types for the move and press DO MOVE");
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
-    if (player->get_name() == client->get_name()) {
-        ui->logs->setText(ui->logs->text() + "You died. Now you can only watch other wizards play");
+        if (player->get_name() == client->get_name()) {
+        ui->info->setText(game_status_info[status::dead_player]);
+        cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
         for (auto card : cards_buttons)
         {
             card->setEnabled(false);
@@ -78,6 +80,7 @@ void Board::update_from_server() {
         }
 
         if (request.get_type() == 4) {
+            assert(game_status != status::dead_player);
             cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
             qDebug() << QString("Got cards, size: %1").arg(request.get_cards()->size());
             auto json_cards_ptr = request.get_cards();
@@ -102,11 +105,15 @@ void Board::update_from_server() {
         }
         if (request.get_type() == 6) {
             if (request.get_name() == client->get_name()) {
-                ui->logs->setText(ui->logs->text() + "You have won. Congratulations to you!");
+                ui->info->setText("You have won. Congratulations to you! The game is over");
             }
             else {
-                ui->logs->setText(ui->logs->text() + "\nWizard " + request.get_name() + " wins. The game is over");
+                ui->info->setText("\nWizard " + request.get_name() + " wins. The game is over");
             }
+        }
+        if (request.get_type() == 7) {
+            game_status = status::laying_out_cards;
+            ui->info->setText(game_status_info[game_status]);
         }
     }
 }
@@ -116,47 +123,64 @@ Board::~Board()
     delete ui;
 }
 
+void Board::card_clicked(int i) {
+    if (game_status == status::laying_out_cards && selected_cards.size() < 3) {
+        selected_cards.append(cards_in_hand[i]);
+    }
+    else if (game_status == status::spells_applying){
+        ui->info->setText("You can't lay out the cards right now. Please wait");
+    }
+    else if (selected_cards.size() >= 3) {
+        ui->info->setText("You've already laid out three cards. Click DO MOVE");
+    }
+}
+
 void Board::on_card_1_clicked()
 {
-   selected_cards.append(cards_in_hand[0]);
+    card_clicked(0);
 }
 
 
 void Board::on_card_2_clicked()
 {
-    selected_cards.append(cards_in_hand[1]);
+    card_clicked(1);
 }
 
 
 void Board::on_card_3_clicked()
 {
-    selected_cards.append(cards_in_hand[2]);
+    card_clicked(2);
 }
 
 
 void Board::on_card_4_clicked()
 {
-    selected_cards.append(cards_in_hand[3]);
+    card_clicked(3);
 }
 
 
 void Board::on_card_5_clicked()
 {
-    selected_cards.append(cards_in_hand[4]);
+    card_clicked(4);
 }
 
 
 void Board::on_card_6_clicked()
 {
-    selected_cards.append(cards_in_hand[5]);
+    card_clicked(5);
 }
 
 
 void Board::on_do_move_button_clicked()
 {
-    auto request = controller::Request(4);
-    request.set_cards(selected_cards);
-    selected_cards.clear();
-    client->send_json(request.to_json_object());
+    if (game_status == status::laying_out_cards)
+    {
+        auto request = controller::Request(4);
+        request.set_cards(selected_cards);
+        selected_cards.clear();
+        client->send_json(request.to_json_object());
+        game_status = status::spells_applying;
+        ui->info->setText("Your cards are laid out. " + game_status_info[game_status]);
+    }
 }
 
