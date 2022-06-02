@@ -22,7 +22,7 @@ namespace player {
         return lives;
     }
 
-    const std::vector<std::shared_ptr<card::Card>> &Player::get_cards() {
+    std::vector<std::shared_ptr<card::Card>> &Player::get_cards() {
         return cards;
     }
 

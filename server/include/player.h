@@ -32,7 +32,7 @@ namespace player {
 
         [[nodiscard]] int get_lives() const;
 
-        [[nodiscard]] const std::vector<std::shared_ptr<card::Card>> &get_cards();
+        [[nodiscard]] std::vector<std::shared_ptr<card::Card>> &get_cards();
 
         void add_lives(int lives_to_add);
 
