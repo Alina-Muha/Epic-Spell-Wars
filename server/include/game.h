@@ -26,7 +26,6 @@ namespace game {
         std::make_shared<card::Card>(card::Card(1, card::Card::type::primal,card::Card::type_of_spell_component::quality, 0)),
         std::make_shared<card::Card>(card::Card(2, card::Card::type::elemental,card::Card::type_of_spell_component::quality, 0)),
         std::make_shared<card::Card>(card::Card(3, card::Card::type::dark,card::Card::type_of_spell_component::quality, 0)),
-        std::make_shared<card::Card>(card::Card(4, card::Card::type::elemental,card::Card::type_of_spell_component::quality, 0)),
         std::make_shared<card::Card>(card::Card(5, card::Card::type::illusion,card::Card::type_of_spell_component::quality, 0)),
         std::make_shared<card::Card>(card::Card(6, card::Card::type::dark,card::Card::type_of_spell_component::quality, 0)),
         std::make_shared<card::Card>(card::Card(7, card::Card::type::ahcane,card::Card::type_of_spell_component::quality, 0)),
@@ -42,14 +41,12 @@ namespace game {
         std::make_shared<card::Card>(card::Card(4, card::Card::type::primal,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(5, card::Card::type::elemental,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(6, card::Card::type::dark,card::Card::type_of_spell_component::source, 0)),
-        std::make_shared<card::Card>(card::Card(7, card::Card::type::primal,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(8, card::Card::type::dark,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(9, card::Card::type::illusion,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(10, card::Card::type::illusion,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(11, card::Card::type::primal,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(12, card::Card::type::elemental,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(13, card::Card::type::elemental,card::Card::type_of_spell_component::source, 0)),
-        std::make_shared<card::Card>(card::Card(14, card::Card::type::illusion,card::Card::type_of_spell_component::source, 0)),
         std::make_shared<card::Card>(card::Card(15, card::Card::type::elemental,card::Card::type_of_spell_component::source, 0))
         }; // по идее здесь можно просто явно проинициализоровать набор на котором играем
 
