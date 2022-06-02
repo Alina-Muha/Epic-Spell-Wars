@@ -5,10 +5,9 @@
 #include <QDebug>
 #include <QTimer>
 
-Start_window::Start_window(client::Client* client_, QWidget *parent)
+Start_window::Start_window(std::shared_ptr<client::Client> client_, QWidget *parent)
         : QWidget(parent),
-          ui(new Ui::Start_window),
-          b(new Board(client_))
+          ui(new Ui::Start_window)
 {
     client = client_;
     QTimer *timer = new QTimer(this);
@@ -29,15 +28,16 @@ void Start_window::on_start_button_clicked()
 }
 
 void Start_window::update_from_server() {
-    qDebug() << "name " << client->get_name();
-    qDebug() << "update_from_server"<< client->requestsQueue.size()<< "\n";
+    qDebug() << "in start window size of queue "<< client->requestsQueue.size()<< "\n";
+    //qDebug() << "in start window this: " << client;
     while (!client->requestsQueue.empty()) {
         qDebug() << "in while\n";
         auto request = client->requestsQueue.front();
         client->requestsQueue.pop_front();
-        qDebug() << request.get_type() << "\n";
+        qDebug() << "request type " << request.get_type() << "\n";
         if (request.get_type() == 2) {
-            qDebug() <<  "snons";
+            qDebug() <<  "in while and if = 2";
+            b = std::make_shared<Board>(client);
             b->show();
             Start_window::close();
             break;
@@ -59,12 +59,12 @@ void Start_window::on_registration_button_clicked()
 
 void Start_window::name_duplicate() {
     ui->info_label->setText(
-            "The name is already in use, please enter another one");
+            "  The name is already in use, please enter another one");
 }
 
 void Start_window::successful_registration(){
     ui->info_label->setText(
-            "You are registered. Push START button when other players will be ready");
+            "  You are registered. Push START button when other players will be ready");
 }
 
 

@@ -13,7 +13,7 @@ class Board : public QWidget
     Q_OBJECT
 
 public:
-    explicit Board(client::Client* client_ = nullptr, QWidget *parent = nullptr);
+    explicit Board(std::shared_ptr<client::Client> client_ = nullptr, QWidget *parent = nullptr);
     ~Board();
 
 private slots:
@@ -37,7 +37,7 @@ private:
             enum class status {
                 laying_out_cards, spells_applying, dead_player
             };
-    client::Client* client;
+    std::shared_ptr<client::Client> client;
     Ui::Board *ui;
     status game_status;
     std::map<status, QString> game_status_info = {{status::laying_out_cards, "Select 1 - 3 cards of different types for the move and press DO MOVE"},

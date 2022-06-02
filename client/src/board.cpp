@@ -6,7 +6,7 @@
 #include <string>
 #include <QTimer>
 
-Board::Board(client::Client* client_, QWidget *parent) :
+Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent) :
         QWidget(parent),
         ui(new Ui::Board),
         game_status(status::laying_out_cards)
@@ -58,6 +58,7 @@ QString Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played
 void Board::update_from_server() {
     while (!client->requestsQueue.empty()) {
         auto request = client->requestsQueue.front();
+        qDebug() << "in board reqyest type " << request.get_type();
         client->requestsQueue.pop_front();
         if (request.get_type() == 5) {
             std::shared_ptr<controller::CardPlayedResult> card_played_res = request.get_card_played_result();
@@ -82,7 +83,7 @@ void Board::update_from_server() {
         if (request.get_type() == 4) {
             assert(game_status != status::dead_player);
             cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
-            qDebug() << QString("Got cards, size: %1").arg(request.get_cards()->size());
+            qDebug() << "got cards " << request.get_cards()->size();
             auto json_cards_ptr = request.get_cards();
             assert(json_cards_ptr->size() == 6);
             qDebug() << request.to_json_object();
@@ -95,6 +96,7 @@ void Board::update_from_server() {
                 QString path = ":/" + QString::fromStdString(lower_type_of_spell) + "_cards/" + card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png";
                 QIcon icon;
                 QPixmap pixmap;
+                qDebug() << "board adding card image";
                 if (pixmap.load(path)) {
                     icon.addPixmap(pixmap);
                     cards_buttons[i]->setIcon(icon);

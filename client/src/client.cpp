@@ -59,13 +59,10 @@ void Client::send_json(QJsonObject Data) {
 }
 
 void Client::json_received(const QJsonObject &json_data) {
-    const int type = json_data.value("type").toInt();
     auto request = controller::Request(json_data);
-    qDebug() << json_data;
-    qDebug() << "bla name " << name;
-    qDebug() << "bla bla bla" << request.to_json_object();
+    qDebug() << "in client type: " << request.get_type();
     requestsQueue.push_back(request);
-    qDebug() << "bla bla bla size of queue " <<requestsQueue.size() << "\n";
+    qDebug() << "in client size of queue " <<requestsQueue.size() << "\n";
 }
 
 void Client::on_ready_read() {
