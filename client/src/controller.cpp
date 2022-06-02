@@ -13,6 +13,7 @@
 #define F_FROM "from"
 #define F_TO "to"
 #define F_DICE "dice"
+#define F_CARD_PLAYED "card_played_result"
 
 namespace controller {
     JsonCard::JsonCard(){}
@@ -66,15 +67,12 @@ namespace controller {
     }
 
     СardPlayedResult::СardPlayedResult (QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
-        type = jObj.value(F_TYPE).toInt();
         from = jObj.value(F_FROM).toString();
-        from = jObj.value(F_TO).toString();
-        dice = jObj.value(F_DICE).toInt();
-        QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
-        foreach (QJsonValue json_val, json_players) {
-            QJsonObject json_player = json_val.toObject();
-            players.append(JsonPlayer(json_player));
+        QJsonArray to_arr = jObj.value(F_TO).toArray();
+        for(auto name : to_arr){
+           to.append(name.toString());
         }
+        dice = jObj.value(F_DICE).toInt();
     }
 
     QString СardPlayedResult::get_from() {
@@ -89,22 +87,10 @@ namespace controller {
     JsonCard СardPlayedResult::get_card(){
         return card;
     }
-    std::shared_ptr<QList<JsonPlayer>> СardPlayedResult::get_players(){
-        return std::make_shared<QList<JsonPlayer>> (players);
-    }
-
-    void СardPlayedResult::add_player(JsonPlayer player_) {
-        players.append(player_);
-    }
-
-    void СardPlayedResult::players_clear() {
-        players.clear();
-    }
 
     QJsonObject  СardPlayedResult ::to_json_object() {
         QJsonObject jObj;
 
-        jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
         jObj.insert(F_FROM, QJsonValue::fromVariant(from));
         QJsonArray to_arr;
         foreach (QString name, to) {
@@ -113,11 +99,6 @@ namespace controller {
         jObj.insert(F_TO, to_arr);
         jObj.insert(F_DICE, QJsonValue::fromVariant(dice));
         jObj.insert(F_CARD, card.to_json_object());
-        QJsonArray json_players;
-        foreach (JsonPlayer player, players) {
-            json_players.append(player.to_json_object());
-        }
-        jObj.insert(F_PLAYERS, json_players);
         return jObj;
     }
 
@@ -129,7 +110,7 @@ namespace controller {
         if (type == 1 || type == 6 || type == 7) {
             name = jObj.value(F_NAME).toString();
         }
-        if (type == 3) {
+        if (type == 3 || type == 5) {
             QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
             for (auto player : json_players) {
                 players.append(JsonPlayer(player.toObject()));
@@ -141,6 +122,9 @@ namespace controller {
                 QJsonObject json_card = json_val.toObject();
                 cards.append(JsonCard(json_card));
             }
+        }
+        if (type == 5) {
+            card_played_result = СardPlayedResult(jObj.value(F_CARD_PLAYED).toObject());
         }
     }
 
@@ -163,6 +147,11 @@ namespace controller {
         return std::make_shared<QList<JsonPlayer>>(players);
     }
 
+    std::shared_ptr<СardPlayedResult> Request::get_card_played_result() {
+        assert(type == 5);
+        return std::make_shared<СardPlayedResult>(card_played_result);
+    }
+
     void Request::set_name(QString name_) {
         assert(type == 1 || type == 6 || type == 7);
         name = name_;
@@ -177,6 +166,10 @@ namespace controller {
         cards = std::move(cards_);
     }
 
+    void Request::set_card_played_result(std::shared_ptr<СardPlayedResult> card_played_result_) {
+        card_played_result = *card_played_result_;
+    }
+
     void Request::add_player(JsonPlayer player_) {
         assert(type == 3);
         players.append(player_);
@@ -185,6 +178,7 @@ namespace controller {
     void Request::clear() {
         cards.clear();
         players.clear();
+
     }
 
     QJsonObject  Request::to_json_object() {
@@ -193,7 +187,7 @@ namespace controller {
         if (type == 1 || type == 6 || type == 7) {
             jObj.insert(F_NAME, QJsonValue::fromVariant(name));
         }
-        if (type == 3) {
+        if (type == 3 || type == 5) {
             QJsonArray json_players;
             foreach (JsonPlayer player, players) {
                 json_players.append(player.to_json_object());
@@ -207,6 +201,10 @@ namespace controller {
             }
             jObj.insert(F_CARDS, json_cards);
         }
+        if (type == 5) {
+            jObj.insert(F_CARD_PLAYED, card_played_result.to_json_object());
+        }
+
         return jObj;
     }
 
