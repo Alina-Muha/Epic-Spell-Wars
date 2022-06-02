@@ -2,7 +2,6 @@
 #include <vector>
 #include "cards_functions.h"
 namespace card_functions{
-// it works!
 int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round){
     int num = 0; // the number of the player in the circle
     for (auto &player : round.get()->get_alive_players()){
@@ -14,7 +13,6 @@ int CardFunctions::get_num_of_player_in_circle(std::shared_ptr<player::Player> &
     return num;
 }
 
-// it works!
 std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::shared_ptr<player::Player> &current_player,
                                                                         std::shared_ptr<round_of_game::Round> &round){
     int life = 0;
@@ -28,7 +26,6 @@ std::shared_ptr<player::Player> CardFunctions::get_the_strongest_player(std::sha
     return strongest_player;
 }
 
-// it works!
 std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::shared_ptr<player::Player> &current_player,
                                                                       std::shared_ptr<round_of_game::Round> &round){
     int life = 200;
@@ -42,7 +39,6 @@ std::shared_ptr<player::Player> CardFunctions::get_the_weakest_player(std::share
     return weakest_player;
 }
 
-// it works!
 int CardFunctions::get_achane_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
@@ -63,7 +59,6 @@ int CardFunctions::get_dark_num_in_spell(std::shared_ptr<player::Player> &curren
     return num;
 }
 
-// it works!
 int CardFunctions::get_illusion_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
@@ -74,7 +69,6 @@ int CardFunctions::get_illusion_num_in_spell(std::shared_ptr<player::Player> &cu
     return num;
 }
 
-// it works!
 int CardFunctions::get_primal_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
@@ -85,7 +79,6 @@ int CardFunctions::get_primal_num_in_spell(std::shared_ptr<player::Player> &curr
     return num;
 }
 
-// it works!
 int CardFunctions::get_elemental_num_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = 0;
     for (auto &card: current_player.get()->get_spell()){
@@ -96,14 +89,12 @@ int CardFunctions::get_elemental_num_in_spell(std::shared_ptr<player::Player> &c
     return num;
 }
 
-// it works!
 int CardFunctions::unique_types_in_spell(std::shared_ptr<player::Player> &current_player){
     return static_cast<int>(get_achane_num_in_spell(current_player) != 0) + static_cast<int>(get_dark_num_in_spell(current_player) != 0)
             + static_cast<int>(get_illusion_num_in_spell(current_player) != 0)
             + static_cast<int>(get_primal_num_in_spell(current_player) != 0) + static_cast<int>(get_elemental_num_in_spell(current_player) != 0);
 }
 
-// it works!
 int CardFunctions::get_delivery_card_in_spell(std::shared_ptr<player::Player> &current_player){
     int num = -1;
     int i = 0;
@@ -125,7 +116,6 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<player::Playe
     std::shared_ptr<player::Player> right_neighbour = round.get()->get_alive_players()[(num + 1) % count];
     std::shared_ptr<player::Player> left_neighbour = round.get()->get_alive_players()[(count + num - 1) % count];
 
-    // it works!
     //type = 1 - card Nuke-U-Lur Meltdown (Delivery_1.png)
     if (type == 1){
         if (sum >= 1 && sum <= 4){
@@ -145,7 +135,6 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<player::Playe
         }
     }
 
-    // it works!
     // type = 2 - card Gore-Nado (Delivery_5.png)
     if (type == 2){
         if (sum >= 1 && sum <= 4){
@@ -159,7 +148,6 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<player::Playe
         }
     }
 
-    // it works!
     // type = 3 - card Chicken (Delivery_10.png)
     if (type == 3){
         if (sum < 10){
@@ -170,7 +158,6 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<player::Playe
         }
     }
 
-    // it works!
     // type = 4 - card Pact With Devil (Delivery_14.png)
     if (type == 4){
         if (sum >= 1 && sum <= 4){
@@ -191,7 +178,6 @@ void CardFunctions::damage_to_the_strongest_player(std::shared_ptr<player::Playe
     }
 }
 
-// it works!
 void CardFunctions::damage_to_the_weakest_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
                                                  [[maybe_unused]] int type,
                                                  [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
@@ -208,7 +194,6 @@ void CardFunctions::damage_to_the_weakest_player(std::shared_ptr<player::Player>
     }
 }
 
-// it works!
 void CardFunctions::damage_to_the_left_neighbour(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
                                                  [[maybe_unused]] int type,
                                                  [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
@@ -234,7 +219,6 @@ void CardFunctions::damage_to_the_right_neighbour(std::shared_ptr<player::Player
     std::shared_ptr<player::Player> right_neighbour = round.get()->get_alive_players()[(num + 1) % count];
 
     // type = 1 - card Death-Wish (Delivery_9.png)
-    // it works!
     if (type == 1){
         current_player.get()->subtract_lives(1);
         if (sum >= 1 && sum <= 4){
@@ -249,7 +233,6 @@ void CardFunctions::damage_to_the_right_neighbour(std::shared_ptr<player::Player
     }
 
     // type = 2 - card Phantasmagoons (Delivery_13.png)
-    // it works!
     if (type == 2){
         if (sum >= 1 && sum <= 4){
             right_neighbour.get()->subtract_lives(1);
@@ -263,7 +246,6 @@ void CardFunctions::damage_to_the_right_neighbour(std::shared_ptr<player::Player
     }
 
     // type = 3 - card Prickly (Quality_11.png)
-    // it works!
     if (type == 3){
         if (sum >= 1 && sum <= 4){
             right_neighbour.get()->subtract_lives(1);
@@ -283,7 +265,6 @@ void CardFunctions::damage_to_the_right_neighbour(std::shared_ptr<player::Player
 void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player, [[maybe_unused]] std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                                          std::shared_ptr<player::Player> &chosen_foe){
     // type = 1 - card Deulicious (Quality_3.png)
-    // it works!
     if (type == 1){
         if (sum >= 1 && sum <= 4){
             chosen_foe.get()->subtract_lives(2);
@@ -299,7 +280,6 @@ void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &curren
     }
 
     // type = 2 - card Ritualistic (Quality_12.png)
-    // it works!
     if (type == 2){
         if (sum >= 1 && sum <= 4){
             current_player.get()->subtract_lives(3);
@@ -313,7 +293,6 @@ void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &curren
     }
 
     // type = 3 - card Bedazzlement (Delivery_11.png)
-    // it works!
     if (type == 3){
         if (sum >= 1 && sum <= 4){
             chosen_foe.get()->subtract_lives(1);
@@ -327,6 +306,7 @@ void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &curren
                 std::uniform_int_distribution<std::mt19937::result_type> roll(0, count_of_cards - 1);
                 int num_of_card = roll(rng);
                 current_player.get()->add_card_to_spell(current_player.get()->get_cards()[num_of_card]);
+                current_player.get()->get_cards().erase(current_player.get()->get_cards().begin() + num_of_card);
             }
         }
     }
@@ -336,7 +316,6 @@ void CardFunctions::hp_to_current_player(std::shared_ptr<player::Player> &curren
                                          [[maybe_unused]] std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                                          [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
     // type = 1 - card Fountain of Youth (Delivery_6.png)
-    // it works!
     if (type == 1){
         if (sum >= 5 && sum <= 9){
             current_player.get()->add_lives(2);
@@ -347,7 +326,6 @@ void CardFunctions::hp_to_current_player(std::shared_ptr<player::Player> &curren
     }
 
     // type = 2 - card Old Scratch's (Source_8.png)
-    // it works!
     if (type == 2){
         if (sum >= 1 && sum <= 3){
             current_player.get()->subtract_lives(sum);
@@ -363,7 +341,6 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
     int cur_lives = current_player.get()->get_lives();
 
     // type = 1 - card Meatier Swarm (Delivery_3.png)
-    // it works!
     if (type == 1){
         for (auto &player : round.get()->get_alive_players()){
             int foe_lives = player.get()->get_lives();
@@ -382,7 +359,6 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
     }
 
     // type = 2 - card Lightning-Bolt (Delivery_4.png)
-    // it works!
     if (type == 2){
         int num = get_num_of_player_in_circle(current_player, round);
         int count = round.get()->get_alive_players().size();
@@ -408,7 +384,6 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
         }
     }
     // type = 3 - card Exorcism (Delivery_8.png)
-    // it works!
     if (type == 3){
         if (sum >= 1 && sum <= 4){
             current_player.get()->subtract_lives(1);
@@ -426,7 +401,6 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
     }
 
     // type = 4 - card Snakedance (Delivery_12.png)
-    // it works!
     if (type == 4){
         int num = get_num_of_player_in_circle(current_player, round);
         int count = round.get()->get_alive_players().size(); // count of alive players
@@ -454,7 +428,6 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
     }
 
     // type = 5 - card Pam and Hecuba's (Source_9.png)
-    //
     if (type == 5){
         int primal = get_primal_num_in_spell(current_player);
         int num = get_delivery_card_in_spell(current_player);
@@ -566,6 +539,9 @@ void CardFunctions::damage_for_several_foes(std::shared_ptr<player::Player> &cur
                             player.get()->add_lives(4);
                         }
                     }
+                    if (delivery_card.get()->get_number() == 8){
+                        do_card_effects(delivery_card, current_player, round, sum, current_player);
+                    }
                     if (delivery_card.get()->get_number() == 9){
                         if (sum >= 1 && sum <= 4){
                             player.get()->add_lives(2);
@@ -592,7 +568,6 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
     int unique = unique_types_in_spell(current_player);
 
     // type = 1 - card Wyrmtor's (Source_15.png)
-    // it works!
     if (type == 1){
         for (auto &player : round.get()->get_alive_players()){
             if (player.get()->get_name() != current_player.get()->get_name()){ // all players have different names
@@ -602,7 +577,6 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
     }
 
     // type = 2 - card Delicious (Quality_2.png)
-    // it works!
     if (type == 2){
         for (auto &player : round.get()->get_alive_players()){
             int foe_lives = player.get()->get_lives();
@@ -613,7 +587,6 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
     }
 
     // type = 3 - card Inferno Tastic (Quality_8.png)
-    // it works!
     if (type == 3){
         int elemental = get_elemental_num_in_spell(current_player);
         for (auto &player : round.get()->get_alive_players()){
@@ -624,7 +597,6 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
     }
 
     // type = 4 - card  Maggoty (Quality_9.png)
-    // it works!
     if (type == 4){
         int dark = get_dark_num_in_spell(current_player);
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player, round);
@@ -632,7 +604,6 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
     }
 
     // type = 5 - card Thundering (Quality_13.png)
-    // it works!
     if (type == 5){
         std::vector<std::shared_ptr<player::Player>> foes;
         for (auto &player : round.get()->get_alive_players()){
@@ -652,7 +623,6 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
     }
 
     // type = 6 - card Rose Bottom's (Source_11.png)
-    // it works!
     if (type == 6){
         current_player.get()->add_lives( unique);
     }
@@ -664,13 +634,11 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
     std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player, round);
 
     // type = 1 - card King Oberon's(Source_4.png)
-    // it works!
     if (type == 1){
         current_player.get()->add_lives(2);
     }
 
     // type = 2 - card Magma Gog's (Source_5.png)
-    // it works!
     if (type == 2){
         std::random_device dev;
         std::mt19937 rng(dev());
@@ -692,19 +660,16 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
     }
 
     // type = 3 - card Midnight Merlin's (Source_6.png)
-    // it works!
     if (type == 3){
         strongest_player.get()->subtract_lives(count);
     }
 
     // type = 4 - card Scorchis's (Source_12.png)
-    // it works!
     if (type == 4){
         strongest_player.get()->subtract_lives(3);
     }
 
     // type = 5 - card Thai-Foon's (Source_13.png)
-    // it works!
     if (type == 5){
         int num = get_num_of_player_in_circle(current_player, round);
         for (int i = 0; i < num; i++){
@@ -715,7 +680,6 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
     }
 
     // type = 6 - Boulder Iffic (Quality_1.png)
-    // it works!
     if (type == 6){
         int players_without_damage = count - 1;
         int i = 1;
@@ -729,7 +693,6 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
     }
 
     // type = 7 - helper function for Impatient card (Quality_7)
-    // it works!
     if (type == 7){
         for (auto &player : round.get()->get_alive_players()){
             if (player.get()->get_name() != current_player.get()->get_name()){
@@ -739,7 +702,6 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
     }
 
     // type = 8 - card Dr Rooty Bark's (Source_3.png)
-    // it works!
     if (type == 8){
         current_player.get()->add_lives(3);
     }
@@ -749,7 +711,6 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
                                           int sum, int type,
                                           std::shared_ptr<player::Player> &chosen_foe){
     // type = 1 - card Disco-Mirrored (Quality_5.png)
-    //
     if (type == 1){
         std::random_device dev;
         std::mt19937 rng(dev());
@@ -777,7 +738,6 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
     }
 
     // type = 2 - card Beardo Blasty's (Source_1.png)
-    //
     if (type == 2){
         for (auto &card : current_player.get()->get_spell()){
             std::shared_ptr<card::Card> executable_card = card;
@@ -815,7 +775,6 @@ void CardFunctions::change_spell(std::shared_ptr<player::Player> &current_player
     }
 
     // type = 2 - card Mighty-Gro (Quality_10.png)
-    //
     if (type == 2){
         current_player.get()->add_lives(2);
         std::shared_ptr<player::Player> weakest_player = get_the_weakest_player(current_player, round);
