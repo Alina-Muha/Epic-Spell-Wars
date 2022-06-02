@@ -19,7 +19,6 @@ namespace client {
         QHostAddress ip;
         qint16 port;
         QString name;
-        QJsonObject Data;
 
 
         void json_received(const QJsonObject &doc);
@@ -28,13 +27,12 @@ namespace client {
         explicit Client(QHostAddress ip_, qint16 port_, QString name_ = "", QObject *parent=nullptr);
         void set_name(QString name_);
         QQueue<controller::Request> requestsQueue;
-
     public slots:
         void connect();
         void send_name();
+        QString get_name();
         void send_start_signal();
-        void send_json();
-        void get_json();
+        void send_json(QJsonObject Data);
         void disconnect();
 
     private slots:

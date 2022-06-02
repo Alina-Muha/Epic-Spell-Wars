@@ -36,8 +36,8 @@ background-color: rgb(205, 141, 86);</string>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>20</y>
+     <x>320</x>
+     <y>40</y>
      <width>381</width>
      <height>141</height>
     </rect>
@@ -48,8 +48,11 @@ background-color: rgb(170, 170, 127);
 background-color: rgb(249, 219, 134);
 color: rgb(170, 0, 0); </string>
    </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; font-style:italic; color:#aa0000;&quot;&gt;Hello, wizard!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; font-style:italic; color:#aa0000;&quot;&gt; Hello, wizard!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -74,9 +77,9 @@ color: rgb(170, 0, 0); </string>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>-840</x>
-     <y>-480</y>
-     <width>1851</width>
+     <x>-860</x>
+     <y>-420</y>
+     <width>1941</width>
      <height>1181</height>
     </rect>
    </property>
@@ -85,6 +88,9 @@ color: rgb(170, 0, 0); </string>
      <width>861</width>
      <height>621</height>
     </size>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
    </property>
    <property name="text">
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -135,14 +141,14 @@ background-color: rgb(205, 141, 86);</string>
   <widget class="QLabel" name="info_label">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>80</x>
      <y>380</y>
-     <width>481</width>
+     <width>901</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 700 26pt &quot;Segoe Script&quot;;
+    <string notr="true">font: 700 16pt &quot;Segoe Script&quot;;
 background-color: rgb(170, 170, 127);
 background-color: rgb(249, 219, 134);
 color: rgb(170, 0, 0); </string>
