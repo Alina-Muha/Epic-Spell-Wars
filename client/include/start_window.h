@@ -16,7 +16,7 @@ class Start_window : public QWidget
     Q_OBJECT
 
 public:
-    explicit Start_window(client::Client *client_ = nullptr, QWidget *parent = nullptr);
+    explicit Start_window(client::Client* client_ = nullptr, QWidget *parent = nullptr);
     ~Start_window();
 
 private slots:
@@ -31,7 +31,7 @@ private slots:
             void update_from_server();
 
 private:
-    client::Client *client;
+    client::Client* client;
     Ui::Start_window *ui;
     Board* b;
 

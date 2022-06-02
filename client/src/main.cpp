@@ -26,8 +26,9 @@ int main(int argc, char *argv[])
 //    qint16 port = read_port();
     QHostAddress ip = QHostAddress::LocalHost;
     qint16 port = 1234;
-    client::Client c(ip, port, "", nullptr);
-    Start_window w(&c, nullptr);
+    //client::Client c(ip, port, "", nullptr);
+    client::Client* ptr = new client::Client(ip, port, "", nullptr);
+    Start_window w(ptr, nullptr);
     w.show();
     return a.exec();
 }
