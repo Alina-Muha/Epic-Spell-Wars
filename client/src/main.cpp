@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     QHostAddress ip = QHostAddress::LocalHost;
     qint16 port = 1234;
     //client::Client c(ip, port, "", nullptr);
-    client::Client* ptr = new client::Client(ip, port, "", nullptr);
+    std::shared_ptr<client::Client> ptr = std::make_shared<client::Client>(ip, port, "", nullptr);
     Start_window w(ptr, nullptr);
     w.show();
     return a.exec();
