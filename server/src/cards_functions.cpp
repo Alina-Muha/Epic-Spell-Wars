@@ -744,9 +744,9 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
     }
 }
 
-void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &current_player, [[maybe_unused]]std::shared_ptr<round_of_game::Round> &round,
-                                          [[maybe_unused]] int sum, int type,
-                                          [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round,
+                                          int sum, int type,
+                                          std::shared_ptr<player::Player> &chosen_foe){
     // type = 1 - card Disco-Mirrored (Quality_5.png)
     //
     if (type == 1){
@@ -759,7 +759,7 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
             for (auto &card : current_player.get()->get_spell()){
                 std::shared_ptr<card::Card> executable_card = card.first;
                 if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::source){
-                    //do_card_effects(round, executable_card, current_player);
+                    do_card_effects(executable_card, current_player, round, sum, chosen_foe);
                 }
             }
         }
@@ -769,7 +769,7 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
             for (auto &card : current_player.get()->get_spell()){
                 std::shared_ptr<card::Card> executable_card = card.first;
                 if (executable_card.get()->get_card_component() == card::Card::type_of_spell_component::delivery){
-                    //do_card_effects(round, executable_card, current_player);
+                    do_card_effects(executable_card, current_player, round, sum, chosen_foe);
                 }
             }
         }
@@ -781,7 +781,7 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
         for (auto &card : current_player.get()->get_spell()){
             std::shared_ptr<card::Card> executable_card = card.first;
             if (card.first->get_card_component() == card::Card::type_of_spell_component::source){
-                //do_card_effects(round, executable_card, current_player);
+                do_card_effects(executable_card, current_player, round, sum, chosen_foe);
             }
         }
     }
@@ -840,7 +840,7 @@ void CardFunctions::change_order(std::shared_ptr<player::Player> &current_player
     damage_without_parametrs(current_player, round, 0, 7, current_player);
 }
 
-void CardFunctions::interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round,
+/*void CardFunctions::interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round,
                       [[maybe_unused]] int sum, int type,
                       [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
     // type = 1 - card Bleemax Brainiac's (Source_2.png)
@@ -874,9 +874,9 @@ void CardFunctions::interaction_with_the_deck(std::shared_ptr<player::Player> &c
             }
         }
     }
-}
+}*/
 
-void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
                                     std::shared_ptr<player::Player> &chosen_foe){
     if (executable_card->get_card_component() == card::Card::type_of_spell_component::source) {
         if (executable_card->get_number() == 1) {
@@ -903,9 +903,9 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
         if (executable_card->get_number() == 9) {
             damage_for_several_foes(current_player, round, sum, 5, chosen_foe);
         }
-        if (executable_card->get_number() == 10) {
+        /*if (executable_card->get_number() == 10) {
             interaction_with_the_deck(current_player, round, sum, 2, chosen_foe);
-        }
+        }*/
         if (executable_card->get_number() == 11) {
             type_of_cards_damage(current_player, round, sum, 6, chosen_foe);
         }
@@ -936,7 +936,7 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
             change_spell(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 7) {
-            change_order(current_player, round, sum, type, chosen_foe);
+            change_order(current_player, round, sum, 0, chosen_foe);
         }
         if (executable_card->get_number() == 8) {
             type_of_cards_damage(current_player, round, sum, 3, chosen_foe);
@@ -957,49 +957,50 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
             type_of_cards_damage(current_player, round, sum, 5, chosen_foe);
         }
 
-    } /*else*/ /*(type_of_the_spell_component == type_of_spell_component::delivery)*/ /*{
+    }
+    else /*(type_of_the_spell_component == type_of_spell_component::delivery)*/ {
         if (executable_card->get_number() == 1) {
-            damage_to_the_strongest_player(round, 1, sum, current_player);
+            damage_to_the_strongest_player(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 2) {
-            damage_to_the_weakest_player(round, sum, current_player);
+            damage_to_the_weakest_player(current_player, round, sum, 0, chosen_foe);
         }
         if (executable_card->get_number() == 3) {
-            damage_for_several_foes(round, 1, sum, current_player);
+            damage_for_several_foes(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 4) {
-            damage_for_several_foes(round, 2, sum, current_player);
+            damage_for_several_foes(current_player, round, sum, 2, chosen_foe);
         }
         if (executable_card->get_number() == 5) {
-            damage_to_the_strongest_player(round, 2, sum, current_player);
+            damage_to_the_strongest_player(current_player, round, sum, 2, chosen_foe);
         }
         if (executable_card->get_number() == 6) {
-            hp_to_current_player(1, 6, current_player);
+            hp_to_current_player(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 7) {
-            damage_to_the_left_neighbour(round, sum, current_player);
+            damage_to_the_left_neighbour(current_player, round, sum, 0, chosen_foe);
         }
         if (executable_card->get_number() == 8) {
-            damage_for_several_foes(round, 3, sum, current_player);
+            damage_for_several_foes(current_player, round, sum, 3, chosen_foe);
         }
         if (executable_card->get_number() == 9) {
-            damage_to_the_right_neighbour(round, 1, sum, current_player);
+            damage_to_the_right_neighbour(current_player, round, sum, 1, chosen_foe);
         }
         if (executable_card->get_number() == 10) {
-            damage_to_the_strongest_player(round, 3, sum, current_player);
+            damage_to_the_strongest_player(current_player, round, sum, 3, chosen_foe);
         }
         if (executable_card->get_number() == 11) {
-            damage_to_chosen_foe(3, sum, current_player, chosen_foe);
+            damage_to_chosen_foe(current_player, round, sum, 3, chosen_foe);
         }
         if (executable_card->get_number() == 12) {
-            damage_for_several_foes(round, 4, sum, current_player);
+            damage_for_several_foes(current_player, round, sum, 4, chosen_foe);
         }
         if (executable_card->get_number() == 13) {
-            damage_to_the_right_neighbour(round, 2, sum, current_player);
+            damage_to_the_right_neighbour(current_player, round, sum, 2, chosen_foe);
         }
         if (executable_card->get_number() == 14) {
-            damage_to_the_strongest_player(round, 4, sum, current_player);
+            damage_to_the_strongest_player(current_player, round, sum, 4, chosen_foe);
         }
     }
-}*/
+}
 } //card_functions

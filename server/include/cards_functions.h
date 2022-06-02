@@ -64,10 +64,10 @@ public:
                       std::shared_ptr<player::Player> &chosen_foe); // it's not verified
 
     // the player interacts with the deck
-    void interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
-                      std::shared_ptr<player::Player> &chosen_foe); // it's not verified
+    /*void interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                      std::shared_ptr<player::Player> &chosen_foe);*/ // it's not verified
 
-    void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+    void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
                          std::shared_ptr<player::Player> &chosen_foe);
 };
 } //card_functions
