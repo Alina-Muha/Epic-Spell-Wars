@@ -49,6 +49,7 @@ private:
     QTcpServer *m_server;
     QTcpSocket *m_server_socket;
     QMap<QTcpSocket *, QString> clients;
+    int number_of_spelled_players = 0;
 
 };
 } // namespace server

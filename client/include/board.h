@@ -13,7 +13,7 @@ class Board : public QWidget
     Q_OBJECT
 
 public:
-    explicit Board(client::Client *client_ = nullptr, QWidget *parent = nullptr);
+    explicit Board(client::Client* client_ = nullptr, QWidget *parent = nullptr);
     ~Board();
 
 private slots:
@@ -34,7 +34,7 @@ private slots:
             void on_do_move_button_clicked();
 
 private:
-    client::Client *client;
+    client::Client* client;
     Ui::Board *ui;
     QVector<QPushButton*> cards_buttons;
     QVector<controller::JsonCard> cards_in_hand;

@@ -94,33 +94,75 @@ void Server::receive_data(){
 
 void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
     controller::Request request(json_obj);
-    qDebug() << QString("New request, type: %1").arg(request.get_type());
+    qDebug() << "REQUEST " << QString("New request, type: %1").arg(request.get_type()) << "\n";
+    if (request.get_type() == 4) {
+        qDebug() << request.to_json_object();
+    }
     if (request.get_type() == 1) {
         set_user_name(socket, request.get_name()); // name will be in json
         std::string temp_name = request.get_name().toStdString();
-        player::Player gamer(temp_name);
+        //player::Player gamer(temp_name);
         // players[request.get_name()] = gamer; // in map players add new player with name
 
-        game_of_players.add_player(std::make_shared<player::Player>(gamer));
+        game_of_players.add_player(std::make_shared<player::Player>(temp_name));
         qDebug() << QString("Client registered, name: %1").arg(request.get_name());
     }
     if (request.get_type() == 2) {
         auto gameStateRequest = controller::Request(2);
         auto data = gameStateRequest.to_json_object();
+        qDebug() << data;
         send_json_to_all_clients(data);
 
         game_of_players.play_game();
         send_players();
         send_cards();
     }
+    if (request.get_type() == 4) {
+        auto gamer = game_of_players.find_player(clients[socket].toStdString());
+        if (!gamer) return;
+        qDebug() << request.get_cards()->size();
+        for (auto cardObj : *request.get_cards()) {
+            if (gamer->get_spell().size() >= 2) break;
+            card::Card a(cardObj.get_number(), card::Card::convert_string_it_type(cardObj.get_type_of_spell().toStdString()));
+            auto b = std::make_shared<card::Card>(a);
+            gamer->add_card_to_spell(b);
+
+            qDebug() << gamer->get_spell()[0]->get_number();
+            auto i = gamer->get_spell()[0];
+            qDebug() << (i == nullptr);
+
+        }
+        number_of_spelled_players++;
+        for (auto client : clients.keys()) {
+            auto gamer = game_of_players.find_player(clients[client].toStdString());
+            qDebug() << QString::fromStdString(gamer->get_name()) << " " << gamer->get_spell().size();
+            auto i = gamer->get_spell()[0];
+            qDebug() << (i == nullptr);
+        }
+        if (game_of_players.get_round().get_alive_players().size() == number_of_spelled_players) {
+            auto player = game_of_players.get_round().play_round();
+            if (player != nullptr) {
+                auto winRequest = controller::Request(6);
+                winRequest.set_name(QString::fromStdString(player->get_name()));
+                send_json_to_all_clients(winRequest.to_json_object());
+            } else {
+                send_players();
+                send_cards();
+            }
+            number_of_spelled_players = 0;
+        }
+    }
 }
 
 void Server::send_players() {
     auto playersRequest = controller::Request(3);
+    qDebug() << QString("players_size: ") << game_of_players.get_round().get_alive_players().size();
     foreach (std::shared_ptr<player::Player> gamer, game_of_players.get_round().get_alive_players()) {
+        qDebug() << (gamer->get_name()).c_str()<<"\n";
         playersRequest.add_player(controller::JsonPlayer(QString::fromStdString(gamer->get_name()), gamer->get_lives()));
     }
     auto data = playersRequest.to_json_object();
+    qDebug() << data;
     send_json_to_all_clients(data);
 }
 
@@ -221,7 +263,7 @@ void Server::applying_of_card_functions(round_of_game::Round &round, card_functi
         QTcpSocket *client_socket = iter.key();
         std::shared_ptr<player::Player> player = game_of_players.find_player(user_name(iter.key()).toStdString());
         // recieve json with count of cards
-        std::vector<std::pair<std::shared_ptr<card::Card>, int>> players_spell = player->get_spell();
+        std::vector<std::shared_ptr<card::Card>> players_spell = player->get_spell();
         int num = players_spell.size();
         // there may be other jsons
         for (int i = 0; i < num; i++){

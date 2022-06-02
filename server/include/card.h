@@ -32,7 +32,9 @@ namespace card {
 
                                                                                                       type_of_the_spell_component(type_of_spell_component_), priority_of_the_turn(priority_of_the_turn_new) /*effects(effects_),*/
                                                                                                   {}
+        Card(int number_, type_of_spell_component type_of_spell_component_):number(number_), type_of_the_spell_component(type_of_spell_component_), type_of_the_card(type::ahcane), priority_of_the_turn(0){
 
+        }
         int get_priority_of_the_turn();
         type get_type_of_the_card();
         type_of_spell_component get_type_of_the_spell_component();

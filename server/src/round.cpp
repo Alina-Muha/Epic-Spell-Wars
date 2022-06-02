@@ -1,6 +1,7 @@
 
 #include "round.h"
 #include "algorithm"
+#include <QDebug>
 
 namespace round_of_game {
 
@@ -17,8 +18,8 @@ namespace round_of_game {
         int priority_of_the_turn_b=0;
 
         for(auto i : a->get_spell()){
-            priority_of_the_turn_a=std::max(i.first->get_priority_of_the_turn(), priority_of_the_turn_a);
-            priority_of_the_turn_b=std::max(i.first->get_priority_of_the_turn(), priority_of_the_turn_b);
+            priority_of_the_turn_a=std::max(i->get_priority_of_the_turn(), priority_of_the_turn_a);
+            priority_of_the_turn_b=std::max(i->get_priority_of_the_turn(), priority_of_the_turn_b);
         }
         if(priority_of_the_turn_a>priority_of_the_turn_b){
             return true;
@@ -52,10 +53,10 @@ namespace round_of_game {
     }
 
 
-    int Round::count_the_number_of_dices(std::vector<std::pair<std::shared_ptr<card::Card>, int>>& cur_spell, std::pair<std::shared_ptr<card::Card>, int>& cur_card){
+    int Round::count_the_number_of_dices(std::vector<std::shared_ptr<card::Card>>& cur_spell, std::shared_ptr<card::Card>& cur_card){
         int result=0;
         for(auto i : cur_spell){
-            if(i.first->get_type_of_the_spell_component()==cur_card.first->get_type_of_the_spell_component()){
+            if(i->get_type_of_the_spell_component()==cur_card->get_type_of_the_spell_component()){
                 result++;
             }
         }
@@ -66,7 +67,7 @@ namespace round_of_game {
     void Round::play_cards(std::shared_ptr<player::Player> gamer){
         for(auto i : gamer->get_spell()){
             int number_of_dices=0;
-            if(i.first->check_roll_power()){
+            if(i->check_roll_power()){
                 number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
             }
             int dice_result= dice::roll_the_dice(number_of_dices);
@@ -88,11 +89,11 @@ namespace round_of_game {
     }
 
     std::shared_ptr<player::Player> Round::play_round() {
-        while(alive_players.size()!=1) {
+
             //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
-        }
+
         if(alive_players.size()==1){
             return alive_players.back();
         }else{

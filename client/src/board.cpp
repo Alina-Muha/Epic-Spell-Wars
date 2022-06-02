@@ -5,17 +5,17 @@
 #include <string>
 #include <QTimer>
 
-Board::Board(client::Client *client_, QWidget *parent) :
+Board::Board(client::Client* client_, QWidget *parent) :
         QWidget(parent),
-        client(client_),
         ui(new Ui::Board),
         cards_buttons({ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6})
 {
+    client = client_;
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Board::update_from_server);
     timer->start(1000);
     ui->setupUi(this);
-    cards_in_hand.resize(6, {"aboba", 0});
+    cards_in_hand.resize(6, {"", 0});
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
@@ -49,6 +49,7 @@ void Board::update_from_server() {
             }
         }
         if (request.get_type() == 4) {
+            cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
             qDebug() << QString("Got cards, size: %1").arg(request.get_cards()->size());
             auto json_cards_ptr = request.get_cards();
             assert(json_cards_ptr->size() == 6);
@@ -59,13 +60,20 @@ void Board::update_from_server() {
                 std::string lower_type_of_spell = card.get_type_of_spell().toStdString();
                 std::transform(lower_type_of_spell.begin(), lower_type_of_spell.end(), lower_type_of_spell.begin(),
                     [](unsigned char c){ return std::tolower(c); });
-                auto path = ":/" + QString::fromStdString(lower_type_of_spell) + "_cards/" + card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png";
-                QPixmap pixmap(path);
-                qDebug() << path;
-                QIcon card_icon(pixmap);
-                qDebug() << pixmap.rect().size();
-//                cards_buttons[i]->setIcon(card_icon);
-//                cards_buttons[i]->setIconSize(pixmap.rect().size());
+                QString path = ":/" + QString::fromStdString(lower_type_of_spell) + "_cards/" + card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png";
+                QIcon icon;
+                QPixmap pixmap;
+                if (pixmap.load(path)) {
+                    icon.addPixmap(pixmap);
+                    cards_buttons[i]->setIcon(icon);
+                    cards_buttons[i]->setIconSize(QSize(ui->card_1->width(), ui->card_1->height()));
+                }
+                //qDebug() << path;
+                //QIcon card_icon(pixmap);
+                //qDebug() << pixmap.rect().size();
+                //cards_buttons[i]->setIcon(QIcon(path));
+                //cards_buttons[i]->setStyleSheet("qproperty-icon: url(:/delivery_cards/Delivery_1.png);");
+
                 i++;
             }
         }
