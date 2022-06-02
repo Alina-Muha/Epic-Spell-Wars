@@ -335,8 +335,29 @@ void CardFunctions::damage_to_chosen_foe(std::shared_ptr<player::Player> &curren
             }
         }
     }
+
+    // type = 4 - card The Death Fairy's
+    if (type == 4){
+        chosen_foe.get()->subtract_lives(2);
+    }
 }
 
+void CardFunctions::damage_to_random_foe(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, [[maybe_unused]] int sum, int type,
+                                         [[maybe_unused]]std::shared_ptr<player::Player> &chosen_foe){
+    // card Professor Presto's (Source_2.png) and card Mind-Altering (Quality_4.png)
+    std::vector<std::shared_ptr<player::Player>> foes;
+    for (auto &player : round.get()->get_alive_players()){
+        if (player.get()->get_name() != current_player.get()->get_name()){ // all players have different names
+            foes.push_back(player);
+        }
+    }
+    int count = foes.size();
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> roll(0, count - 1);
+    int rand_player_num = roll(rng);
+    foes[rand_player_num].get()->subtract_lives(3);
+}
 void CardFunctions::hp_to_current_player(std::shared_ptr<player::Player> &current_player,
                                          [[maybe_unused]] std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                                          [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
@@ -649,7 +670,7 @@ void CardFunctions::type_of_cards_damage(std::shared_ptr<player::Player> &curren
 
     // type = 6 - card Rose Bottom's (Source_11.png)
     if (type == 6){
-        current_player.get()->add_lives( unique);
+        current_player.get()->add_lives(unique);
     }
 }
 
@@ -673,7 +694,7 @@ void CardFunctions::damage_without_parametrs(std::shared_ptr<player::Player> &cu
             int num = get_num_of_player_in_circle(current_player, round);
             int count = round.get()->get_alive_players().size();
             std::shared_ptr<player::Player> left_neighbour = round.get()->get_alive_players()[(count + num - 1) % count];
-            left_neighbour.get()->subtract_lives(2);
+            left_neighbour.get()->subtract_lives(3);
         }
         else{ // if kind = 1 - player chose each foe
             for (auto &player : round->get_alive_players()){
@@ -741,7 +762,6 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
         std::mt19937 rng(dev());
         std::uniform_int_distribution<std::mt19937::result_type> roll(0, 1);
         int kind = roll(rng);
-        std::cout << "kind = " << kind << '\n';
         if (kind == 0){
             int num_of_source = get_source_card_in_spell(current_player);
             if (num_of_source != -1){
@@ -762,11 +782,10 @@ void CardFunctions::copy_the_text_of_card(std::shared_ptr<player::Player> &curre
 
     // type = 2 - card Beardo Blasty's (Source_1.png)
     if (type == 2){
-        for (auto &card : current_player.get()->get_spell()){
-            std::shared_ptr<card::Card> executable_card = card;
-            if (card->get_card_component() == card::Card::type_of_spell_component::source){
-                do_card_effects(executable_card, current_player, round, sum, chosen_foe);
-            }
+        int delivery_num = get_delivery_card_in_spell(current_player);
+        if (delivery_num != -1){
+            std::shared_ptr<card::Card> delivery_card = current_player.get()->get_spell()[delivery_num];
+            do_card_effects(delivery_card, current_player, round, sum, chosen_foe);
         }
     }
 }
@@ -823,52 +842,15 @@ void CardFunctions::change_order(std::shared_ptr<player::Player> &current_player
     std::swap (round.get()->get_alive_players()[0], round.get()->get_alive_players()[num]);
     damage_without_parametrs(current_player, round, 0, 7, current_player);
 }
-
-/*void CardFunctions::interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round,
-                      [[maybe_unused]] int sum, int type,
-                      [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
-    // type = 1 - card Bleemax Brainiac's (Source_2.png)
-    //
-    if (type == 1){
-        int size_of_deck = round.get()->get_main_deck().size();
-        std::shared_ptr<card::Card> card_1 = round.get()->get_main_deck()[size_of_deck - 1];
-        std::shared_ptr<card::Card> card_2 = round->get_main_deck()[size_of_deck - 2];
-        if (card_1->get_card_type() == card::Card::type::ahcane){
-            current_player.get()->add_card_to_spell(card_1);
-        }
-        round.get()->get_main_deck().pop_back();
-        if (card_2.get()->get_card_type() == card::Card::type::ahcane){
-          current_player->add_card_to_spell(card_2);
-        }
-        round.get()->get_main_deck().pop_back();
-
-    }
-
-    // type = 2 - card Pew and Pew's (Source_10.png)
-    //
-    if (type == 2){
-        int size_of_deck = round.get()->get_main_deck().size();
-        std::vector<std::shared_ptr<card::Card>> new_cards(4); // cards from deck
-        for (int i = 0; i < 4; i++){
-            new_cards[i] = round.get()->get_main_deck()[size_of_deck - i - 1];
-        }
-        for (auto &card : new_cards){
-            if (card.get()->get_card_component() == card::Card::type_of_spell_component::source){
-                current_player->add_card(card);
-            }
-        }
-    }
-}*/
-
 void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
                                     std::shared_ptr<player::Player> &chosen_foe){
     if (executable_card->get_card_component() == card::Card::type_of_spell_component::source) {
         if (executable_card->get_number() == 1) {
             copy_the_text_of_card(current_player, round, sum, 2, chosen_foe);
         }
-        /*if (executable_card->get_number() == 2) {
-            interaction_with_the_deck(current_player, round, sum, 1, chosen_foe);
-        }*/
+        if (executable_card->get_number() == 2) {
+            damage_to_random_foe(current_player, round, sum, 0, chosen_foe);
+        }
         if (executable_card->get_number() == 3) {
             damage_without_parametrs(current_player, round, 0, 8, chosen_foe);
         }
@@ -887,9 +869,9 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
         if (executable_card->get_number() == 9) {
             damage_for_several_foes(current_player, round, sum, 5, chosen_foe);
         }
-        /*if (executable_card->get_number() == 10) {
-            interaction_with_the_deck(current_player, round, sum, 2, chosen_foe);
-        }*/
+        if (executable_card->get_number() == 10) {
+            damage_to_chosen_foe(current_player, round, sum, 4, chosen_foe);
+        }
         if (executable_card->get_number() == 11) {
             type_of_cards_damage(current_player, round, sum, 6, chosen_foe);
         }
@@ -912,6 +894,9 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
         }
         if (executable_card->get_number() == 3) {
             damage_to_chosen_foe(current_player, round, sum, 1, chosen_foe);
+        }
+        if (executable_card->get_number() == 4){
+            damage_to_random_foe(current_player, round, sum, 0, chosen_foe);
         }
         if (executable_card->get_number() == 5) {
             copy_the_text_of_card(current_player, round, sum, 1, chosen_foe);
@@ -967,6 +952,7 @@ void CardFunctions::do_card_effects(std::shared_ptr<card::Card> &executable_card
         if (executable_card->get_number() == 8) {
             damage_for_several_foes(current_player, round, sum, 3, chosen_foe);
         }
+
         if (executable_card->get_number() == 9) {
             damage_to_the_right_neighbour(current_player, round, sum, 1, chosen_foe);
         }

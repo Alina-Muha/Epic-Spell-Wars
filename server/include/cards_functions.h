@@ -38,6 +38,8 @@ public:
                                        std::shared_ptr<player::Player> &chosen_foe);
     void damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                               std::shared_ptr<player::Player> &chosen_foe);
+    void damage_to_random_foe(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
+                              std::shared_ptr<player::Player> &chosen_foe);
     void hp_to_current_player(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                               std::shared_ptr<player::Player> &chosen_foe);
     // TODO: check Pam and Hecuba's function (type = 5)
@@ -64,10 +66,6 @@ public:
     // change the turn order
     void change_order(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
                       std::shared_ptr<player::Player> &chosen_foe); // it's not verified
-
-    // the player interacts with the deck
-    /*void interaction_with_the_deck(std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum, int type,
-                      std::shared_ptr<player::Player> &chosen_foe);*/ // it's not verified
 
     void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, std::shared_ptr<round_of_game::Round> &round, int sum,
                          std::shared_ptr<player::Player> &chosen_foe);
