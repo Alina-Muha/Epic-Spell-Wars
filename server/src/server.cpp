@@ -140,16 +140,16 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
             qDebug() << (i == nullptr);
         }
         if (game_of_players.get_round().get_alive_players().size() == number_of_spelled_players) {
-//            auto player = game_of_players.get_round().play_round();
-//            if (player != nullptr) {
-//                auto winRequest = controller::Request(6);
-//                winRequest.set_name(QString::fromStdString(player->get_name()));
-//                send_json_to_all_clients(winRequest.to_json_object());
-//            } else {
-//                send_players();
-//                send_cards();
-//            }
-//            number_of_spelled_players = 0;
+            auto player = game_of_players.get_round().play_round();
+            if (player != nullptr) {
+                auto winRequest = controller::Request(6);
+                winRequest.set_name(QString::fromStdString(player->get_name()));
+                send_json_to_all_clients(winRequest.to_json_object());
+            } else {
+                send_players();
+                send_cards();
+            }
+            number_of_spelled_players = 0;
         }
     }
 }

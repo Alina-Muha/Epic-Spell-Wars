@@ -74,7 +74,7 @@ namespace player {
     }
 
     void Player::add_card_to_spell(std::shared_ptr<card::Card> new_card) {
-        spell.push_back({new_card, 0});
+        spell.push_back(new_card);
     }
 
 }  // namespace player
