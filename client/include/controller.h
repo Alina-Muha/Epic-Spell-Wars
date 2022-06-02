@@ -17,6 +17,7 @@ namespace controller {
         QJsonObject to_json_object();
         QString get_type_of_spell();
         int get_number();
+        QString get_card_name();
     private:
         QString type_of_spell;
         int number;
@@ -34,10 +35,10 @@ namespace controller {
         int lives;
     };
 
-    class СardPlayedResult {
+    class CardPlayedResult {
     public:
-        СardPlayedResult (QString from_ = "", QList<QString> to = {}, int dice_ = 0, QString type_of_spell_ = "", int number_ = 0);
-        СardPlayedResult (QJsonObject jObj);
+        CardPlayedResult (QString from_ = "", QList<QString> to = {}, int dice_ = 0, QString type_of_spell_ = "", int number_ = 0);
+        CardPlayedResult (QJsonObject jObj);
         QJsonObject to_json_object();
         QString get_from();
         QList<QString> get_to();
@@ -61,12 +62,12 @@ namespace controller {
         QString get_name();
         std::shared_ptr<QList<JsonCard>> get_cards();
         std::shared_ptr<QList<JsonPlayer>> get_players();
-        std::shared_ptr<СardPlayedResult> get_card_played_result();
+        std::shared_ptr<CardPlayedResult> get_card_played_result();
         void set_name(QString name_);
         void set_cards(QList<JsonCard> cards_);
         void add_card(JsonCard card_);
         void add_player(JsonPlayer player_);
-        void set_card_played_result(std::shared_ptr<СardPlayedResult> card_played_result_);
+        void set_card_played_result(std::shared_ptr<CardPlayedResult> card_played_result_);
         void clear();
 
     private:
@@ -74,7 +75,7 @@ namespace controller {
         QString name;
         QList<JsonCard> cards;
         QList<JsonPlayer> players;
-        СardPlayedResult card_played_result;
+        CardPlayedResult card_played_result;
     };
 
 }  // namespace controller

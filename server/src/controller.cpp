@@ -13,6 +13,7 @@
 #define F_FROM "from"
 #define F_TO "to"
 #define F_DICE "dice"
+#define F_CARD_PLAYED "card_played_result"
 
 namespace controller {
     JsonCard::JsonCard(){}
@@ -29,6 +30,143 @@ namespace controller {
     }
     int JsonCard::get_number(){
         return number;
+    }
+
+    QString JsonCard::get_card_name() {
+        QString card_name;
+        if (type_of_spell == "Delivery") {
+            if (number == 1) {
+                card_name = "Nuke-u-lur Get Meltdown";
+            }
+            else if (number == 2) {
+                card_name = "Mercy-Killing";
+            }
+            else if (number == 3) {
+                card_name = "Meatier Swarm";
+            }
+            else if (number == 4) {
+                card_name = "Lightning Bolt";
+            }
+            else if (number == 5) {
+                card_name = "Gore-Nado";
+            }
+            else if (number == 6) {
+                card_name = "Fountain Of Youth";
+            }
+            else if (number == 7) {
+                card_name = "Fist O'nature";
+            }
+            else if (number == 8) {
+                card_name = "Exorcism";
+            }
+            else if (number == 9) {
+                card_name = "Death Wish";
+            }
+            else if (number == 10) {
+                card_name = "Chicken";
+            }
+            else if (number == 11) {
+                card_name = "Bedazzlement";
+            }
+            else if (number == 12) {
+                card_name = "Snakedance";
+            }
+            else if (number == 13) {
+                card_name = "Phantasmagoons";
+            }
+            else if (number == 14) {
+                card_name = "Pact With The Devil";
+            }
+        }
+        else if (type_of_spell == "Quality") {
+            if (number == 1) {
+                card_name = "Boulder-Iffic";
+            }
+            else if (number == 2) {
+                card_name = "Delicious";
+            }
+            else if (number == 3) {
+                card_name = "Devlicious";
+            }
+            else if (number == 4) {
+                card_name = "Dicey";
+            }
+            else if (number == 5) {
+                card_name = "Disco-Mirrored";
+            }
+            else if (number == 6) {
+                card_name = "Festering";
+            }
+            else if (number == 7) {
+                card_name = "Impatient";
+            }
+            else if (number == 8) {
+                card_name = "Iferno-Tastic";
+            }
+            else if (number == 9) {
+                card_name = "Maggoty";
+            }
+            else if (number == 10) {
+                card_name = "Mighty-gro";
+            }
+            else if (number == 11) {
+                card_name = "Prickly";
+            }
+            else if (number == 12) {
+                card_name = "Ritualistic";
+            }
+            else if (number == 13) {
+                card_name = "Thundering";
+            }
+        }
+        else if (type_of_spell == "Source") {
+            if (number == 1) {
+                card_name = "Beard'o blasty's";
+            }
+            else if (number == 2) {
+                card_name = "Bleemax brainiac's";
+            }
+            else if (number == 3) {
+                card_name = "Dr. Rooty Bark's";
+            }
+            else if (number == 4) {
+                card_name = "King Oberon's";
+            }
+            else if (number == 5) {
+                card_name = "Magma Gogs";
+            }
+            else if (number == 6) {
+                card_name = "Midnight Merlin's";
+            }
+            else if (number == 7) {
+                card_name = "Muzzlesnap's";
+            }
+            else if (number == 8) {
+                card_name = "Old Scratch's";
+            }
+            else if (number == 9) {
+                card_name = "Pam And Hecuba's";
+            }
+            else if (number == 10) {
+                card_name = "Pew And Pew's";
+            }
+            else if (number == 11) {
+                card_name = "Rose Bottom's";
+            }
+            else if (number == 12) {
+                card_name = "scorchia's";
+            }
+            else if (number == 13) {
+                card_name = "Thaifoon's";
+            }
+            else if (number == 14) {
+                card_name = "Walker Time Ranger's";
+            }
+            else if (number == 15) {
+                card_name = "Wyrmtor's";
+            }
+        }
+        return card_name;
     }
 
     QJsonObject JsonCard::to_json_object() {
@@ -60,51 +198,36 @@ namespace controller {
         return jObj;
     }
 
-    СardPlayedResult::СardPlayedResult (QString from_, QList<QString> to_, int dice_,
+    CardPlayedResult::CardPlayedResult (QString from_, QList<QString> to_, int dice_,
                                         QString type_of_spell_, int number_) : from(from_),
                                                                                to(to_), dice(dice_), card(JsonCard(type_of_spell_, number_)) {
     }
 
-    СardPlayedResult::СardPlayedResult (QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
-        type = jObj.value(F_TYPE).toInt();
+    CardPlayedResult::CardPlayedResult (QJsonObject jObj) : card(jObj.value(F_CARD).toObject()) {
         from = jObj.value(F_FROM).toString();
-        from = jObj.value(F_TO).toString();
-        dice = jObj.value(F_DICE).toInt();
-        QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
-        foreach (QJsonValue json_val, json_players) {
-            QJsonObject json_player = json_val.toObject();
-            players.append(JsonPlayer(json_player));
+        QJsonArray to_arr = jObj.value(F_TO).toArray();
+        for(auto name : to_arr){
+           to.append(name.toString());
         }
+        dice = jObj.value(F_DICE).toInt();
     }
 
-    QString СardPlayedResult::get_from() {
+    QString CardPlayedResult::get_from() {
         return from;
     }
-    QList<QString> СardPlayedResult::get_to(){
+    QList<QString> CardPlayedResult::get_to(){
         return to;
     }
-    int СardPlayedResult::get_dice() {
+    int CardPlayedResult::get_dice() {
         return dice;
     }
-    JsonCard СardPlayedResult::get_card(){
+    JsonCard CardPlayedResult::get_card(){
         return card;
     }
-    std::shared_ptr<QList<JsonPlayer>> СardPlayedResult::get_players(){
-        return std::make_shared<QList<JsonPlayer>> (players);
-    }
 
-    void СardPlayedResult::add_player(JsonPlayer player_) {
-        players.append(player_);
-    }
-
-    void СardPlayedResult::players_clear() {
-        players.clear();
-    }
-
-    QJsonObject  СardPlayedResult ::to_json_object() {
+    QJsonObject  CardPlayedResult ::to_json_object() {
         QJsonObject jObj;
 
-        jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
         jObj.insert(F_FROM, QJsonValue::fromVariant(from));
         QJsonArray to_arr;
         foreach (QString name, to) {
@@ -113,11 +236,6 @@ namespace controller {
         jObj.insert(F_TO, to_arr);
         jObj.insert(F_DICE, QJsonValue::fromVariant(dice));
         jObj.insert(F_CARD, card.to_json_object());
-        QJsonArray json_players;
-        foreach (JsonPlayer player, players) {
-            json_players.append(player.to_json_object());
-        }
-        jObj.insert(F_PLAYERS, json_players);
         return jObj;
     }
 
@@ -129,7 +247,7 @@ namespace controller {
         if (type == 1 || type == 6 || type == 7) {
             name = jObj.value(F_NAME).toString();
         }
-        if (type == 3) {
+        if (type == 3 || type == 5) {
             QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
             for (auto player : json_players) {
                 players.append(JsonPlayer(player.toObject()));
@@ -141,6 +259,9 @@ namespace controller {
                 QJsonObject json_card = json_val.toObject();
                 cards.append(JsonCard(json_card));
             }
+        }
+        if (type == 5) {
+            card_played_result = CardPlayedResult(jObj.value(F_CARD_PLAYED).toObject());
         }
     }
 
@@ -163,6 +284,11 @@ namespace controller {
         return std::make_shared<QList<JsonPlayer>>(players);
     }
 
+    std::shared_ptr<CardPlayedResult> Request::get_card_played_result() {
+        assert(type == 5);
+        return std::make_shared<CardPlayedResult>(card_played_result);
+    }
+
     void Request::set_name(QString name_) {
         assert(type == 1 || type == 6 || type == 7);
         name = name_;
@@ -177,6 +303,10 @@ namespace controller {
         cards = std::move(cards_);
     }
 
+    void Request::set_card_played_result(std::shared_ptr<CardPlayedResult> card_played_result_) {
+        card_played_result = *card_played_result_;
+    }
+
     void Request::add_player(JsonPlayer player_) {
         assert(type == 3);
         players.append(player_);
@@ -185,6 +315,7 @@ namespace controller {
     void Request::clear() {
         cards.clear();
         players.clear();
+
     }
 
     QJsonObject  Request::to_json_object() {
@@ -193,7 +324,7 @@ namespace controller {
         if (type == 1 || type == 6 || type == 7) {
             jObj.insert(F_NAME, QJsonValue::fromVariant(name));
         }
-        if (type == 3) {
+        if (type == 3 || type == 5) {
             QJsonArray json_players;
             foreach (JsonPlayer player, players) {
                 json_players.append(player.to_json_object());
@@ -207,6 +338,10 @@ namespace controller {
             }
             jObj.insert(F_CARDS, json_cards);
         }
+        if (type == 5) {
+            jObj.insert(F_CARD_PLAYED, card_played_result.to_json_object());
+        }
+
         return jObj;
     }
 
