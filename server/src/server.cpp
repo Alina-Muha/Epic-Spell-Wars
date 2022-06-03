@@ -127,7 +127,8 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
 
             auto b = std::make_shared<card::Card>(a);
             gamer->add_card_to_spell(b);
-            //надо удалять карту я хз как это сделать
+            gamer->deliting_card(b);
+
             qDebug() << QString::fromStdString(gamer->get_name()) << " "<< gamer->get_spell().size()<<"\n";
 
 
@@ -147,7 +148,7 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
                 send_players();
                 send_cards();
                 auto game_Request = controller::Request(7);
-                send_json(socket, game_Request.to_json_object());
+                send_json_to_all_clients(game_Request.to_json_object());
             }
             number_of_spelled_players = 0;
         }
