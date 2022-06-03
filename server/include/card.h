@@ -63,7 +63,7 @@ namespace card {
                     type_of_the_card=type::illusion;
                 }
                 if(number==10){
-                    type_of_the_card=type::illusion;
+                    type_of_the_card=type::dark;
                 }
                 if(number==11){
                     type_of_the_card=type::primal;
@@ -93,7 +93,7 @@ namespace card {
                      type_of_the_card=type::dark;
                 }
                 if(number==4){
-                    type_of_the_card=type::elemental;
+                    type_of_the_card=type::illusion;
                 }
                 if(number==5){
                      type_of_the_card=type::illusion;
