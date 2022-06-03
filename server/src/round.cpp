@@ -39,6 +39,7 @@ namespace round_of_game {
                 break;
             }
             while(i->get_cards().size()<number_of_cards_in_hand){
+                std::cout << "aboba";
                 if(main_deck.size()!=0) {
                     i->add_card(main_deck.back());
 
@@ -95,7 +96,7 @@ namespace round_of_game {
             //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
-
+            distribute_cards();
         if(alive_players.size()==1){
             return alive_players.back();
         }else{
