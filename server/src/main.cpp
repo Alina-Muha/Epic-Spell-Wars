@@ -1,6 +1,5 @@
 //#include "start_window.h"
 #include "server.h"
-#include "client.h"
 #include <QApplication>
 int main(int argc, char *argv[])
 {
