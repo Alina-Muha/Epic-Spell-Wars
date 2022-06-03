@@ -9,8 +9,7 @@
 Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent) :
         QWidget(parent),
         ui(new Ui::Board),
-        game_status(status::laying_out_cards),
-        cards_buttons({ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6})
+        game_status(status::laying_out_cards)
 {
     client = client_;
     QTimer *timer = new QTimer(this);
@@ -115,6 +114,7 @@ void Board::update_from_server() {
             }
         }
         if (request.get_type() == 7) {
+            cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
             for (auto card : cards_buttons) {
                  card->setStyleSheet(not_clicked_style);
             }
