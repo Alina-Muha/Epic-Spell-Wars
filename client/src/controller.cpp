@@ -244,7 +244,7 @@ namespace controller {
 
     Request::Request(QJsonObject jObj) {
         type = jObj.value(F_TYPE).toInt();
-        if (type == 1 || type == 6 || type == 7) {
+        if (type == 1 || type == 6) {
             name = jObj.value(F_NAME).toString();
         }
         if (type == 3 || type == 5) {
@@ -255,7 +255,7 @@ namespace controller {
         }
         if (type == 4) {
             QJsonArray json_cards = jObj.value(F_CARDS).toArray();
-            foreach (QJsonValue json_val, json_cards) {
+            for (auto json_val : json_cards) {
                 QJsonObject json_card = json_val.toObject();
                 cards.append(JsonCard(json_card));
             }
@@ -270,7 +270,7 @@ namespace controller {
     }
 
     QString Request::get_name() {
-        assert(type == 1 || type == 6 || type == 7);
+        assert(type == 1 || type == 6);
         return name;
     }
 
@@ -290,7 +290,7 @@ namespace controller {
     }
 
     void Request::set_name(QString name_) {
-        assert(type == 1 || type == 6 || type == 7);
+        assert(type == 1 || type == 6);
         name = name_;
     }
 
@@ -321,7 +321,7 @@ namespace controller {
     QJsonObject  Request::to_json_object() {
         QJsonObject jObj;
         jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-        if (type == 1 || type == 6 || type == 7) {
+        if (type == 1 || type == 6) {
             jObj.insert(F_NAME, QJsonValue::fromVariant(name));
         }
         if (type == 3 || type == 5) {

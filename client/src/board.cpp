@@ -58,7 +58,6 @@ QString Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played
 void Board::update_from_server() {
     while (!client->requestsQueue.empty()) {
         auto request = client->requestsQueue.front();
-        qDebug() << "in board reqyest type " << request.get_type();
         client->requestsQueue.pop_front();
         if (request.get_type() == 5) {
             std::shared_ptr<controller::CardPlayedResult> card_played_res = request.get_card_played_result();
@@ -83,7 +82,6 @@ void Board::update_from_server() {
         if (request.get_type() == 4) {
             assert(game_status != status::dead_player);
             cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
-            qDebug() << "got cards " << request.get_cards()->size();
             auto json_cards_ptr = request.get_cards();
             assert(json_cards_ptr->size() == 6);
             qDebug() << request.to_json_object();
@@ -96,11 +94,10 @@ void Board::update_from_server() {
                 QString path = ":/" + QString::fromStdString(lower_type_of_spell) + "_cards/" + card.get_type_of_spell() + "_" + QString::number(card.get_number()) + ".png";
                 QIcon icon;
                 QPixmap pixmap;
-                qDebug() << "board adding card image";
                 if (pixmap.load(path)) {
                     icon.addPixmap(pixmap);
                     cards_buttons[i]->setIcon(icon);
-                    cards_buttons[i]->setIconSize(QSize(ui->card_1->width(), ui->card_1->height()));
+                    cards_buttons[i]->setIconSize(QSize(ui->card_1->width() * 9 / 10, ui->card_1->height() * 9 / 10));
                 }
                 i++;
             }
@@ -114,6 +111,10 @@ void Board::update_from_server() {
             }
         }
         if (request.get_type() == 7) {
+            cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
+            for (auto card : cards_buttons) {
+                 card->setStyleSheet(not_clicked_style);
+            }
             game_status = status::laying_out_cards;
             ui->info->setText(game_status_info[game_status]);
         }
@@ -126,14 +127,23 @@ Board::~Board()
 }
 
 void Board::card_clicked(int i) {
-    if (game_status == status::laying_out_cards && selected_cards.size() < 3) {
-        selected_cards.append(cards_in_hand[i]);
+    cards_buttons = {ui->card_1, ui->card_2, ui->card_3, ui->card_4, ui->card_5, ui->card_6};
+    if (cards_buttons[i]->styleSheet() == clicked_style) {
+        ui->info->setText("This card has already been selected");
+    }
+    else if (selected_types[cards_in_hand[i].get_type_of_spell()]) {
+        ui->info->setText("This type of spell has already been selected");
     }
     else if (game_status == status::spells_applying){
         ui->info->setText("You can't lay out the cards right now. Please wait");
     }
     else if (selected_cards.size() >= 3) {
         ui->info->setText("You've already laid out three cards. Click DO MOVE");
+    }
+    else if (game_status == status::laying_out_cards && selected_cards.size() < 3) {
+        selected_cards.append(cards_in_hand[i]);
+        selected_types[cards_in_hand[i].get_type_of_spell()] = true;
+        cards_buttons[i]->setStyleSheet(clicked_style);
     }
 }
 
@@ -183,6 +193,9 @@ void Board::on_do_move_button_clicked()
         client->send_json(request.to_json_object());
         game_status = status::spells_applying;
         ui->info->setText("Your cards are laid out. " + game_status_info[game_status]);
+        for (auto [type, flag] : selected_types) {
+            selected_types[type] = false;
+        }
     }
 }
 
