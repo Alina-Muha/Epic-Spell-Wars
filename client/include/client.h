@@ -19,6 +19,7 @@ namespace client {
         QHostAddress ip;
         qint16 port;
         QString name;
+        bool is_game_started_flag;
 
 
         void json_received(const QJsonObject &doc);
@@ -30,6 +31,8 @@ namespace client {
     public slots:
         void connect();
         void send_name();
+        void set_game_started_flag();
+        bool is_game_started();
         QString get_name();
         void send_start_signal();
         void send_json(QJsonObject Data);

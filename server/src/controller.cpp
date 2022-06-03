@@ -225,7 +225,7 @@ namespace controller {
         return card;
     }
 
-    QJsonObject  CardPlayedResult ::to_json_object() {
+    QJsonObject  CardPlayedResult::to_json_object() {
         QJsonObject jObj;
 
         jObj.insert(F_FROM, QJsonValue::fromVariant(from));
