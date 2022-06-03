@@ -1,5 +1,4 @@
 #include "card.h"
-#include "cards_functions.h"
 #include <player.h>
 namespace card{
 Card::type Card::get_card_type(){

@@ -66,6 +66,7 @@ namespace player {
 
         void delete_card_from_spell(int num_of_card);
         void delete_card(int num_of_card);
+        void deliting_card(std::shared_ptr<card::Card> card_);
     };
 }  // namespace player
 #endif // PLAYER_H

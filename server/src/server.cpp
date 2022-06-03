@@ -124,31 +124,33 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
         for (auto cardObj : *request.get_cards()) {
             if (gamer->get_spell().size() >= 2) break;
             card::Card a(cardObj.get_number(), card::Card::convert_string_it_type(cardObj.get_type_of_spell().toStdString()));
+
             auto b = std::make_shared<card::Card>(a);
             gamer->add_card_to_spell(b);
+            gamer->deliting_card(b);
 
             qDebug() << QString::fromStdString(gamer->get_name()) << " "<< gamer->get_spell().size()<<"\n";
 
 
         }
         number_of_spelled_players++;
-        for (auto client : clients.keys()) {
-            auto gamer = game_of_players.find_player(clients[client].toStdString());
-            qDebug() << QString::fromStdString(gamer->get_name()) << " " << gamer->get_spell().size();
-            auto i = gamer->get_spell()[0];
-            qDebug() << (i == nullptr);
-        }
+        qDebug() << "Spelled players: " << number_of_spelled_players;
+        qDebug() << "Round players: " <<  game_of_players.get_round().get_alive_players().size();
         if (game_of_players.get_round().get_alive_players().size() == number_of_spelled_players) {
-//            auto player = game_of_players.get_round().play_round();
-//            if (player != nullptr) {
-//                auto winRequest = controller::Request(6);
-//                winRequest.set_name(QString::fromStdString(player->get_name()));
-//                send_json_to_all_clients(winRequest.to_json_object());
-//            } else {
-//                send_players();
-//                send_cards();
-//            }
-//            number_of_spelled_players = 0;
+            qDebug() << "play round";
+            auto player = game_of_players.get_round().play_round();
+            qDebug() << "round played";
+            if (player != nullptr) {
+                auto winRequest = controller::Request(6);
+                winRequest.set_name(QString::fromStdString(player->get_name()));
+                send_json_to_all_clients(winRequest.to_json_object());
+            } else {
+                send_players();
+                send_cards();
+                auto game_Request = controller::Request(7);
+                send_json_to_all_clients(game_Request.to_json_object());
+            }
+            number_of_spelled_players = 0;
         }
     }
 }
@@ -257,25 +259,25 @@ void Server::complete_the_number_of_cards(round_of_game::Round &round){
         // send json
     }
 }
-void Server::applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions){
-    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
-        QTcpSocket *client_socket = iter.key();
-        std::shared_ptr<player::Player> player = game_of_players.find_player(user_name(iter.key()).toStdString());
-        // recieve json with count of cards
-        std::vector<std::shared_ptr<card::Card>> players_spell = player->get_spell();
-        int num = players_spell.size();
-        // there may be other jsons
-        for (int i = 0; i < num; i++){
-            //card_functions.do_card_effects(players_spell[i].first, player);
-            // write to json
-        }
-        iter++;
-    }
-    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
-        QTcpSocket *client_socket = iter.key();
-        //client_socket->... : send_json;
-    }
-}
+//void Server::applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions){
+//    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
+//        QTcpSocket *client_socket = iter.key();
+//        std::shared_ptr<player::Player> player = game_of_players.find_player(user_name(iter.key()).toStdString());
+//        // recieve json with count of cards
+//        std::vector<std::shared_ptr<card::Card>> players_spell = player->get_spell();
+//        int num = players_spell.size();
+//        // there may be other jsons
+//        for (int i = 0; i < num; i++){
+//            //card_functions.do_card_effects(players_spell[i].first, player);
+//            // write to json
+//        }
+//        iter++;
+//    }
+//    for (auto iter = clients.begin(); iter != clients.end(); /* iter++ */){
+//        QTcpSocket *client_socket = iter.key();
+//        //client_socket->... : send_json;
+//    }
+//}
 bool Server::check_game_state(){
     // checking if there is a live player
     int alive = 0;

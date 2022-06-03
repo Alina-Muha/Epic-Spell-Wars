@@ -174,5 +174,15 @@ namespace player {
     void Player::delete_card_from_spell(int num_of_card){
         this->get_spell().erase(this->get_spell().begin() + num_of_card);
     }
+    void Player::deliting_card(std::shared_ptr<card::Card> card_){
+         std::vector<std::shared_ptr<card::Card>> temp_cards;
+        for(auto i : cards){
+            if(i->get_number() == card_->get_number() && i->get_card_component() == card_->get_card_component()){
 
+            }else{
+                temp_cards.push_back(i);
+            }
+        }
+        cards=temp_cards;
+    }
 }  // namespace player

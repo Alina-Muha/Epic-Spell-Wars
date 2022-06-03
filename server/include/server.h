@@ -7,7 +7,6 @@
 #include <QJsonObject>
 #include "round.h"
 #include "player.h"
-#include "cards_functions.h"
 #include "game.h"
 namespace server{
 class Server : public QObject{
@@ -29,7 +28,7 @@ public:
     void give_cards_to_players(round_of_game::Round &round);
     void fill_the_spell(round_of_game::Round &round);
     void complete_the_number_of_cards(round_of_game::Round &round);
-    void applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions);
+    //void applying_of_card_functions(round_of_game::Round &round, card_functions::CardFunctions &card_functions);
     void play_the_game();
     bool check_game_state();
     void send_players();

@@ -96,6 +96,7 @@ namespace round_of_game {
         void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, int sum,
                              std::shared_ptr<player::Player> &chosen_foe);
 
+
     };
 }
 

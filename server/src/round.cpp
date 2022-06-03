@@ -1,7 +1,7 @@
 #include "round.h"
 #include "algorithm"
 #include <QDebug>
-
+#include <iostream>
 namespace round_of_game {
 
 
@@ -39,6 +39,7 @@ namespace round_of_game {
                 break;
             }
             while(i->get_cards().size()<number_of_cards_in_hand){
+                std::cout << "aboba";
                 if(main_deck.size()!=0) {
                     i->add_card(main_deck.back());
 
@@ -70,9 +71,12 @@ namespace round_of_game {
                 number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
             }
             int dice_result= dice::roll_the_dice(number_of_dices);
-            //do_card_effects(i.first);
+            do_card_effects(i, gamer, dice_result, gamer);
+             std::cout <<"done2";
         }
+        std::cout <<"done1";
         gamer->get_spell().clear();
+        std::cout <<"done";
     }
 
     void Round::play_circle() {
@@ -92,7 +96,7 @@ namespace round_of_game {
             //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
-
+            distribute_cards();
         if(alive_players.size()==1){
             return alive_players.back();
         }else{
