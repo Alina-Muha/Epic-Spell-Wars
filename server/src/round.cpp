@@ -1,7 +1,7 @@
 #include "round.h"
 #include "algorithm"
 #include <QDebug>
-
+#include <iostream>
 namespace round_of_game {
 
 
@@ -70,9 +70,12 @@ namespace round_of_game {
                 number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
             }
             int dice_result= dice::roll_the_dice(number_of_dices);
-            //do_card_effects(i.first);
+            do_card_effects(i, gamer, dice_result, gamer);
+             std::cout <<"done2";
         }
+        std::cout <<"done1";
         gamer->get_spell().clear();
+        std::cout <<"done";
     }
 
     void Round::play_circle() {
