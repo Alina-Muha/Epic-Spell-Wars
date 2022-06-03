@@ -437,7 +437,7 @@ namespace round_of_game {
         if (type == 2){
             int num = get_num_of_player_in_circle(current_player);
             std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
-            std::shared_ptr<player::Player> left_left_neighbour = round.get()->get_alive_players()[(count_of_alive_players + num - 2) % count_of_alive_players];
+            std::shared_ptr<player::Player> left_left_neighbour = alive_players[(count_of_alive_players + num - 2) % count_of_alive_players];
             if (sum >= 1 && sum <= 4){
                 left_neighbour.get()->subtract_lives(1);
                 if (count_of_alive_players > 2){
@@ -479,7 +479,7 @@ namespace round_of_game {
         if (type == 4){
             int num = get_num_of_player_in_circle(current_player);
             std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players];
-            std::shared_ptr<player::Player> left_neighbour = round.get()->get_alive_players()[(count_of_alive_players + num - 1) % count_of_alive_players];
+            std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
             if (sum >= 1 && sum <= 4){
                 right_neighbour.get()->subtract_lives(1);
                 if (count_of_alive_players > 2){
@@ -614,7 +614,7 @@ namespace round_of_game {
                             }
                         }
                         if (delivery_card.get()->get_number() == 8){
-                            do_card_effects(delivery_card, current_player, round, sum, current_player);
+                            do_card_effects(delivery_card, current_player, sum, current_player);
                         }
                         if (delivery_card.get()->get_number() == 9){
                             if (sum >= 1 && sum <= 4){
@@ -757,7 +757,7 @@ namespace round_of_game {
             int i = 1;
             int num = get_num_of_player_in_circle(current_player);
             while (players_without_damage > 0){
-                std::shared_ptr<player::Player> left_neighbour = round.get()->get_alive_players()[(count_of_alive_players + num - i) % count_of_alive_players];
+                std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - i) % count_of_alive_players];
                 left_neighbour.get()->subtract_lives(i);
                 i++;
                 players_without_damage--;
@@ -924,7 +924,7 @@ namespace round_of_game {
                 damage_to_random_foe(current_player, sum, 0, chosen_foe);
             }
             if (executable_card->get_number() == 5) {
-                copy_the_text_of_card(current_player, round, sum, 1, chosen_foe);
+                copy_the_text_of_card(current_player, sum, 1, chosen_foe);
             }
             if (executable_card->get_number() == 6) {
                 change_spell(current_player, sum, 1, chosen_foe);

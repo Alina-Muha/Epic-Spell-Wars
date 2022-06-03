@@ -93,7 +93,7 @@ namespace round_of_game {
         void change_order(std::shared_ptr<player::Player> &current_player, int sum, int type,
                           std::shared_ptr<player::Player> &chosen_foe);
 
-        void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> current_player, int sum,
+        void do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, int sum,
                              std::shared_ptr<player::Player> &chosen_foe);
 
     };
