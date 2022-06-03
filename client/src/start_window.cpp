@@ -12,7 +12,7 @@ Start_window::Start_window(std::shared_ptr<client::Client> client_, QWidget *par
     client = client_;
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Start_window::update_from_server);
-    timer->start(1000);
+    timer->start(500);
     ui->setupUi(this);
 }
 
@@ -28,19 +28,23 @@ void Start_window::on_start_button_clicked()
 }
 
 void Start_window::update_from_server() {
-    qDebug() << "in start window size of queue "<< client->requestsQueue.size()<< "\n";
-    //qDebug() << "in start window this: " << client;
-    while (!client->requestsQueue.empty()) {
-        qDebug() << "in while\n";
-        auto request = client->requestsQueue.front();
-        client->requestsQueue.pop_front();
-        qDebug() << "request type " << request.get_type() << "\n";
-        if (request.get_type() == 2) {
-            qDebug() <<  "in while and if = 2";
-            b = std::make_shared<Board>(client);
-            b->show();
-            Start_window::close();
-            break;
+    if (!client->is_game_started())
+    {
+        qDebug() << "in start window size of queue "<< client->requestsQueue.size()<< "\n";
+        //qDebug() << "in start window this: " << client;
+        while (!client->requestsQueue.empty()) {
+            qDebug() << "in while\n";
+            auto request = client->requestsQueue.front();
+            client->requestsQueue.pop_front();
+            qDebug() << "request type " << request.get_type() << "\n";
+            if (request.get_type() == 2) {
+                qDebug() <<  "in while and if = 2";
+                client->set_game_started_flag();
+                b = std::make_shared<Board>(client);
+                b->show();
+                Start_window::close();
+                break;
+            }
         }
     }
 }

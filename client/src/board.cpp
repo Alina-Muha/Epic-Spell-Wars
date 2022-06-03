@@ -14,7 +14,7 @@ Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent) :
     client = client_;
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Board::update_from_server);
-    timer->start(1000);
+    timer->start(500);
     ui->setupUi(this);
     cards_in_hand.resize(6, {"", 0});
     ui->info->setText("Select 1 - 3 cards of different types for the move and press DO MOVE");

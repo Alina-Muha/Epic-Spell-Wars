@@ -11,11 +11,20 @@ Client::Client(QHostAddress ip_, qint16 port_, QString name_, QObject *parent)
       socket(new QTcpSocket(this)),
       ip(ip_),
       port(port_),
-      name(name_)
+      name(name_),
+      is_game_started_flag(false)
 {
     QObject::connect(socket, &QTcpSocket::connected, this, &Client::on_connected);
     QObject::connect(socket, &QTcpSocket::readyRead, this, &Client::on_ready_read);
     QObject::connect(socket, &QTcpSocket::disconnected, this, &Client::disconnect);
+}
+
+void Client::set_game_started_flag() {
+    is_game_started_flag = true;
+}
+
+bool Client::is_game_started() {
+    return is_game_started_flag;
 }
 
 void Client::set_name(QString name_) {
