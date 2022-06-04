@@ -19,7 +19,7 @@
   <widget class="QLabel" name="hart_image">
    <property name="geometry">
     <rect>
-     <x>870</x>
+     <x>1360</x>
      <y>-20</y>
      <width>101</width>
      <height>91</height>
@@ -32,7 +32,7 @@
   <widget class="QLabel" name="life">
    <property name="geometry">
     <rect>
-     <x>780</x>
+     <x>1270</x>
      <y>-10</y>
      <width>81</width>
      <height>71</height>
@@ -89,24 +89,6 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(198, 174, 118);
 font: 18pt &quot;Papyrus&quot;;
-border-radius: 20px</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="logs">
-   <property name="geometry">
-    <rect>
-     <x>650</x>
-     <y>70</y>
-     <width>751</width>
-     <height>231</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(198, 174, 118);
-font: 14pt &quot;Papyrus&quot;;
 border-radius: 20px</string>
    </property>
    <property name="text">
@@ -242,14 +224,14 @@ border: 4px solid #927862;
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>1090</x>
      <y>10</y>
      <width>171</width>
      <height>51</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 9pt &quot;Papyrus&quot;;</string>
+    <string notr="true">font: 16pt &quot;Papyrus&quot;;</string>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700; color:#aa0000;&quot;&gt;Your lives:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -295,6 +277,66 @@ border-radius: 20px</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>20</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 16pt &quot;Papyrus&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:700; color:#aa0000;&quot;&gt;Your name: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="name">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>20</y>
+     <width>441</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 16pt &quot;Papyrus&quot;;</string>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="logs">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>70</y>
+     <width>831</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(198, 174, 118);
+font: 14pt &quot;Papyrus&quot;;
+border-radius: 20px</string>
+   </property>
+  </widget>
+  <widget class="QScrollBar" name="verticalScrollBar">
+   <property name="geometry">
+    <rect>
+     <x>1400</x>
+     <y>80</y>
+     <width>21</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
  </widget>
