@@ -28,6 +28,10 @@ namespace round_of_game {
         }
     }
 
+    int Round::count_of_alive_players(){
+        return alive_players.size();
+    }
+
     void Round::sort_priority_of_the_turn() {
         std::sort(alive_players.begin(), alive_players.end(), compare_two_players);
     }
@@ -71,7 +75,8 @@ namespace round_of_game {
                 number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
             }
             int dice_result= dice::roll_the_dice(number_of_dices);
-            do_card_effects(i, gamer, dice_result, gamer);
+            auto to = do_card_effects(i, gamer, dice_result, gamer);
+            send_logs_func(QString::fromStdString(gamer->get_name()), to, dice_result, QString::fromStdString(i->convert_type_in_string(i->get_type_of_the_spell_component())), i->get_number());
              std::cout <<"done2";
         }
         std::cout <<"done1";
@@ -133,25 +138,27 @@ namespace round_of_game {
 
     std::shared_ptr<player::Player> Round::get_the_strongest_player(std::shared_ptr<player::Player> &current_player){
         int life = 0;
-        std::shared_ptr<player::Player>strongest_player = nullptr;
+        std::shared_ptr<player::Player>strongest_player = current_player;
         for (auto &player : alive_players){
             if (player.get()->get_lives() > life && current_player.get() != player.get()){
                strongest_player = player;
                life = player.get()->get_lives();
             }
         }
+        qDebug() << "strongest_player "<<QString::fromStdString(strongest_player->get_name());
         return strongest_player;
     }
 
     std::shared_ptr<player::Player> Round::get_the_weakest_player(std::shared_ptr<player::Player> &current_player){
         int life = 200;
-        std::shared_ptr<player::Player>weakest_player = nullptr;
+        std::shared_ptr<player::Player>weakest_player = current_player;
         for (auto &player : alive_players){
-            if (player.get()->get_lives() < life && player.get() != current_player.get()){
+            if (player.get()->get_lives() < life /*&& player.get() != current_player.get()*/){
                 weakest_player = player;
                 life = player.get()->get_lives();
             }
         }
+        qDebug() << "weakest_player "<<QString::fromStdString(weakest_player->get_name());
         return weakest_player;
     }
 
@@ -174,24 +181,34 @@ namespace round_of_game {
         QList<QString> players_with_damage;
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player);
         int num = get_num_of_player_in_circle(strongest_player);
-        std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players];
-        std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
-
+        qDebug() << "count_of_alive_players: " << count_of_alive_players();
+        std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
+        qDebug() << "right neighbour: " << QString::fromStdString(right_neighbour.get()->get_name());
+        std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
+        qDebug() << "right_neighbour: " << QString::fromStdString(right_neighbour.get()->get_name());
+        qDebug() << "left_neighbour: " << QString::fromStdString(left_neighbour.get()->get_name());
+        qDebug() << "type = " << type;
+        qDebug() << "sum = " << sum;
         //type = 1 - card Nuke-U-Lur Meltdown (Delivery_1.png)
         if (type == 1){
             if (sum >= 1 && sum <= 4){
+               qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
                strongest_player.get()->subtract_lives(1);
             }
             else{
+                qDebug() <<"right_player: " << QString::fromStdString(right_neighbour.get()->get_name());
                 right_neighbour.get()->subtract_lives(1);
-                if (count_of_alive_players > 2){
-                    left_neighbour.get()->subtract_lives(1);
+                if (count_of_alive_players() > 2){
+                    left_neighbour->subtract_lives(1);
+                    qDebug() <<"left_player: " << QString::fromStdString(left_neighbour.get()->get_name());
                 }
                 if (sum >= 5 && sum <= 9){
-                    strongest_player.get()->subtract_lives(3);
+                    qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                    strongest_player->subtract_lives(3);
                 }
                 if (sum >= 10){
-                    strongest_player.get()->subtract_lives(5);
+                    qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                    strongest_player->subtract_lives(5);
                 }
             }
         }
@@ -199,40 +216,47 @@ namespace round_of_game {
         // type = 2 - card Gore-Nado (Delivery_5.png)
         if (type == 2){
             if (sum >= 1 && sum <= 4){
-                strongest_player.get()->subtract_lives(2);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(2);
             }
             if (sum >= 5 && sum <= 9){
-                strongest_player.get()->subtract_lives(3);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(3);
             }
             if (sum >= 10){
-                strongest_player.get()->subtract_lives(6);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(6);
             }
         }
 
         // type = 3 - card Chicken (Delivery_10.png)
         if (type == 3){
             if (sum < 10){
-                strongest_player.get()->subtract_lives(1);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(1);
             }
             else{
-                strongest_player.get()->subtract_lives(7);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(7);
             }
         }
 
         // type = 4 - card Pact With Devil (Delivery_14.png)
         if (type == 4){
             if (sum >= 1 && sum <= 4){
-                strongest_player.get()->subtract_lives(1);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(1);
             }
             else{
-                strongest_player.get()->subtract_lives(2);
+                qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
+                strongest_player->subtract_lives(2);
                 if (sum >= 10){
                     int delivery_num = strongest_player->get_delivery_card_in_spell();
                     int current_player_num = get_num_of_player_in_circle(current_player);
                     if (delivery_num != -1 && num > current_player_num){
                         std::shared_ptr<card::Card> delivery_card = strongest_player.get()->get_spell()[delivery_num];
-                        strongest_player.get()->delete_card_from_spell(delivery_num);
-                        current_player.get()->add_card_to_spell(delivery_card);
+                        strongest_player->delete_card_from_spell(delivery_num);
+                        current_player->add_card_to_spell(delivery_card);
                     }
                 }
             }
@@ -248,13 +272,13 @@ namespace round_of_game {
         // card Mercy Killing (Delivery_2.png)
         std::shared_ptr<player::Player> weakest_player = get_the_weakest_player(current_player);
         if (sum >= 1 && sum <= 4){
-            weakest_player.get()->subtract_lives(2);
+            weakest_player->subtract_lives(2);
         }
         if (sum >= 5 && sum <= 9){
-            weakest_player.get()->subtract_lives(3);
+            weakest_player->subtract_lives(3);
         }
         if (sum >= 10){
-            weakest_player.get()->subtract_lives(4);
+            weakest_player->subtract_lives(4);
         }
         players_with_damage.append(QString::fromStdString(weakest_player.get()->get_name()));
         return players_with_damage;
@@ -266,7 +290,7 @@ namespace round_of_game {
         QList<QString> players_with_damage;
         // card Fist O'Nature (Delivery_7.png)
         int num = get_num_of_player_in_circle(current_player); // num of current player in cicle
-        std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
+        std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
         if (sum >= 1 && sum <= 4){
             left_neighbour.get()->subtract_lives(1);
         }
@@ -284,7 +308,7 @@ namespace round_of_game {
                                                       [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
         QList<QString> players_with_damage;
         int num = get_num_of_player_in_circle(current_player);
-        std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players];
+        std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
 
         // type = 1 - card Death-Wish (Delivery_9.png)
         if (type == 1){
@@ -463,27 +487,27 @@ namespace round_of_game {
         // type = 2 - card Lightning-Bolt (Delivery_4.png)
         if (type == 2){
             int num = get_num_of_player_in_circle(current_player);
-            std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
-            std::shared_ptr<player::Player> left_left_neighbour = alive_players[(count_of_alive_players + num - 2) % count_of_alive_players];
+            std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
+            std::shared_ptr<player::Player> left_left_neighbour = alive_players[(count_of_alive_players() + num - 2) % count_of_alive_players()];
             players_with_damage.append(QString::fromStdString(left_neighbour.get()->get_name()));
-            if (count_of_alive_players > 2){
+            if (count_of_alive_players() > 2){
                 players_with_damage.append(QString::fromStdString(left_left_neighbour.get()->get_name()));
             }
             if (sum >= 1 && sum <= 4){
                 left_neighbour.get()->subtract_lives(1);
-                if (count_of_alive_players > 2){
+                if (count_of_alive_players() > 2){
                     left_left_neighbour.get()->subtract_lives(1);
                 }
             }
             if (sum >= 5 && sum <= 9){
                 left_neighbour.get()->subtract_lives(2);
-                if (count_of_alive_players > 2){
+                if (count_of_alive_players() > 2){
                     left_left_neighbour.get()->subtract_lives(2);
                 }
             }
             if (sum >= 10){
                 left_neighbour.get()->subtract_lives(4);
-                if (count_of_alive_players > 2){
+                if (count_of_alive_players() > 2){
                     left_left_neighbour.get()->subtract_lives(4);
                 }
             }
@@ -510,28 +534,28 @@ namespace round_of_game {
         // type = 4 - card Snakedance (Delivery_12.png)
         if (type == 4){
             int num = get_num_of_player_in_circle(current_player);
-            std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players];
-            std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
+            std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
+            std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
             players_with_damage.append(QString::fromStdString(right_neighbour.get()->get_name()));
-            if (count_of_alive_players > 2){
+            if (count_of_alive_players() > 2){
                 players_with_damage.append(QString::fromStdString(left_neighbour.get()->get_name()));
             }
             if (sum >= 1 && sum <= 4){
                 right_neighbour.get()->subtract_lives(1);
-                if (count_of_alive_players > 2){
+                if (count_of_alive_players() > 2){
                     left_neighbour.get()->subtract_lives(1);
                 }
             }
             if (sum >= 5 && sum <= 9){
                 right_neighbour.get()->subtract_lives(2);
-                if (count_of_alive_players > 2){
+                if (count_of_alive_players() > 2){
                     left_neighbour.get()->subtract_lives(2);
                 }
             }
             if (sum >= 10){
                 int primal = current_player->get_primal_num_in_spell();
                 right_neighbour.get()->subtract_lives(2 * primal);
-                if (count_of_alive_players > 2){
+                if (count_of_alive_players() > 2){
                     left_neighbour.get()->subtract_lives(2 * primal);
                 }
             }
@@ -546,8 +570,8 @@ namespace round_of_game {
                 current_player->delete_card_from_spell(num);
                 for (auto &player : alive_players){
                     int num = get_num_of_player_in_circle(player);
-                    std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
-                    std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players];
+                    std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
+                    std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
                     if (player.get()->get_name() != current_player.get()->get_name()){
                         if (delivery_card.get()->get_number() == 1){
                             if (sum >= 1 && sum <= 4){
@@ -555,7 +579,7 @@ namespace round_of_game {
                             }
                             else{
                                 left_neighbour.get()->subtract_lives(1);
-                                if (count_of_alive_players > 2){
+                                if (count_of_alive_players() > 2){
                                     right_neighbour.get()->subtract_lives(1);
                                 }
                                 if (sum >=5 && sum <= 9){
@@ -783,7 +807,7 @@ namespace round_of_game {
             int kind = roll(rng);
             if (kind == 0){ // if kind = 0 - player chose left neighbour
                 int num = get_num_of_player_in_circle(current_player);
-                std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - 1) % count_of_alive_players];
+                std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
                 left_neighbour.get()->subtract_lives(3);
                 players_with_damage.append(QString::fromStdString(left_neighbour.get()->get_name()));
             }
@@ -799,7 +823,7 @@ namespace round_of_game {
 
         // type = 3 - card Midnight Merlin's (Source_6.png)
         if (type == 3){
-            strongest_player.get()->subtract_lives(count_of_alive_players);
+            strongest_player.get()->subtract_lives(count_of_alive_players());
             players_with_damage.append(QString::fromStdString(strongest_player.get()->get_name()));
         }
 
@@ -822,11 +846,11 @@ namespace round_of_game {
 
         // type = 6 - Boulder Iffic (Quality_1.png)
         if (type == 6){
-            int players_without_damage = count_of_alive_players - 1;
+            int players_without_damage = count_of_alive_players() - 1;
             int i = 1;
             int num = get_num_of_player_in_circle(current_player);
             while (players_without_damage > 0){
-                std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players + num - i) % count_of_alive_players];
+                std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - i) % count_of_alive_players()];
                 left_neighbour.get()->subtract_lives(i);
                 players_with_damage.append(QString::fromStdString(left_neighbour.get()->get_name()));
                 i++;
@@ -899,7 +923,7 @@ namespace round_of_game {
         int max_lives = 0;
         // type = 1 - card Festering (Quality_6.png)
         if (type == 1){
-            for (int i = num + 1; i < count_of_alive_players; i++){
+            for (int i = num + 1; i < count_of_alive_players(); i++){
                 int foe_lives = alive_players[i].get()->get_lives();
                 if (foe_lives > max_lives){
                     max_lives = foe_lives;

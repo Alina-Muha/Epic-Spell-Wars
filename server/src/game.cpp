@@ -50,4 +50,8 @@ namespace game{
        players.push_back(gamer);
    }
 
+   void Game::set_send_logs_func(std::function<void(QString, QList<QString>, int, QString, int number_)> func) {
+       round.send_logs_func = func;
+   }
+
 }

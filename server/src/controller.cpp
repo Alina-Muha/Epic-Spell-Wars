@@ -231,8 +231,10 @@ namespace controller {
         jObj.insert(F_FROM, QJsonValue::fromVariant(from));
         QJsonArray to_arr;
         foreach (QString name, to) {
-            to_arr.append(QJsonValue(name).toObject());
+            qDebug() << "To arr name: " << name;
+            to_arr.append(QJsonValue(name));
         }
+        qDebug() << "To arr size: " << to_arr.size() << " " << to_arr[0].toString();
         jObj.insert(F_TO, to_arr);
         jObj.insert(F_DICE, QJsonValue::fromVariant(dice));
         jObj.insert(F_CARD, card.to_json_object());
@@ -280,7 +282,7 @@ namespace controller {
     }
 
     std::shared_ptr<QList<JsonPlayer>> Request::get_players() {
-        assert(type == 3);
+        assert(type == 3 || type == 5);
         return std::make_shared<QList<JsonPlayer>>(players);
     }
 
@@ -308,7 +310,7 @@ namespace controller {
     }
 
     void Request::add_player(JsonPlayer player_) {
-        assert(type == 3);
+        assert(type == 3 || type == 5);
         players.append(player_);
     }
 
