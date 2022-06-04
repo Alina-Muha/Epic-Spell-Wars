@@ -1,4 +1,5 @@
 #include "start_window.h"
+using namespace controller;
 
 Start_window::Start_window(std::shared_ptr<client::Client> client_,
                            QWidget *parent)
@@ -19,7 +20,7 @@ void Start_window::update_from_server() {
     while (!client->requestsQueue.empty()) {
       auto request = client->requestsQueue.front();
       client->requestsQueue.pop_front();
-      if (request.get_type() == 2) {
+      if (request.get_type() == types::start) {
         client->set_game_started_flag();
         b = std::make_shared<Board>(client);
         b->setWindowTitle("Epic spell wars of the battle wizards");
@@ -27,10 +28,12 @@ void Start_window::update_from_server() {
         Start_window::close();
         break;
       }
-      else if (request.get_type() == 8) {
+      else if (request.get_type() == types::registered) {
           successful_registration();
-      } else if (request.get_type() == 9) {
+      } else if (request.get_type() == types::duplicate) {
           name_duplicate();
+      } else if (request.get_type() == types::connected) {
+          successful_connection();
       }
     }
   }
@@ -52,9 +55,12 @@ void Start_window::successful_registration() {
                           "players will be ready");
 }
 
+void Start_window::successful_connection() {
+    ui->info_label->setText("You are connected. Now register");
+}
+
 void Start_window::on_connect_button_clicked() {
   QString ip = ui->ip->text();
   qint16 port = ui->port->text().toInt();
   client->connect(ip, port);
-  ui->info_label->setText("You are connected. Now register");
 }

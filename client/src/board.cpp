@@ -1,5 +1,5 @@
 #include "board.h"
-
+using namespace controller;
 
 Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent)
     : QWidget(parent), ui(new Ui::Board),
@@ -57,14 +57,14 @@ void Board::update_from_server() {
   while (!client->requestsQueue.empty()) {
     auto request = client->requestsQueue.front();
     client->requestsQueue.pop_front();
-    if (request.get_type() == 5) {
+    if (request.get_type() == types::logs) {
       std::shared_ptr<controller::CardPlayedResult> card_played_res =
           request.get_card_played_result();
       QString log = get_log(card_played_res);
       ui->logs->append("\n" + log);
     }
 
-    if (request.get_type() == 3 || request.get_type() == 5) {
+    if (request.get_type() == types::players || request.get_type() == types::logs) {
       auto players_ptr = request.get_players();
       ui->lives_of_players->clear();
       for (auto player : *players_ptr) {
@@ -80,7 +80,7 @@ void Board::update_from_server() {
       }
     }
 
-    if (request.get_type() == 4) {
+    if (request.get_type() == types::cards) {
       cards_buttons = {ui->card_1, ui->card_2, ui->card_3,
                        ui->card_4, ui->card_5, ui->card_6};
       auto json_cards_ptr = request.get_cards();
@@ -106,7 +106,7 @@ void Board::update_from_server() {
         i++;
       }
     }
-    if (request.get_type() == 6) {
+    if (request.get_type() == types::game_over) {
       if (request.get_name() == client->get_name()) {
         ui->info->setText(
             "You have won. Congratulations to you! The game is over");
@@ -115,7 +115,7 @@ void Board::update_from_server() {
                           " wins. The game is over");
       }
     }
-    if (request.get_type() == 7) {
+    if (request.get_type() == types::laying_out) {
       cards_buttons = {ui->card_1, ui->card_2, ui->card_3,
                        ui->card_4, ui->card_5, ui->card_6};
       for (auto card : cards_buttons) {
@@ -162,7 +162,7 @@ void Board::on_card_6_clicked() { card_clicked(5); }
 
 void Board::on_do_move_button_clicked() {
   if (game_status == status::laying_out_cards) {
-    auto request = controller::Request(4);
+    auto request = Request(types::cards);
     request.set_cards(selected_cards);
     selected_cards.clear();
     client->send_json(request.to_json_object());

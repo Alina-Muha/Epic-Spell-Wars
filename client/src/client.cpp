@@ -2,6 +2,8 @@
 #include "board.h"
 #include "start_window.h"
 
+using namespace controller;
+
 namespace client {
 Client::Client(QString name_, QObject *parent)
     : QObject(parent), socket(new QTcpSocket(this)), name(name_),
@@ -22,7 +24,7 @@ void Client::set_name(QString name_) { name = name_; }
 QString Client::get_name() { return name; }
 
 void Client::send_name() {
-  auto request = controller::Request(1);
+  auto request = Request(types::name);
   request.set_name(name);
   send_json(request.to_json_object());
 }
@@ -32,7 +34,7 @@ void Client::connect(QString ip, qint16 port) { // CHANGE LOCAL HOST TO IP
 }
 
 void Client::send_start_signal() {
-  auto request = controller::Request(2);
+  auto request = Request(types::start);
   send_json(request.to_json_object());
 }
 

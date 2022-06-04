@@ -9,6 +9,13 @@
 
 namespace controller {
 
+enum class types {
+    name, start, players, cards, logs, game_over, laying_out, registered, duplicate, connected
+};
+
+types int_to_types(int n);
+int types_to_int(types t);
+
 class JsonCard {
 public:
   JsonCard();
@@ -58,10 +65,10 @@ private:
 
 class Request {
 public:
-  Request(int type_);
+  Request(types type_);
   Request(QJsonObject jObj);
   QJsonObject to_json_object();
-  int get_type();
+  types get_type();
   QString get_name();
   std::shared_ptr<QList<JsonCard>> get_cards();
   std::shared_ptr<QList<JsonPlayer>> get_players();
@@ -75,7 +82,7 @@ public:
   void clear();
 
 private:
-  int type;
+  types type;
   QString name;
   QList<JsonCard> cards;
   QList<JsonPlayer> players;
