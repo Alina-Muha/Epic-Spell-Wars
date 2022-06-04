@@ -24,6 +24,24 @@ Server::Server (QObject *parent)
     } else {
         // TODO: Server start fail
     }
+
+    auto logs_func = [&](QString from_, QList<QString> to_, int dice_,
+            QString type_of_spell_, int number_) {
+        auto request = controller::Request(5);
+        foreach (std::shared_ptr<player::Player> gamer, game_of_players.get_round().get_alive_players()) {
+            if (gamer == nullptr) continue;
+            request.add_player(controller::JsonPlayer(QString::fromStdString(gamer->get_name()), gamer->get_lives()));
+        }
+        qDebug() << "---------";
+        qDebug() << "To Size: " << to_.size();
+        qDebug() << "---------";
+        auto card = std::make_shared<controller::CardPlayedResult>(from_, to_, dice_, type_of_spell_, number_);
+        request.set_card_played_result(card);
+        auto data = request.to_json_object();
+        qDebug() << "5 json data " << data;
+        send_json_to_all_clients(data);
+    };
+    game_of_players.set_send_logs_func(logs_func);
 }
 
 Server::~Server() {
@@ -160,6 +178,9 @@ void Server::send_players() {
    // qDebug() << QString("players_size: ") << game_of_players.get_round().get_alive_players().size();
     foreach (std::shared_ptr<player::Player> gamer, game_of_players.get_round().get_alive_players()) {
       //  qDebug() << (gamer->get_name()).c_str()<<"\n";
+
+        if (gamer == nullptr) continue;
+
         playersRequest.add_player(controller::JsonPlayer(QString::fromStdString(gamer->get_name()), gamer->get_lives()));
     }
     auto data = playersRequest.to_json_object();
