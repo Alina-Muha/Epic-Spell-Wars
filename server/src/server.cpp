@@ -18,7 +18,7 @@ Server::Server (QObject *parent)
    m_server_socket(new QTcpSocket(this))
 {
     if (m_server->listen(QHostAddress::Any, 1234)) {
-        connect(this, &Server::json_received, this, &Server::receive_json);
+        //connect(this, &Server::json_received, this, &Server::receive_json);
         connect(m_server, &QTcpServer::newConnection, this, &Server::new_connection);
         qDebug() << "Server starts...";
     } else {
@@ -79,7 +79,7 @@ void Server::receive_data(){
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(json_data, &parseError);
             if (parseError.error == QJsonParseError::NoError) {
                 if (jsonDoc.isObject()) {
-                    emit json_received(socket, jsonDoc.object());
+                    receive_json(socket, jsonDoc.object());
                 }
                 else
                     emit log_message("Invalid message: " + QString::fromUtf8(json_data));
@@ -122,7 +122,7 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
         if (!gamer) return;
         qDebug() << request.get_cards()->size();
         for (auto cardObj : *request.get_cards()) {
-            if (gamer->get_spell().size() >= 2) break;
+            if (gamer->get_spell().size() >= 4) break;
             card::Card a(cardObj.get_number(), card::Card::convert_string_it_type(cardObj.get_type_of_spell().toStdString()));
 
             auto b = std::make_shared<card::Card>(a);
