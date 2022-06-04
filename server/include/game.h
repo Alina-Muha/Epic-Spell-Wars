@@ -54,7 +54,7 @@ namespace game {
 
         round_of_game::Round round;
     public:
-
+        void set_send_logs_func(std::function<void(QString, QList<QString>, int, QString, int number_)> func) ;
         void reload_deck();
 
         bool increase_players_wins(std::shared_ptr<player::Player> winner_of_the_round);
