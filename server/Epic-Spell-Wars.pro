@@ -11,7 +11,6 @@ QT += qml quick
 
 HEADERS = \
    $$PWD/include/card.h \
-   $$PWD/include/cards_functions.h \
    $$PWD/include/client.h \
    $$PWD/include/controller.h \
    $$PWD/include/dice.h \
@@ -22,7 +21,6 @@ HEADERS = \
 
 SOURCES = \
    $$PWD/src/card.cpp \
-   $$PWD/src/cards_functions.cpp \
    $$PWD/src/controller.cpp \
    $$PWD/src/dice.cpp \
    $$PWD/src/game.cpp \
