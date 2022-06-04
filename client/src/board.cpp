@@ -39,7 +39,7 @@ QString Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played
         log += " against ";
         bool not_first = false;
         for (auto &player_name : card_played_res->get_to()) {
-            if (not not_first) {
+            if (not_first) {
                 log += ", ";
             }
             log += player_name;

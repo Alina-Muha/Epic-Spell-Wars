@@ -1,5 +1,5 @@
 #include "dice.h"
-
+#include <QDebug>
 namespace dice {
     int roll_the_dice(int n) {
         int result = 0;
@@ -9,6 +9,7 @@ namespace dice {
         for (int i = 0; i < n; i++) {
             result += roll(rng);
         }
+        qDebug() << "dice_play " << result;
         return result;
     }
 }  // namespace dice

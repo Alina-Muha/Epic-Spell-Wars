@@ -5,6 +5,7 @@
 #include "card.h"
 #include "player.h"
 #include "dice.h"
+#include <functional>
 #include <QList>
 #include <QString>
 namespace round_of_game {
@@ -17,13 +18,14 @@ namespace round_of_game {
         std::vector<std::shared_ptr<card::Card>> main_deck;
 
     public:
-
+        std::function<void(QString, QList<QString>, int, QString, int number_)> send_logs_func;
         const int number_of_cards_in_hand=6;
 
         void distribute_cards();
         std::vector<std::shared_ptr<player::Player>> &get_players();
 
         [[nodiscard]] int count_of_alive_players();
+
         void sort_priority_of_the_turn();
 
         void play_circle();
