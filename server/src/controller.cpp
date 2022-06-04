@@ -280,7 +280,7 @@ namespace controller {
     }
 
     std::shared_ptr<QList<JsonPlayer>> Request::get_players() {
-        assert(type == 3);
+        assert(type == 3 || type == 5);
         return std::make_shared<QList<JsonPlayer>>(players);
     }
 
@@ -308,7 +308,7 @@ namespace controller {
     }
 
     void Request::add_player(JsonPlayer player_) {
-        assert(type == 3);
+        assert(type == 3 || type == 5);
         players.append(player_);
     }
 

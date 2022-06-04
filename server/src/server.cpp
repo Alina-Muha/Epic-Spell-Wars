@@ -18,7 +18,7 @@ Server::Server (QObject *parent)
    m_server_socket(new QTcpSocket(this))
 {
     if (m_server->listen(QHostAddress::Any, 1234)) {
-        //connect(this, &Server::json_received, this, &Server::receive_json);
+        connect(this, &Server::json_received, this, &Server::receive_json);
         connect(m_server, &QTcpServer::newConnection, this, &Server::new_connection);
         qDebug() << "Server starts...";
     } else {
@@ -79,7 +79,7 @@ void Server::receive_data(){
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(json_data, &parseError);
             if (parseError.error == QJsonParseError::NoError) {
                 if (jsonDoc.isObject()) {
-                    receive_json(socket, jsonDoc.object());
+                    json_received(socket, jsonDoc.object());
                 }
                 else
                     emit log_message("Invalid message: " + QString::fromUtf8(json_data));
@@ -278,23 +278,25 @@ void Server::complete_the_number_of_cards(round_of_game::Round &round){
 //        //client_socket->... : send_json;
 //    }
 //}
+/*
 bool Server::check_game_state(){
     // checking if there is a live player
     int alive = 0;
     while (true){
         // play game
-        /*for (auto iter = clients.begin(); iter != clients.end();iter++){
+        for (auto iter = clients.begin(); iter != clients.end();iter++){
             std::shared_ptr<player::Player> player = iter.value().first;
             if (player->get_lives() > 0){
                 alive++;
             }
-        }*/
+        }
         if (alive == 1){
-            for (auto iter = clients.begin(); iter != clients.end();/* iter++ */){
+            for (auto iter = clients.begin(); iter != clients.end(); iter++ ){
                 // send json : game_finished, name of the winner : player with != 0 count of lives
             }
             break;
         }
     }
 }
+*/
 }
