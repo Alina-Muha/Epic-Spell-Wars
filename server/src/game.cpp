@@ -30,7 +30,10 @@ namespace game{
     void Game::play_game() {
 
             round.load_players(Game::players);
-            reload_deck();
+
+            if(round.get_main_deck().size()<3*round.get_players().size()){
+                reload_deck();
+            }
             round.distribute_cards();
     }
    std::shared_ptr<player::Player> Game::find_player(const std::string & name){

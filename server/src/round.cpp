@@ -27,7 +27,22 @@ namespace round_of_game {
             return false;
         }
     }
-
+    bool compare_two_cards(std::shared_ptr<card::Card>a,std::shared_ptr<card::Card> b){
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::source){
+            return true;
+        }
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::delivery){
+            return false;
+        }
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::quality &&
+                b->get_type_of_the_spell_component()== card::Card::type_of_spell_component::delivery){
+            return true;
+        }
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::delivery &&
+                b->get_type_of_the_spell_component()== card::Card::type_of_spell_component::quality){
+            return false;
+        }
+    }
     int Round::count_of_alive_players(){
         return alive_players.size();
     }
@@ -56,7 +71,6 @@ namespace round_of_game {
         }
     }
 
-
     int Round::count_the_number_of_dices(std::vector<std::shared_ptr<card::Card>>& cur_spell, std::shared_ptr<card::Card>& cur_card){
         int result=0;
         for(auto i : cur_spell){
@@ -69,16 +83,18 @@ namespace round_of_game {
 
 
     void Round::play_cards(std::shared_ptr<player::Player> gamer){
+
+        std::sort(gamer->get_spell().begin(), gamer->get_spell().end(),compare_two_cards);
         for(auto i : gamer->get_spell()){
-            int number_of_dices=0;
-            if(i->check_roll_power()){
-                number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
-            }
-            int dice_result= dice::roll_the_dice(number_of_dices);
-            auto to = do_card_effects(i, gamer, dice_result, gamer);
-            send_logs_func(QString::fromStdString(gamer->get_name()), to, dice_result, QString::fromStdString(i->convert_type_in_string(i->get_type_of_the_spell_component())), i->get_number());
-             std::cout <<"done2";
-        }
+                  int number_of_dices=0;
+                  if(i->check_roll_power()){
+                      number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
+                  }
+                  int dice_result= dice::roll_the_dice(number_of_dices);
+                  auto to = do_card_effects(i, gamer, dice_result, gamer);
+                  send_logs_func(QString::fromStdString(gamer->get_name()), to, dice_result, QString::fromStdString(i->convert_type_in_string(i->get_type_of_the_spell_component())), i->get_number());
+                   std::cout <<"done2";
+              }
         std::cout <<"done1";
         gamer->get_spell().clear();
         std::cout <<"done";
@@ -181,14 +197,11 @@ namespace round_of_game {
         QList<QString> players_with_damage;
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player);
         int num = get_num_of_player_in_circle(strongest_player);
-        qDebug() << "count_of_alive_players: " << count_of_alive_players();
+      
         std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
-        qDebug() << "right neighbour: " << QString::fromStdString(right_neighbour.get()->get_name());
         std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
-        qDebug() << "right_neighbour: " << QString::fromStdString(right_neighbour.get()->get_name());
-        qDebug() << "left_neighbour: " << QString::fromStdString(left_neighbour.get()->get_name());
-        qDebug() << "type = " << type;
-        qDebug() << "sum = " << sum;
+
+
         //type = 1 - card Nuke-U-Lur Meltdown (Delivery_1.png)
         if (type == 1){
             if (sum >= 1 && sum <= 4){
@@ -199,8 +212,9 @@ namespace round_of_game {
                 qDebug() <<"right_player: " << QString::fromStdString(right_neighbour.get()->get_name());
                 right_neighbour.get()->subtract_lives(1);
                 if (count_of_alive_players() > 2){
-                    left_neighbour->subtract_lives(1);
-                    qDebug() <<"left_player: " << QString::fromStdString(left_neighbour.get()->get_name());
+
+                    left_neighbour.get()->subtract_lives(1);
+
                 }
                 if (sum >= 5 && sum <= 9){
                     qDebug() <<"strongest_player: " << QString::fromStdString(strongest_player.get()->get_name());
@@ -289,7 +303,9 @@ namespace round_of_game {
                                                      [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
         QList<QString> players_with_damage;
         // card Fist O'Nature (Delivery_7.png)
-        int num = get_num_of_player_in_circle(current_player); // num of current player in cicle
+
+        int num = get_num_of_player_in_circle(current_player); // num of current player in circle
+
         std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
         if (sum >= 1 && sum <= 4){
             left_neighbour.get()->subtract_lives(1);
@@ -406,10 +422,7 @@ namespace round_of_game {
             }
         }
 
-        // type = 4 - card The Death Fairy's
-        if (type == 4){
-            chosen_foe.get()->subtract_lives(2);
-        }
+
         players_with_damage.append(QString::fromStdString(chosen_foe.get()->get_name()));
         return players_with_damage;
     }
@@ -871,6 +884,16 @@ namespace round_of_game {
         // type = 8 - card Dr Rooty Bark's (Source_3.png)
         if (type == 8){
             current_player.get()->add_lives(3);
+        }
+
+        // type = 9 - card The Death Fairy's (Source_10.png)
+        if (type == 9){
+            for (auto &player: alive_players){
+                if (player.get()->get_name() != current_player.get()->get_name()){
+                    player.get()->subtract_lives(2);
+                    players_with_damage.append(QString::fromStdString(player.get()->get_name()));
+                }
+            }
         }
         return players_with_damage;
     }
