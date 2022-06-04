@@ -55,7 +55,7 @@ void Start_window::on_registration_button_clicked()
 {
     std::string name;
     client->set_name((ui->name_edit->text()));
-    client->connect();
+    client->send_name();
     // if registration is successfull
     successful_registration();
 }
@@ -71,6 +71,11 @@ void Start_window::successful_registration(){
             "  You are registered. Push START button when other players will be ready");
 }
 
-
-
+void Start_window::on_connect_button_clicked()
+{
+    QString ip = ui->ip->text();
+    qint16 port = ui->port->text().toInt();
+    client->connect(ip, port);
+    ui->info_label->setText("You are connected. Now register");
+}
 

@@ -30,6 +30,8 @@ private slots:
 
             void update_from_server();
 
+            void on_connect_button_clicked();
+
 private:
     std::shared_ptr<client::Client> client;
     Ui::Start_window *ui;

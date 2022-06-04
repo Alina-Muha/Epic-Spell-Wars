@@ -43,6 +43,7 @@ QString Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played
                 log += ", ";
             }
             log += player_name;
+            not_first = true;
         }
     }
     log +=". ";
@@ -117,6 +118,7 @@ void Board::update_from_server() {
             }
             game_status = status::laying_out_cards;
             ui->info->setText(game_status_info[game_status]);
+            ui->logs->clear();
         }
     }
 }
