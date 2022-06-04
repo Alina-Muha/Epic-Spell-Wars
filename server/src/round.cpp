@@ -382,10 +382,7 @@ namespace round_of_game {
             }
         }
 
-        // type = 4 - card The Death Fairy's
-        if (type == 4){
-            chosen_foe.get()->subtract_lives(2);
-        }
+
         players_with_damage.append(QString::fromStdString(chosen_foe.get()->get_name()));
         return players_with_damage;
     }
@@ -847,6 +844,16 @@ namespace round_of_game {
         // type = 8 - card Dr Rooty Bark's (Source_3.png)
         if (type == 8){
             current_player.get()->add_lives(3);
+        }
+
+        // type = 9 - card The Death Fairy's (Source_10.png)
+        if (type == 9){
+            for (auto &player: alive_players){
+                if (player.get()->get_name() != current_player.get()->get_name()){
+                    player.get()->subtract_lives(2);
+                    players_with_damage.append(QString::fromStdString(player.get()->get_name()));
+                }
+            }
         }
         return players_with_damage;
     }
