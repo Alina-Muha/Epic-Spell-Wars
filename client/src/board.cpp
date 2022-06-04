@@ -10,7 +10,7 @@ Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent) :
         QWidget(parent),
         ui(new Ui::Board),
         game_status(status::laying_out_cards)
-{
+{ 
     client = client_;
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Board::update_from_server);
@@ -18,6 +18,7 @@ Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent) :
     ui->setupUi(this);
     cards_in_hand.resize(6, {"", 0});
     ui->info->setText("Select 1 - 3 cards of different types for the move and press DO MOVE");
+    ui->name->setText(client->get_name());
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
@@ -34,7 +35,7 @@ void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
 }
 
 QString Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played_res) {
-    QString log = "Wizard " + card_played_res->get_from() + "played card " + card_played_res->get_card().get_card_name();
+    QString log = "Wizard " + card_played_res->get_from() + " played card " + card_played_res->get_card().get_card_name();
     if (!card_played_res->get_to().empty()) {
         log += " against ";
         bool not_first = false;
