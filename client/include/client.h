@@ -1,9 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "board.h"
 #include "controller.h"
-#include "start_window.h"
 #include <QDialog>
 #include <QObject>
 #include <QQueue>
