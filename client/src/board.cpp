@@ -1,5 +1,6 @@
 #include "board.h"
 
+
 Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent)
     : QWidget(parent), ui(new Ui::Board),
       game_status(status::laying_out_cards) {
@@ -12,6 +13,7 @@ Board::Board(std::shared_ptr<client::Client> client_, QWidget *parent)
   ui->info->setText(
       "Select 1 - 3 cards of different types for the move and press DO MOVE");
   ui->name->setText(client->get_name());
+  ui->logs->addScrollBarWidget(ui->verticalScrollBar, Qt::AlignRight);
 }
 
 void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
@@ -23,7 +25,7 @@ void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
       card->setEnabled(false);
     }
   } else {
-    ui->logs->setText(ui->logs->text() + "\nWizard " + player->get_name() +
+    ui->logs->append("\nWizard " + player->get_name() +
                       " died");
   }
 }
@@ -59,7 +61,7 @@ void Board::update_from_server() {
       std::shared_ptr<controller::CardPlayedResult> card_played_res =
           request.get_card_played_result();
       QString log = get_log(card_played_res);
-      ui->logs->setText(ui->logs->text() + "\n" + log);
+      ui->logs->append("\n" + log);
     }
 
     if (request.get_type() == 3 || request.get_type() == 5) {

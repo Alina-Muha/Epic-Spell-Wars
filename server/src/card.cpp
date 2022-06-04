@@ -1,5 +1,5 @@
 #include "card.h"
-
+#include "player.h"
 namespace card {
 
 Card::type Card::get_card_type() { return type_of_the_card; }

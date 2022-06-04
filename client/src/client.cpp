@@ -1,4 +1,6 @@
 #include "client.h"
+#include "board.h"
+#include "start_window.h"
 
 namespace client {
 Client::Client(QString name_, QObject *parent)

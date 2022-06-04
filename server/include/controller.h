@@ -17,7 +17,6 @@ public:
   QJsonObject to_json_object();
   QString get_type_of_spell();
   int get_number();
-  QString get_card_name();
 
 private:
   QString type_of_spell;

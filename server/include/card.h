@@ -1,6 +1,5 @@
 #ifndef CARD_H
 #define CARD_H
-#include "player.h"
 #include <functional>
 #include <string>
 #include <vector>

@@ -22,9 +22,15 @@ void Start_window::update_from_server() {
       if (request.get_type() == 2) {
         client->set_game_started_flag();
         b = std::make_shared<Board>(client);
+        b->setWindowTitle("Epic spell wars of the battle wizards");
         b->show();
         Start_window::close();
         break;
+      }
+      else if (request.get_type() == 8) {
+          successful_registration();
+      } else if (request.get_type() == 9) {
+          name_duplicate();
       }
     }
   }
@@ -34,17 +40,15 @@ void Start_window::on_registration_button_clicked() {
   std::string name;
   client->set_name((ui->name_edit->text()));
   client->send_name();
-  // if registration is successfull
-  successful_registration();
 }
 
 void Start_window::name_duplicate() {
   ui->info_label->setText(
-      "  The name is already in use, please enter another one");
+      " The name is already in use, please enter another one");
 }
 
 void Start_window::successful_registration() {
-  ui->info_label->setText("  You are registered. Push START button when other "
+  ui->info_label->setText(" You are registered. Push START button when other "
                           "players will be ready");
 }
 
