@@ -118,6 +118,7 @@ void Board::update_from_server() {
             }
             game_status = status::laying_out_cards;
             ui->info->setText(game_status_info[game_status]);
+            ui->logs->clear();
         }
     }
 }

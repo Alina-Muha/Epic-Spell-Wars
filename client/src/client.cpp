@@ -6,11 +6,9 @@
 #include "controller.h"
 
 namespace client {
-Client::Client(QHostAddress ip_, qint16 port_, QString name_, QObject *parent)
+Client::Client(QString name_, QObject *parent)
     : QObject(parent),
       socket(new QTcpSocket(this)),
-      ip(ip_),
-      port(port_),
       name(name_),
       is_game_started_flag(false)
 {
@@ -41,9 +39,8 @@ void Client::send_name() {
     send_json(request.to_json_object());
 }
 
-void Client::connect() {
-    socket->connectToHost(ip, port);
-    send_name();
+void Client::connect(QString ip, qint16 port) { // CHANGE LOCAL HOST TO IP
+    socket->connectToHost(QHostAddress(QHostAddress::LocalHost), port);
 }
 
 void Client::send_start_signal() {

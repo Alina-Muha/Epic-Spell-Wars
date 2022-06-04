@@ -97,7 +97,7 @@ void Server::receive_data(){
             const QJsonDocument jsonDoc = QJsonDocument::fromJson(json_data, &parseError);
             if (parseError.error == QJsonParseError::NoError) {
                 if (jsonDoc.isObject()) {
-                    emit json_received(socket, jsonDoc.object());
+                    json_received(socket, jsonDoc.object());
                 }
                 else
                     emit log_message("Invalid message: " + QString::fromUtf8(json_data));
@@ -140,7 +140,7 @@ void Server::receive_json(QTcpSocket* socket, const QJsonObject &json_obj) {
         if (!gamer) return;
         qDebug() << request.get_cards()->size();
         for (auto cardObj : *request.get_cards()) {
-            if (gamer->get_spell().size() >= 2) break;
+            if (gamer->get_spell().size() >= 4) break;
             card::Card a(cardObj.get_number(), card::Card::convert_string_it_type(cardObj.get_type_of_spell().toStdString()));
 
             auto b = std::make_shared<card::Card>(a);
@@ -297,23 +297,25 @@ void Server::complete_the_number_of_cards(round_of_game::Round &round){
 //        //client_socket->... : send_json;
 //    }
 //}
+/*
 bool Server::check_game_state(){
     // checking if there is a live player
     int alive = 0;
     while (true){
         // play game
-        /*for (auto iter = clients.begin(); iter != clients.end();iter++){
+        for (auto iter = clients.begin(); iter != clients.end();iter++){
             std::shared_ptr<player::Player> player = iter.value().first;
             if (player->get_lives() > 0){
                 alive++;
             }
-        }*/
+        }
         if (alive == 1){
-            for (auto iter = clients.begin(); iter != clients.end();/* iter++ */){
+            for (auto iter = clients.begin(); iter != clients.end(); iter++ ){
                 // send json : game_finished, name of the winner : player with != 0 count of lives
             }
             break;
         }
     }
 }
+*/
 }
