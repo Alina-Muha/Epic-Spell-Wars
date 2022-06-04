@@ -16,8 +16,6 @@ namespace round_of_game {
 
         std::vector<std::shared_ptr<card::Card>> main_deck;
 
-        int count_of_alive_players = alive_players.size();
-
     public:
 
         const int number_of_cards_in_hand=6;
@@ -25,7 +23,7 @@ namespace round_of_game {
         void distribute_cards();
         std::vector<std::shared_ptr<player::Player>> &get_players();
 
-
+        [[nodiscard]] int count_of_alive_players();
         void sort_priority_of_the_turn();
 
         void play_circle();
