@@ -27,7 +27,22 @@ namespace round_of_game {
             return false;
         }
     }
-
+    bool compare_two_cards(std::shared_ptr<card::Card>a,std::shared_ptr<card::Card> b){
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::source){
+            return true;
+        }
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::delivery){
+            return false;
+        }
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::quality &&
+                b->get_type_of_the_spell_component()== card::Card::type_of_spell_component::delivery){
+            return true;
+        }
+        if(a->get_type_of_the_spell_component()== card::Card::type_of_spell_component::delivery &&
+                b->get_type_of_the_spell_component()== card::Card::type_of_spell_component::quality){
+            return false;
+        }
+    }
     int Round::count_of_alive_players(){
         return alive_players.size();
     }
@@ -56,11 +71,6 @@ namespace round_of_game {
         }
     }
 
-    int Round::count_of_alive_players(){
-        return alive_players.size();
-    }
-
-
     int Round::count_the_number_of_dices(std::vector<std::shared_ptr<card::Card>>& cur_spell, std::shared_ptr<card::Card>& cur_card){
         int result=0;
         for(auto i : cur_spell){
@@ -73,16 +83,18 @@ namespace round_of_game {
 
 
     void Round::play_cards(std::shared_ptr<player::Player> gamer){
+
+        std::sort(gamer->get_spell().begin(), gamer->get_spell().end(),compare_two_cards);
         for(auto i : gamer->get_spell()){
-            int number_of_dices=0;
-            if(i->check_roll_power()){
-                number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
-            }
-            int dice_result= dice::roll_the_dice(number_of_dices);
-            auto to = do_card_effects(i, gamer, dice_result, gamer);
-            send_logs_func(QString::fromStdString(gamer->get_name()), to, dice_result, QString::fromStdString(i->convert_type_in_string(i->get_type_of_the_spell_component())), i->get_number());
-             std::cout <<"done2";
-        }
+                  int number_of_dices=0;
+                  if(i->check_roll_power()){
+                      number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
+                  }
+                  int dice_result= dice::roll_the_dice(number_of_dices);
+                  auto to = do_card_effects(i, gamer, dice_result, gamer);
+                  send_logs_func(QString::fromStdString(gamer->get_name()), to, dice_result, QString::fromStdString(i->convert_type_in_string(i->get_type_of_the_spell_component())), i->get_number());
+                   std::cout <<"done2";
+              }
         std::cout <<"done1";
         gamer->get_spell().clear();
         std::cout <<"done";
@@ -185,7 +197,7 @@ namespace round_of_game {
         QList<QString> players_with_damage;
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player);
         int num = get_num_of_player_in_circle(strongest_player);
-      
+
         std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
         std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
 
