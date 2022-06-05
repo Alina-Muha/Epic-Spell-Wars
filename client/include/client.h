@@ -30,7 +30,7 @@ public:
 public slots:
   void connect(QString ip, qint16 port);
   void send_name();
-  QString get_name();
+  [[nodiscard]] QString get_name();
   void send_start_signal();
   void send_json(QJsonObject Data);
   void disconnect();

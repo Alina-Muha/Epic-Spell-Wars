@@ -25,7 +25,7 @@ public:
 
   void set_name(std::string name_);
 
-  int get_num_of_cards();
+  [[nodiscard]] int get_num_of_cards();
 
   [[nodiscard]] std::string &get_name();
 

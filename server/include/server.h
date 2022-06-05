@@ -26,7 +26,7 @@ class Server : public QObject {
 
 public:
   game::Game game_of_players;
-  explicit Server(QObject *parent = nullptr);
+  explicit Server(qint16 port, QObject *parent = nullptr);
   ~Server();
   virtual bool set_socket_descriptor(qintptr socket_descriptor);
   QString user_name(QTcpSocket *client_socket) const;

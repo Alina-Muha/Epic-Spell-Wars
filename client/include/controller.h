@@ -9,15 +9,22 @@
 
 namespace controller {
 
+enum class types {
+    name, start, players, cards, logs, game_over, laying_out, registered, duplicate, connected
+};
+
+types int_to_types(int n);
+int types_to_int(types t);
+
 class JsonCard {
 public:
   JsonCard();
   JsonCard(QString type_of_spell_, int number_);
   JsonCard(QJsonObject jObj);
   QJsonObject to_json_object();
-  QString get_type_of_spell();
-  int get_number();
-  QString get_card_name();
+  [[nodiscard]] QString get_type_of_spell();
+  [[nodiscard]] int get_number();
+  [[nodiscard]] QString get_card_name();
 
 private:
   QString type_of_spell;
@@ -29,8 +36,8 @@ public:
   JsonPlayer(QString name_, int lives_);
   JsonPlayer(QJsonObject jObj);
   QJsonObject to_json_object();
-  QString get_name();
-  int get_lives();
+  [[nodiscard]] QString get_name();
+  [[nodiscard]] int get_lives();
 
 private:
   QString name;
@@ -43,10 +50,10 @@ public:
                    QString type_of_spell_ = "", int number_ = 0);
   CardPlayedResult(QJsonObject jObj);
   QJsonObject to_json_object();
-  QString get_from();
-  QList<QString> get_to();
-  int get_dice();
-  JsonCard get_card();
+  [[nodiscard]] QString get_from();
+  [[nodiscard]] QList<QString> get_to();
+  [[nodiscard]] int get_dice();
+  [[nodiscard]] JsonCard get_card();
   void add_player(JsonPlayer player_);
 
 private:
@@ -58,14 +65,14 @@ private:
 
 class Request {
 public:
-  Request(int type_);
+  Request(types type_);
   Request(QJsonObject jObj);
   QJsonObject to_json_object();
-  int get_type();
-  QString get_name();
-  std::shared_ptr<QList<JsonCard>> get_cards();
-  std::shared_ptr<QList<JsonPlayer>> get_players();
-  std::shared_ptr<CardPlayedResult> get_card_played_result();
+  [[nodiscard]] types get_type();
+  [[nodiscard]] QString get_name();
+  [[nodiscard]] std::shared_ptr<QList<JsonCard>> get_cards();
+  [[nodiscard]] std::shared_ptr<QList<JsonPlayer>> get_players();
+  [[nodiscard]] std::shared_ptr<CardPlayedResult> get_card_played_result();
   void set_name(QString name_);
   void set_cards(QList<JsonCard> cards_);
   void add_card(JsonCard card_);
@@ -75,7 +82,7 @@ public:
   void clear();
 
 private:
-  int type;
+  types type;
   QString name;
   QList<JsonCard> cards;
   QList<JsonPlayer> players;
