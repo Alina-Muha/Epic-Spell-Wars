@@ -17,7 +17,8 @@ HEADERS = \
    $$PWD/include/game.h \
    $$PWD/include/player.h \
    $$PWD/include/round.h \
-   $$PWD/include/server.h
+   $$PWD/include/server.h \
+   $$PWD/include/server_window.h
 
 SOURCES = \
    $$PWD/src/card.cpp \
@@ -27,10 +28,13 @@ SOURCES = \
    $$PWD/src/main.cpp \
    $$PWD/src/player.cpp \
    $$PWD/src/round.cpp \
-   $$PWD/src/server.cpp
+   $$PWD/src/server.cpp \
+   $$PWD/src/server_window.cpp
 
 INCLUDEPATH = \
     $$PWD/include
 
 #DEFINES =
 
+FORMS += \
+    $$PWD/server_window.ui
