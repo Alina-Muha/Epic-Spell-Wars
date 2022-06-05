@@ -88,7 +88,7 @@ namespace round_of_game {
             auto b = *it;
             if(b->get_lives()<=0){
                 alive_players.erase(it);
-                b->get_spell().clear();
+               
                 continue;
             }
             Round::play_cards(b);
@@ -101,6 +101,15 @@ namespace round_of_game {
             sort_priority_of_the_turn();
             play_circle();
             distribute_cards();
+        for(auto it = alive_players.begin(); it!=alive_players.end();it++){
+            auto b = *it;
+            if(b->get_lives()<=0){
+                alive_players.erase(it);
+               
+                continue;
+            }
+           
+        }
         if(alive_players.size()==1){
             return alive_players.back();
         }else{
