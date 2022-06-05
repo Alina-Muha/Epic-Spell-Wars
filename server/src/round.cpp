@@ -1,5 +1,5 @@
 #include "round.h"
-
+#include "QDebug"
 namespace round_of_game {
 
 bool compare_two_players(std::shared_ptr<player::Player> a,
@@ -116,26 +116,35 @@ void Round::play_circle() {
     auto b = *it;
     if (b->get_lives() <= 0) {
       alive_players.erase(it);
-      b->get_spell().clear();
+
       continue;
-    }
-    if(alive_players.size()==1) return;
+    }else{
     Round::play_cards(b);
+
+    }
+
   }
-   for (auto it = alive_players.begin(); it != alive_players.end(); it++) {
-       auto b = *it;
-       if (b->get_lives() <= 0) {
-         alive_players.erase(it);
-       }
-   }
+
 }
 
 std::shared_ptr<player::Player> Round::play_round() {
 
-
+  qDebug() << "1\n";
   sort_priority_of_the_turn();
+   qDebug() << "2\n";
   play_circle();
+   qDebug() << "3\n";
   distribute_cards();
+   qDebug() << "4\n";
+  for (auto it = alive_players.begin(); it != alive_players.end(); it++) {
+      auto b = *it;
+   if (b->get_lives() <= 0) {
+
+     alive_players.erase(it);
+
+     continue;
+   }
+   }
   if (alive_players.size() == 1) {
     return alive_players.back();
   } else {
@@ -1028,7 +1037,7 @@ QList<QString> Round::change_spell(
     int type, [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe) {
   QList<QString> players_with_damage;
   int num = get_num_of_player_in_circle(current_player);
-  std::shared_ptr<player::Player> strongest_player = nullptr;
+  std::shared_ptr<player::Player> strongest_player = current_player;
   int max_lives = 0;
   // type = 1 - card Festering (Quality_6.png)
   if (type == 1) {
@@ -1039,12 +1048,14 @@ QList<QString> Round::change_spell(
         strongest_player = alive_players[i];
       }
     }
-    int num = strongest_player.get()->get_delivery_card_in_spell();
-    if (num != -1){
-        strongest_player->delete_card_from_spell(num);
-    }
-    players_with_damage.append(
-        QString::fromStdString(strongest_player.get()->get_name()));
+    if (strongest_player.get()->get_name() != current_player.get()->get_name()){
+        int num = strongest_player.get()->get_delivery_card_in_spell();
+        if (num != -1){
+            strongest_player->delete_card_from_spell(num);
+        }
+        players_with_damage.append(
+            QString::fromStdString(strongest_player.get()->get_name()));
+  }
   }
 
   // type = 2 - card Mighty-Gro (Quality_10.png)
