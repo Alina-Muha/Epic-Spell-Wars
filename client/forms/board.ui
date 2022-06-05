@@ -95,24 +95,6 @@ border-radius: 20px</string>
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="logs">
-   <property name="geometry">
-    <rect>
-     <x>590</x>
-     <y>70</y>
-     <width>851</width>
-     <height>231</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(198, 174, 118);
-font: 14pt &quot;Papyrus&quot;;
-border-radius: 20px</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QPushButton" name="card_1">
    <property name="geometry">
     <rect>
@@ -327,6 +309,34 @@ border-radius: 20px</string>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="logs">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>70</y>
+     <width>831</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(198, 174, 118);
+font: 14pt &quot;Papyrus&quot;;
+border-radius: 20px</string>
+   </property>
+  </widget>
+  <widget class="QScrollBar" name="verticalScrollBar">
+   <property name="geometry">
+    <rect>
+     <x>1400</x>
+     <y>80</y>
+     <width>21</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
  </widget>

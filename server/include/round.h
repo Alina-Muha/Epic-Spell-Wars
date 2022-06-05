@@ -1,11 +1,8 @@
 #ifndef ROUND_H
 #define ROUND_H
-#include <set>
-#include <vector>
 #include "card.h"
-#include "player.h"
 #include "dice.h"
-#include <functional>
+#include "player.h"
 #include <QList>
 #include <QString>
 namespace round_of_game {
