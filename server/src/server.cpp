@@ -110,6 +110,7 @@ void Server::receive_json(QTcpSocket *socket, const QJsonObject &json_obj) {
     auto gameStateRequest = controller::Request(2);
     auto data = gameStateRequest.to_json_object();
     send_json_to_all_clients(data);
+
     game_of_players.play_game();
     send_players();
     send_cards();
