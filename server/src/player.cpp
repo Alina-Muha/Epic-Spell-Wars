@@ -148,6 +148,20 @@ int Player::get_source_card_in_spell() {
   return num;
 }
 
+int Player::get_quality_card_in_spell() {
+  int num = -1;
+  int i = 0;
+  for (auto &card : this->get_spell()) {
+    if (card.get()->get_type_of_the_spell_component() ==
+        card::Card::type_of_spell_component::quality) {
+      num = i;
+      break;
+    }
+    i++;
+  }
+  return num;
+}
+
 void Player::delete_card(int num_of_card) {
   this->get_cards().erase(this->get_cards().begin() + num_of_card);
 }
