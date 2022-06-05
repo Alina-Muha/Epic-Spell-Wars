@@ -15,6 +15,33 @@
 #define F_CARD_PLAYED "card_played_result"
 
 namespace controller {
+
+types int_to_types(int n) {
+    if (n == 1) {return types::name;}
+    else if (n == 2) {return types::start;}
+    else if (n == 3) {return types::players;}
+    else if (n == 4) {return types::cards;}
+    else if (n == 5) {return types::logs;}
+    else if (n == 6) {return types::game_over;}
+    else if (n == 7) {return types::laying_out;}
+    else if (n == 8) {return types::registered;}
+    else if (n == 9) {return types::duplicate;}
+    else /* if (n == 10) */ {return types::connected;}
+}
+
+int types_to_int(types t) {
+    if (t == types::name) {return 1;}
+    else if (t == types::start) {return 2;}
+    else if (t == types::players) {return 3;}
+    else if (t == types::cards) {return 4;}
+    else if (t == types::logs) {return 5;}
+    else if (t == types::game_over) {return 6;}
+    else if (t == types::laying_out) {return 7;}
+    else if (t == types::registered) {return 8;}
+    else if (t == types::duplicate) {return 9;}
+    else /* if (t == types::connected) */ {return 10;}
+}
+
 JsonCard::JsonCard() {}
 JsonCard::JsonCard(QString type_of_spell_, int number_)
     : type_of_spell(type_of_spell_), number(number_) {}
@@ -77,39 +104,39 @@ QJsonObject CardPlayedResult::to_json_object() {
 
   jObj.insert(F_FROM, QJsonValue::fromVariant(from));
   QJsonArray to_arr;
-  foreach (QString name, to) { to_arr.append(QJsonValue(name)); }
+  foreach (QString name, to) { to_arr.append(QJsonValue(name).toObject()); }
   jObj.insert(F_TO, to_arr);
   jObj.insert(F_DICE, QJsonValue::fromVariant(dice));
   jObj.insert(F_CARD, card.to_json_object());
   return jObj;
 }
 
-Request::Request(int type_) : type(type_), name("") {}
+Request::Request(types type_) : type(type_), name("") {}
 
 Request::Request(QJsonObject jObj) {
-  type = jObj.value(F_TYPE).toInt();
-  if (type == 1 || type == 6) {
+  type = int_to_types(jObj.value(F_TYPE).toInt());
+  if (type == types::name || type == types::game_over) {
     name = jObj.value(F_NAME).toString();
   }
-  if (type == 3 || type == 5) {
+  if (type == types::players || type == types::logs) {
     QJsonArray json_players = jObj.value(F_PLAYERS).toArray();
     for (auto player : json_players) {
       players.append(JsonPlayer(player.toObject()));
     }
   }
-  if (type == 4) {
+  if (type == types::cards) {
     QJsonArray json_cards = jObj.value(F_CARDS).toArray();
     for (auto json_val : json_cards) {
       QJsonObject json_card = json_val.toObject();
       cards.append(JsonCard(json_card));
     }
   }
-  if (type == 5) {
+  if (type == types::logs) {
     card_played_result = CardPlayedResult(jObj.value(F_CARD_PLAYED).toObject());
   }
 }
 
-int Request::get_type() { return type; }
+types Request::get_type() { return type; }
 
 QString Request::get_name() { return name; }
 
@@ -136,10 +163,7 @@ void Request::set_card_played_result(
   card_played_result = *card_played_result_;
 }
 
-void Request::add_player(JsonPlayer player_) {
-  assert(type == 3 || type == 5);
-  players.append(player_);
-}
+void Request::add_player(JsonPlayer player_) { players.append(player_); }
 
 void Request::clear() {
   cards.clear();
@@ -148,25 +172,26 @@ void Request::clear() {
 
 QJsonObject Request::to_json_object() {
   QJsonObject jObj;
-  jObj.insert(F_TYPE, QJsonValue::fromVariant(type));
-  if (type == 1 || type == 6) {
+  jObj.insert(F_TYPE, QJsonValue::fromVariant(types_to_int(type)));
+  if (type == types::name || type == types::game_over) {
     jObj.insert(F_NAME, QJsonValue::fromVariant(name));
   }
-  if (type == 3 || type == 5) {
+  if (type == types::players || type == types::logs) {
     QJsonArray json_players;
     foreach (JsonPlayer player, players) {
       json_players.append(player.to_json_object());
     }
     jObj.insert(F_PLAYERS, json_players);
   }
-  if (type == 4) {
+  if (type == types::cards) {
     QJsonArray json_cards;
     foreach (JsonCard card, cards) { json_cards.append(card.to_json_object()); }
     jObj.insert(F_CARDS, json_cards);
   }
-  if (type == 5) {
+  if (type == types::logs) {
     jObj.insert(F_CARD_PLAYED, card_played_result.to_json_object());
   }
+
   return jObj;
 }
 

@@ -31,6 +31,8 @@ private slots:
 
   void successful_registration();
 
+  void successful_connection();
+
   void update_from_server();
 
   void on_connect_button_clicked();

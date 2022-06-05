@@ -1,10 +1,13 @@
 #include "server.h"
 
+using namespace controller;
+
 namespace server {
-Server::Server(QObject *parent)
+
+Server::Server(qint16 port, QObject *parent)
     : QObject(parent), m_server(new QTcpServer(this)),
       m_server_socket(new QTcpSocket(this)) {
-  if (m_server->listen(QHostAddress::Any, 1234)) {
+  if (m_server->listen(QHostAddress::Any, port)) {
     connect(this, &Server::json_received, this, &Server::receive_json);
     connect(m_server, &QTcpServer::newConnection, this,
             &Server::new_connection);
@@ -12,7 +15,7 @@ Server::Server(QObject *parent)
 
   auto logs_func = [&](QString from_, QList<QString> to_, int dice_,
                        QString type_of_spell_, int number_) {
-    auto request = controller::Request(5);
+    auto request = Request(types::logs);
     foreach (std::shared_ptr<player::Player> gamer,
              game_of_players.get_round().get_alive_players()) {
       if (gamer == nullptr)
@@ -51,6 +54,7 @@ void Server::new_connection() {
             &Server::disconnected_from_client);
     connect(socket, &QAbstractSocket::errorOccurred, this, &Server::error);
     clients[socket] = "";
+    send_json(socket, Request(types::connected).to_json_object());
   }
 }
 
@@ -93,21 +97,21 @@ void Server::receive_data() {
 
 void Server::receive_json(QTcpSocket *socket, const QJsonObject &json_obj) {
   controller::Request request(json_obj);
-  if (request.get_type() == 1) {
+  if (request.get_type() == types::name) {
     if(names_of_the_players.find(request.get_name())==names_of_the_players.end()){
     set_user_name(socket, request.get_name()); // name will be in json
     std::string temp_name = request.get_name().toStdString();
     names_of_the_players.insert(request.get_name());
     game_of_players.add_player(std::make_shared<player::Player>(temp_name));
-    auto accept_req=controller::Request(8);
+    auto accept_req= Request(types::registered);
     send_json(socket, accept_req.to_json_object());
     }else{
-        auto decline_req=controller::Request(9);
+        auto decline_req= Request(types::duplicate);
         send_json(socket, decline_req.to_json_object());
     }
   }
-  if (request.get_type() == 2) {
-    auto gameStateRequest = controller::Request(2);
+  if (request.get_type() == types::start) {
+    auto gameStateRequest = Request(types::start);
     auto data = gameStateRequest.to_json_object();
     send_json_to_all_clients(data);
 
@@ -115,7 +119,7 @@ void Server::receive_json(QTcpSocket *socket, const QJsonObject &json_obj) {
     send_players();
     send_cards();
   }
-  if (request.get_type() == 4) {
+  if (request.get_type() == types::cards) {
     auto gamer = game_of_players.find_player(clients[socket].toStdString());
     if (!gamer)
       return;
@@ -135,13 +139,13 @@ void Server::receive_json(QTcpSocket *socket, const QJsonObject &json_obj) {
         number_of_spelled_players) {
       auto player = game_of_players.get_round().play_round();
       if (player != nullptr) {
-        auto winRequest = controller::Request(6);
+        auto winRequest = Request(types::game_over);
         winRequest.set_name(QString::fromStdString(player->get_name()));
         send_json_to_all_clients(winRequest.to_json_object());
       } else {
         send_players();
         send_cards();
-        auto game_Request = controller::Request(7);
+        auto game_Request = Request(types::laying_out);
         send_json_to_all_clients(game_Request.to_json_object());
       }
       number_of_spelled_players = 0;
@@ -150,7 +154,7 @@ void Server::receive_json(QTcpSocket *socket, const QJsonObject &json_obj) {
 }
 
 void Server::send_players() {
-  auto playersRequest = controller::Request(3);
+  auto playersRequest = Request(types::players);
   foreach (std::shared_ptr<player::Player> gamer,
            game_of_players.get_round().get_alive_players()) {
 
@@ -169,7 +173,7 @@ void Server::send_cards() {
     auto gamer = game_of_players.find_player(clients[socket].toStdString());
     if (gamer == nullptr)
       continue;
-    auto cardsRequest = controller::Request(4);
+    auto cardsRequest = Request(types::cards);
 
     foreach (std::shared_ptr<card::Card> card_of_game, gamer->get_cards()) {
 
