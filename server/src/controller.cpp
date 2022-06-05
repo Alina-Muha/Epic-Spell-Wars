@@ -17,29 +17,51 @@
 namespace controller {
 
 types int_to_types(int n) {
-    if (n == 1) {return types::name;}
-    else if (n == 2) {return types::start;}
-    else if (n == 3) {return types::players;}
-    else if (n == 4) {return types::cards;}
-    else if (n == 5) {return types::logs;}
-    else if (n == 6) {return types::game_over;}
-    else if (n == 7) {return types::laying_out;}
-    else if (n == 8) {return types::registered;}
-    else if (n == 9) {return types::duplicate;}
-    else /* if (n == 10) */ {return types::connected;}
+  if (n == 1) {
+    return types::name;
+  } else if (n == 2) {
+    return types::start;
+  } else if (n == 3) {
+    return types::players;
+  } else if (n == 4) {
+    return types::cards;
+  } else if (n == 5) {
+    return types::logs;
+  } else if (n == 6) {
+    return types::game_over;
+  } else if (n == 7) {
+    return types::laying_out;
+  } else if (n == 8) {
+    return types::registered;
+  } else if (n == 9) {
+    return types::duplicate;
+  } else /* if (n == 10) */ {
+    return types::connected;
+  }
 }
 
 int types_to_int(types t) {
-    if (t == types::name) {return 1;}
-    else if (t == types::start) {return 2;}
-    else if (t == types::players) {return 3;}
-    else if (t == types::cards) {return 4;}
-    else if (t == types::logs) {return 5;}
-    else if (t == types::game_over) {return 6;}
-    else if (t == types::laying_out) {return 7;}
-    else if (t == types::registered) {return 8;}
-    else if (t == types::duplicate) {return 9;}
-    else /* if (t == types::connected) */ {return 10;}
+  if (t == types::name) {
+    return 1;
+  } else if (t == types::start) {
+    return 2;
+  } else if (t == types::players) {
+    return 3;
+  } else if (t == types::cards) {
+    return 4;
+  } else if (t == types::logs) {
+    return 5;
+  } else if (t == types::game_over) {
+    return 6;
+  } else if (t == types::laying_out) {
+    return 7;
+  } else if (t == types::registered) {
+    return 8;
+  } else if (t == types::duplicate) {
+    return 9;
+  } else /* if (t == types::connected) */ {
+    return 10;
+  }
 }
 
 JsonCard::JsonCard() {}
@@ -104,7 +126,7 @@ QJsonObject CardPlayedResult::to_json_object() {
 
   jObj.insert(F_FROM, QJsonValue::fromVariant(from));
   QJsonArray to_arr;
-  foreach (QString name, to) { to_arr.append(QJsonValue(name).toObject()); }
+  foreach (QString name, to) { to_arr.append(QJsonValue(name)); }
   jObj.insert(F_TO, to_arr);
   jObj.insert(F_DICE, QJsonValue::fromVariant(dice));
   jObj.insert(F_CARD, card.to_json_object());

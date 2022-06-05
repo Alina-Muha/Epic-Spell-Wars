@@ -57,7 +57,8 @@ private:
   std::map<QString, bool> selected_types;
   void players_death(std::shared_ptr<controller::JsonPlayer> request);
   void card_clicked(int i);
-  [[nodiscard]] QString get_log(std::shared_ptr<controller::CardPlayedResult> card_played_res);
+  [[nodiscard]] QString
+  get_log(std::shared_ptr<controller::CardPlayedResult> card_played_res);
   const QString not_clicked_style =
       "border-radius: 20px;background-color: rgb(252, 244, 206);border: 4px "
       "solid #927862;";
