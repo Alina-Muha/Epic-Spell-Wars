@@ -1,7 +1,6 @@
 #include "round.h"
-#include "algorithm"
-#include <QDebug>
-#include <iostream>
+#include <algorithm>
+//#include <iostream>
 namespace round_of_game {
 
 
@@ -97,7 +96,6 @@ namespace round_of_game {
 
     std::shared_ptr<player::Player> Round::play_round() {
 
-            //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
             distribute_cards();
@@ -912,7 +910,7 @@ namespace round_of_game {
                                      [[maybe_unused]] int sum, int type){
         QList<QString> players_with_damage;
         int num = get_num_of_player_in_circle(current_player);
-        std::shared_ptr<player::Player> strongest_player = nullptr;
+        std::shared_ptr<player::Player> strongest_player = current_player;
         int max_lives = 0;
         // type = 1 - card Festering (Quality_6.png)
         if (type == 1){
@@ -923,15 +921,13 @@ namespace round_of_game {
                     strongest_player = alive_players[i];
                 }
             }
-            int pos_in_spell = 0;
-            for (auto &card : strongest_player.get()->get_spell()){
-                if (card.get()->get_card_component() == card::Card::type_of_spell_component::quality){
-                    strongest_player->delete_card_from_spell(pos_in_spell);
-                    break;
+            if (current_player.get()->get_name() != strongest_player.get()->get_name()){ // we are not last in circle
+                int quality_num = strongest_player.get()->get_quality_card_in_spell();
+                if (quality_num != -1){
+                    strongest_player.get()->delete_card_from_spell(quality_num);
                 }
-                pos_in_spell++;
-            }
             players_with_damage.append(QString::fromStdString(strongest_player.get()->get_name()));
+            }
         }
 
         // type = 2 - card Mighty-Gro (Quality_10.png)
