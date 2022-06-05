@@ -115,7 +115,7 @@ public:
         type_of_the_card = type::primal;
       }
       if (number == 12) {
-        type_of_the_card = type::dark;
+        type_of_the_card = type::elemental;
       }
       if (number == 13) {
         type_of_the_card = type::primal;
@@ -163,8 +163,8 @@ public:
         priority_of_the_turn = 3;
       }
       if (number == 11) {
-        type_of_the_card = type::illusion;
-        priority_of_the_turn = 19;
+        type_of_the_card = type::ahcane;
+        priority_of_the_turn = 4;
       }
       if (number == 12) {
         type_of_the_card = type::primal;
