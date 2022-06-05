@@ -1,5 +1,6 @@
 #include "round.h"
 #include <algorithm>
+#include <QDebug>
 //#include <iostream>
 namespace round_of_game {
 
