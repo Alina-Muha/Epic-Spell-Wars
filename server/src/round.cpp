@@ -1,13 +1,7 @@
 #include "round.h"
-<<<<<<< HEAD
-#include <algorithm>
-#include <QDebug>
-//#include <iostream>
-=======
 #include "algorithm"
 #include <QDebug>
 #include <iostream>
->>>>>>> refs/remotes/origin/main
 namespace round_of_game {
 
 
@@ -94,7 +88,7 @@ namespace round_of_game {
             auto b = *it;
             if(b->get_lives()<=0){
                 alive_players.erase(it);
-               
+
                 continue;
             }
             Round::play_cards(b);
@@ -111,10 +105,10 @@ namespace round_of_game {
             auto b = *it;
             if(b->get_lives()<=0){
                 alive_players.erase(it);
-               
+
                 continue;
             }
-           
+
         }
         if(alive_players.size()==1){
             return alive_players.back();
@@ -194,7 +188,7 @@ namespace round_of_game {
         QList<QString> players_with_damage;
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player);
         int num = get_num_of_player_in_circle(strongest_player);
-      
+
         std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
         std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
 
