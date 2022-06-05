@@ -1,7 +1,13 @@
 #include "round.h"
+<<<<<<< HEAD
 #include <algorithm>
 #include <QDebug>
 //#include <iostream>
+=======
+#include "algorithm"
+#include <QDebug>
+#include <iostream>
+>>>>>>> refs/remotes/origin/main
 namespace round_of_game {
 
 
@@ -88,7 +94,7 @@ namespace round_of_game {
             auto b = *it;
             if(b->get_lives()<=0){
                 alive_players.erase(it);
-                b->get_spell().clear();
+               
                 continue;
             }
             Round::play_cards(b);
@@ -97,9 +103,19 @@ namespace round_of_game {
 
     std::shared_ptr<player::Player> Round::play_round() {
 
+            //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
             distribute_cards();
+        for(auto it = alive_players.begin(); it!=alive_players.end();it++){
+            auto b = *it;
+            if(b->get_lives()<=0){
+                alive_players.erase(it);
+               
+                continue;
+            }
+           
+        }
         if(alive_players.size()==1){
             return alive_players.back();
         }else{
@@ -847,7 +863,7 @@ namespace round_of_game {
             }
         }
 
-        // type = 10 - card Dragon hoard (Quality_12.png)
+        // type = 10 - card Explodifying (Quality_12.png)
         if (type == 10){
             for (auto & player : alive_players){
                 if (player.get()->get_name() != current_player.get()->get_name()){
