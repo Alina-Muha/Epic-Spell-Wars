@@ -56,11 +56,6 @@ namespace round_of_game {
         }
     }
 
-    int Round::count_of_alive_players(){
-        return alive_players.size();
-    }
-
-
     int Round::count_the_number_of_dices(std::vector<std::shared_ptr<card::Card>>& cur_spell, std::shared_ptr<card::Card>& cur_card){
         int result=0;
         for(auto i : cur_spell){
@@ -79,7 +74,7 @@ namespace round_of_game {
                 number_of_dices= count_the_number_of_dices(gamer->get_spell(), i);
             }
             int dice_result= dice::roll_the_dice(number_of_dices);
-            auto to = do_card_effects(i, gamer, dice_result, gamer);
+            auto to = do_card_effects(i, gamer, dice_result);
             send_logs_func(QString::fromStdString(gamer->get_name()), to, dice_result, QString::fromStdString(i->convert_type_in_string(i->get_type_of_the_spell_component())), i->get_number());
              std::cout <<"done2";
         }
@@ -180,8 +175,7 @@ namespace round_of_game {
 
     // card_functions:
 
-    QList<QString> Round::damage_to_the_strongest_player(std::shared_ptr<player::Player> &current_player, int sum, int type,
-                                                       [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::damage_to_the_strongest_player(std::shared_ptr<player::Player> &current_player, int sum, int type){
         QList<QString> players_with_damage;
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player);
         int num = get_num_of_player_in_circle(strongest_player);
@@ -268,8 +262,7 @@ namespace round_of_game {
     }
 
     QList<QString> Round::damage_to_the_weakest_player(std::shared_ptr<player::Player> &current_player, int sum,
-                                                     [[maybe_unused]] int type,
-                                                     [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+                                                     [[maybe_unused]] int type){
         QList<QString> players_with_damage;
         // card Mercy Killing (Delivery_2.png)
         std::shared_ptr<player::Player> weakest_player = get_the_weakest_player(current_player);
@@ -287,8 +280,7 @@ namespace round_of_game {
     }
 
     QList<QString> Round::damage_to_the_left_neighbour(std::shared_ptr<player::Player> &current_player, int sum,
-                                                     [[maybe_unused]] int type,
-                                                     [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+                                                     [[maybe_unused]] int type){
         QList<QString> players_with_damage;
         // card Fist O'Nature (Delivery_7.png)
 
@@ -308,8 +300,7 @@ namespace round_of_game {
         return players_with_damage;
     }
 
-    QList<QString> Round::damage_to_the_right_neighbour(std::shared_ptr<player::Player> &current_player, int sum, int type,
-                                                      [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::damage_to_the_right_neighbour(std::shared_ptr<player::Player> &current_player, int sum, int type){
         QList<QString> players_with_damage;
         int num = get_num_of_player_in_circle(current_player);
         std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
@@ -359,70 +350,20 @@ namespace round_of_game {
         return players_with_damage;
     }
 
-    // for this void it needs to to understand how to get information about the chosen foe, we need client-server
-    QList<QString> Round::damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player,  int sum, int type,
-                                             std::shared_ptr<player::Player> &chosen_foe){
-        QList<QString> players_with_damage;
-        // type = 1 - card Deulicious (Quality_3.png)
-        if (type == 1){
-            if (sum >= 1 && sum <= 4){
-                chosen_foe.get()->subtract_lives(2);
-            }
-            if (sum >= 5 && sum <= 9){
-                chosen_foe.get()->subtract_lives(4);
-                current_player.get()->subtract_lives(1);
-            }
-            if (sum >= 10){
-                chosen_foe.get()->subtract_lives(5);
-                current_player.get()->subtract_lives(2);
-            }
-        }
+    QList<QString> Round::damage_to_random_foe(std::shared_ptr<player::Player> &current_player, [[maybe_unused]] int sum, int type){
 
-        // type = 2 - card Ritualistic (Quality_12.png)
-        if (type == 2){
-            if (sum >= 1 && sum <= 4){
-                current_player.get()->subtract_lives(3);
-            }
-            if (sum >= 5 && sum <= 9){
-                chosen_foe.get()->subtract_lives(3);
-            }
-            if (sum >= 10){
-                chosen_foe.get()->subtract_lives(5);
-            }
-        }
-
-        // type = 3 - card Bedazzlement (Delivery_11.png)
-        if (type == 3){
-            if (sum >= 1 && sum <= 4){
-                chosen_foe.get()->subtract_lives(1);
-            }
-            else{
-                chosen_foe.get()->subtract_lives(1);
-                if (sum >= 5 && sum <= 9){
-                    int count_of_cards = current_player->get_num_of_cards();
-                    std::random_device dev; // random card
-                    std::mt19937 rng(dev());
-                    std::uniform_int_distribution<std::mt19937::result_type> roll(0, count_of_cards - 1);
-                    int num_of_card = roll(rng);
-                    current_player.get()->add_card_to_spell(current_player.get()->get_cards()[num_of_card]);
-                    current_player.get()->delete_card(num_of_card);
-                }
-            }
-        }
-
-
-        players_with_damage.append(QString::fromStdString(chosen_foe.get()->get_name()));
-        return players_with_damage;
-    }
-
-    QList<QString> Round::damage_to_random_foe(std::shared_ptr<player::Player> &current_player, [[maybe_unused]] int sum, int type,
-                                             [[maybe_unused]]std::shared_ptr<player::Player> &chosen_foe){
-        // card Professor Presto's (Source_2.png) and card Mind-Altering (Quality_4.png)
         QList<QString> players_with_damage;
         std::vector<std::shared_ptr<player::Player>> foes;
         for (auto &player : alive_players){
             if (player.get()->get_name() != current_player.get()->get_name()){ // all players have different names
-                foes.push_back(player);
+                if (type == 2){
+                    if (player.get()->get_lives() % 2 != 0){
+                        foes.push_back(player);
+                    }
+                }
+                else{
+                    foes.push_back(player);
+                }
             }
         }
         int count = foes.size();
@@ -431,13 +372,31 @@ namespace round_of_game {
         std::uniform_int_distribution<std::mt19937::result_type> roll(0, count - 1);
         int rand_player_num = roll(rng);
         std::shared_ptr<player::Player> random_foe = foes[rand_player_num];
-        random_foe.get()->subtract_lives(3);
+
+        // type = 1 - card Professor Presto's (Source_2.png) and card Mind-Altering (Quality_4.png)
+        if (type == 1){
+            random_foe.get()->subtract_lives(3);
+        }
+
+        // type = 2 - card Deulicious (Quality_3.png)
+        if (type == 2){
+            if (sum >= 1 && sum <= 4){
+                random_foe.get()->subtract_lives(2);
+            }
+            if (sum >= 5 && sum <= 9){
+                random_foe.get()->subtract_lives(4);
+                current_player.get()->subtract_lives(1);
+            }
+            if (sum >= 10){
+                random_foe.get()->subtract_lives(5);
+                 current_player.get()->subtract_lives(2);
+            }
+        }
         players_with_damage.append(QString::fromStdString(random_foe.get()->get_name()));
         return players_with_damage;
     }
 
-    QList<QString> Round::hp_to_current_player(std::shared_ptr<player::Player> &current_player, int sum, int type,
-                                             [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::hp_to_current_player(std::shared_ptr<player::Player> &current_player, int sum, int type){
         QList<QString> players_with_damage;
         // type = 1 - card Fountain of Youth (Delivery_6.png)
         if (type == 1){
@@ -461,10 +420,13 @@ namespace round_of_game {
         return players_with_damage;
     }
 
-    QList<QString> Round::damage_for_several_foes(std::shared_ptr<player::Player> &current_player, int sum, int type,
-                                                [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::damage_for_several_foes(std::shared_ptr<player::Player> &current_player, int sum, int type){
         QList<QString> players_with_damage;
         int cur_lives = current_player.get()->get_lives();
+
+        int num = get_num_of_player_in_circle(current_player);
+        std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
+        std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
 
         // type = 1 - card Meatier Swarm (Delivery_3.png)
         if (type == 1){
@@ -487,7 +449,6 @@ namespace round_of_game {
 
         // type = 2 - card Lightning-Bolt (Delivery_4.png)
         if (type == 2){
-            int num = get_num_of_player_in_circle(current_player);
             std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
             std::shared_ptr<player::Player> left_left_neighbour = alive_players[(count_of_alive_players() + num - 2) % count_of_alive_players()];
             players_with_damage.append(QString::fromStdString(left_neighbour.get()->get_name()));
@@ -532,11 +493,8 @@ namespace round_of_game {
             }
         }
 
-        // type = 4 - card Snakedance (Delivery_12.png)
-        if (type == 4){
-            int num = get_num_of_player_in_circle(current_player);
-            std::shared_ptr<player::Player> right_neighbour = alive_players[(num + 1) % count_of_alive_players()];
-            std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
+        // type = 4 - card Snakedance (Delivery_12.png), type = 6 - card Cone of Acid (Delivery_11.png)
+        if (type == 4 || type == 6){
             players_with_damage.append(QString::fromStdString(right_neighbour.get()->get_name()));
             if (count_of_alive_players() > 2){
                 players_with_damage.append(QString::fromStdString(left_neighbour.get()->get_name()));
@@ -553,11 +511,19 @@ namespace round_of_game {
                     left_neighbour.get()->subtract_lives(2);
                 }
             }
-            if (sum >= 10){
-                int primal = current_player->get_primal_num_in_spell();
-                right_neighbour.get()->subtract_lives(2 * primal);
-                if (count_of_alive_players() > 2){
-                    left_neighbour.get()->subtract_lives(2 * primal);
+            else{
+                if (type == 4){
+                    int primal = current_player->get_primal_num_in_spell();
+                    right_neighbour.get()->subtract_lives(2 * primal);
+                    if (count_of_alive_players() > 2){
+                        left_neighbour.get()->subtract_lives(2 * primal);
+                    }
+                }
+                else{
+                    right_neighbour.get()->subtract_lives(4);
+                    if (count_of_alive_players() > 2){
+                        left_neighbour.get()->subtract_lives(4);
+                    }
                 }
             }
         }
@@ -565,10 +531,10 @@ namespace round_of_game {
         // type = 5 - card Pam and Hecuba's (Source_9.png)
         if (type == 5){
             int primal = current_player->get_primal_num_in_spell();
-            int num = current_player->get_delivery_card_in_spell();
-            if (num != -1){
-                std::shared_ptr<card::Card> delivery_card = current_player.get()->get_spell()[num];
-                current_player->delete_card_from_spell(num);
+            int delivery_num = current_player->get_delivery_card_in_spell();
+            if (delivery_num != -1){
+                std::shared_ptr<card::Card> delivery_card = current_player.get()->get_spell()[delivery_num];
+                current_player->delete_card_from_spell(delivery_num);
                 for (auto &player : alive_players){
                     int num = get_num_of_player_in_circle(player);
                     std::shared_ptr<player::Player> left_neighbour = alive_players[(count_of_alive_players() + num - 1) % count_of_alive_players()];
@@ -711,15 +677,14 @@ namespace round_of_game {
                     current_player.get()->add_card_to_spell(current_player.get()->get_cards()[num_of_card]);
                 }
                 if (delivery_card.get()->get_number() == 8){
-                    return do_card_effects(delivery_card, current_player, sum, chosen_foe);
+                    return do_card_effects(delivery_card, current_player, sum);
                 }
             }
         }
         return players_with_damage;
     }
 
-    QList<QString> Round::type_of_cards_damage(std::shared_ptr<player::Player> &current_player, [[maybe_unused]] int sum, int type,
-                                             [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::type_of_cards_damage(std::shared_ptr<player::Player> &current_player, [[maybe_unused]] int sum, int type){
         QList<QString> players_with_damage;
         int unique = current_player->unique_types_in_spell();
 
@@ -790,8 +755,7 @@ namespace round_of_game {
         return players_with_damage;
     }
 
-    QList<QString> Round::damage_without_parametrs(std::shared_ptr<player::Player> &current_player, [[maybe_unused]]int sum, int type,
-                                                 [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::damage_without_parametrs(std::shared_ptr<player::Player> &current_player, [[maybe_unused]]int sum, int type){
         QList<QString> players_with_damage;
         std::shared_ptr<player::Player> strongest_player = get_the_strongest_player(current_player);
 
@@ -883,12 +847,31 @@ namespace round_of_game {
                 }
             }
         }
+
+        // type = 10 - card Dragon hoard (Quality_12.png)
+        if (type == 10){
+            for (auto & player : alive_players){
+                if (player.get()->get_name() != current_player.get()->get_name()){
+                    if (player.get()->get_delivery_card_in_spell() > 0){
+                        if (sum >=1 && sum <= 4){
+                            player.get()->subtract_lives(1);
+                        }
+                        if (sum >= 5 && sum <= 9){
+                            player.get()->subtract_lives(2);
+                        }
+                        if (sum >= 10){
+                            player.get()->subtract_lives(3);
+                        }
+                        players_with_damage.append(QString::fromStdString(player.get()->get_name()));
+                    }
+                }
+            }
+        }
         return players_with_damage;
     }
 
     QList<QString> Round::copy_the_text_of_card(std::shared_ptr<player::Player> &current_player,
-                                              int sum, int type,
-                                              std::shared_ptr<player::Player> &chosen_foe){
+                                              int sum, int type){
         QList<QString> players_with_damage;
         // type = 1 - card Disco-Mirrored (Quality_5.png)
         if (type == 1){
@@ -900,7 +883,7 @@ namespace round_of_game {
                 int num_of_source = current_player->get_num_of_cards();
                 if (num_of_source != -1){
                     std::shared_ptr<card::Card> executable_card = current_player.get()->get_cards()[num_of_source];
-                    return do_card_effects(executable_card, current_player, sum, chosen_foe);
+                    return do_card_effects(executable_card, current_player, sum);
                 }
             }
 
@@ -909,7 +892,7 @@ namespace round_of_game {
                 int num_of_delivery = current_player->get_delivery_card_in_spell();
                 if (num_of_delivery != -1){
                     std::shared_ptr<card::Card> executable_card = current_player.get()->get_cards()[num_of_delivery];
-                    return do_card_effects(executable_card, current_player, sum, chosen_foe);
+                    return do_card_effects(executable_card, current_player, sum);
                 }
             }
         }
@@ -919,15 +902,14 @@ namespace round_of_game {
             int delivery_num = current_player->get_delivery_card_in_spell();
             if (delivery_num != -1){
                 std::shared_ptr<card::Card> delivery_card = current_player.get()->get_spell()[delivery_num];
-                return do_card_effects(delivery_card, current_player, sum, chosen_foe);
+                return do_card_effects(delivery_card, current_player, sum);
             }
         }
         return players_with_damage;
     }
 
     QList<QString> Round::change_spell(std::shared_ptr<player::Player> &current_player,
-                                     [[maybe_unused]] int sum, int type,
-                                     [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+                                     [[maybe_unused]] int sum, int type){
         QList<QString> players_with_damage;
         int num = get_num_of_player_in_circle(current_player);
         std::shared_ptr<player::Player> strongest_player = nullptr;
@@ -971,140 +953,138 @@ namespace round_of_game {
     }
 
     QList<QString> Round::change_order(std::shared_ptr<player::Player> &current_player,
-                                     [[maybe_unused]]int sum, [[maybe_unused]] int type,
-                                     [[maybe_unused]] std::shared_ptr<player::Player> &chosen_foe){
+                                     [[maybe_unused]]int sum, [[maybe_unused]] int type){
         // card Impatient (Quality_7.png)
-        return damage_without_parametrs(current_player, 0, 7, current_player);
+        return damage_without_parametrs(current_player, 0, 7);
     }
-    QList<QString> Round::do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, int sum,
-                                        std::shared_ptr<player::Player> &chosen_foe){
+    QList<QString> Round::do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, int sum){
         QList<QString> players_with_damage;
         if (executable_card->get_card_component() == card::Card::type_of_spell_component::source) {
             if (executable_card->get_number() == 1) {
-                return copy_the_text_of_card(current_player, sum, 2, chosen_foe);
+                return copy_the_text_of_card(current_player, sum, 2);
             }
             if (executable_card->get_number() == 2) {
-                return damage_to_random_foe(current_player, sum, 0, chosen_foe);
+                return damage_to_random_foe(current_player, sum, 1);
             }
             if (executable_card->get_number() == 3) {
-                return damage_without_parametrs(current_player, 0, 8, chosen_foe);
+                return damage_without_parametrs(current_player, 0, 8);
             }
             if (executable_card->get_number() == 4) {
-                return damage_without_parametrs(current_player, 0, 1, chosen_foe);
+                return damage_without_parametrs(current_player, 0, 1);
             }
             if (executable_card->get_number() == 5) {
-                return damage_without_parametrs(current_player, 0, 2, chosen_foe);
+                return damage_without_parametrs(current_player, 0, 2);
             }
             if (executable_card->get_number() == 6) {
-                return damage_without_parametrs(current_player, sum, 3, chosen_foe);
+                return damage_without_parametrs(current_player, sum, 3);
             }
             if (executable_card->get_number() == 8){
-                return hp_to_current_player(current_player, sum, 2, chosen_foe);
+                return hp_to_current_player(current_player, sum, 2);
             }
             if (executable_card->get_number() == 9) {
-                return damage_for_several_foes(current_player, sum, 5, chosen_foe);
+                return damage_for_several_foes(current_player, sum, 5);
             }
             if (executable_card->get_number() == 10) {
-                return damage_to_chosen_foe(current_player, sum, 4, chosen_foe);
+                return damage_without_parametrs(current_player, sum, 9);
             }
             if (executable_card->get_number() == 11) {
-                return type_of_cards_damage(current_player, sum, 6, chosen_foe);
+                return type_of_cards_damage(current_player, sum, 6);
             }
             if (executable_card->get_number() == 12) {
-                return damage_without_parametrs(current_player, sum, 4, chosen_foe);
+                return damage_without_parametrs(current_player, sum, 4);
             }
             if (executable_card->get_number() == 13) {
-                return damage_without_parametrs(current_player, sum, 5, chosen_foe);
+                return damage_without_parametrs(current_player, sum, 5);
             }
             if (executable_card->get_number() == 15) {
-                return type_of_cards_damage(current_player, sum, 1, chosen_foe);
+                return type_of_cards_damage(current_player, sum, 1);
             }
 
         } else if (executable_card->get_card_component() == card::Card::type_of_spell_component::quality) {
             if (executable_card->get_number() == 1) {
-                return damage_without_parametrs(current_player, sum, 6, chosen_foe);
+                return damage_without_parametrs(current_player, sum, 6);
             }
             if (executable_card->get_number() == 2) {
-                return type_of_cards_damage(current_player, sum, 2, chosen_foe);
+                return type_of_cards_damage(current_player, sum, 2);
             }
             if (executable_card->get_number() == 3) {
-                return damage_to_chosen_foe(current_player, sum, 1, chosen_foe);
+                return damage_to_random_foe(current_player, sum, 2);
             }
             if (executable_card->get_number() == 4){
-                return damage_to_random_foe(current_player, sum, 0, chosen_foe);
+                return damage_to_random_foe(current_player, sum, 1);
             }
             if (executable_card->get_number() == 5) {
-                return copy_the_text_of_card(current_player, sum, 1, chosen_foe);
+                return copy_the_text_of_card(current_player, sum, 1);
             }
             if (executable_card->get_number() == 6) {
-                return change_spell(current_player, sum, 1, chosen_foe);
+                return change_spell(current_player, sum, 1);
             }
             if (executable_card->get_number() == 7) {
-                return change_order(current_player, sum, 0, chosen_foe);
+                return change_order(current_player, sum, 0);
             }
             if (executable_card->get_number() == 8) {
-                return type_of_cards_damage(current_player, sum, 3, chosen_foe);
+                return type_of_cards_damage(current_player, sum, 3);
             }
             if (executable_card->get_number() == 9) {
-                return type_of_cards_damage(current_player, sum, 4, chosen_foe);
+                return type_of_cards_damage(current_player, sum, 4);
             }
             if (executable_card->get_number() == 10) {
-                return change_spell(current_player, sum, 2, chosen_foe);
+                return change_spell(current_player, sum, 2);
             }
             if (executable_card->get_number() == 11) {
-                return damage_to_the_right_neighbour(current_player, sum, 3, chosen_foe);
+                return damage_to_the_right_neighbour(current_player, sum, 3);
             }
             if (executable_card->get_number() == 12) {
-                return damage_to_chosen_foe(current_player, sum, 2, chosen_foe);
+                return damage_without_parametrs(current_player, sum, 10);
             }
             if (executable_card->get_number() == 13) {
-                return type_of_cards_damage(current_player, sum, 5, chosen_foe);
+                return type_of_cards_damage(current_player, sum, 5);
             }
 
         }
         else /*(type_of_the_spell_component == type_of_spell_component::delivery)*/ {
             if (executable_card->get_number() == 1) {
-                return damage_to_the_strongest_player(current_player, sum, 1, chosen_foe);
+                return damage_to_the_strongest_player(current_player, sum, 1);
             }
             if (executable_card->get_number() == 2) {
-                return damage_to_the_weakest_player(current_player, sum, 0, chosen_foe);
+                return damage_to_the_weakest_player(current_player, sum, 0);
             }
             if (executable_card->get_number() == 3) {
-                return damage_for_several_foes(current_player, sum, 1, chosen_foe);
+                return damage_for_several_foes(current_player, sum, 1);
             }
             if (executable_card->get_number() == 4) {
-                return damage_for_several_foes(current_player, sum, 2, chosen_foe);
+                return damage_for_several_foes(current_player, sum, 2);
             }
             if (executable_card->get_number() == 5) {
-                return damage_to_the_strongest_player(current_player, sum, 2, chosen_foe);
+                return damage_to_the_strongest_player(current_player, sum, 2);
             }
             if (executable_card->get_number() == 6) {
-                return hp_to_current_player(current_player, sum, 1, chosen_foe);
+                return hp_to_current_player(current_player, sum, 1);
             }
             if (executable_card->get_number() == 7) {
-                return damage_to_the_left_neighbour(current_player, sum, 0, chosen_foe);
+                return damage_to_the_left_neighbour(current_player, sum, 0);
             }
             if (executable_card->get_number() == 8) {
-                return damage_for_several_foes(current_player, sum, 3, chosen_foe);
+                return damage_for_several_foes(current_player, sum, 3);
             }
 
             if (executable_card->get_number() == 9) {
-                return damage_to_the_right_neighbour(current_player, sum, 1, chosen_foe);
+                return damage_to_the_right_neighbour(current_player, sum, 1);
             }
             if (executable_card->get_number() == 10) {
-                return damage_to_the_strongest_player(current_player, sum, 3, chosen_foe);
+                return damage_to_the_strongest_player(current_player, sum, 3);
             }
             if (executable_card->get_number() == 11) {
-                return damage_to_chosen_foe(current_player, sum, 3, chosen_foe);
+                return damage_for_several_foes(current_player, sum, 6);
             }
             if (executable_card->get_number() == 12) {
-                return damage_for_several_foes(current_player, sum, 4, chosen_foe);
+                return damage_for_several_foes(current_player, sum, 4);
             }
             if (executable_card->get_number() == 13) {
-                return damage_to_the_right_neighbour(current_player, sum, 2, chosen_foe);
+                return damage_to_the_right_neighbour(current_player, sum, 2);
             }
             if (executable_card->get_number() == 14) {
-                return damage_to_the_strongest_player(current_player, sum, 4, chosen_foe);
+                return damage_to_the_strongest_player(current_player, sum, 4);
             }
         }
         return players_with_damage;
