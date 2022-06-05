@@ -5,125 +5,80 @@
 #include "player.h"
 #include <QList>
 #include <QString>
-#include <algorithm>
-#include <functional>
-#include <iostream>
-#include <set>
-#include <vector>
-
 namespace round_of_game {
-class Round {
+    class Round {
 
-private:
-  std::vector<std::shared_ptr<player::Player>> alive_players;
+    private:
 
-  std::vector<std::shared_ptr<card::Card>> main_deck;
+        std::vector<std::shared_ptr<player::Player>> alive_players;
 
-public:
-  std::function<void(QString, QList<QString>, int, QString, int number_)>
-      send_logs_func;
-  const int number_of_cards_in_hand = 6;
+        std::vector<std::shared_ptr<card::Card>> main_deck;
 
-  void distribute_cards();
-  std::vector<std::shared_ptr<player::Player>> &get_players();
+    public:
+        std::function<void(QString, QList<QString>, int, QString, int number_)> send_logs_func;
+        const int number_of_cards_in_hand=6;
 
-  [[nodiscard]] int count_of_alive_players();
+        void distribute_cards();
+        std::vector<std::shared_ptr<player::Player>> &get_players();
 
-  void sort_priority_of_the_turn();
+        [[nodiscard]] int count_of_alive_players();
 
-  void play_circle();
+        void sort_priority_of_the_turn();
 
-  std::shared_ptr<player::Player> play_round();
+        void play_circle();
 
-  void play_cards(std::shared_ptr<player::Player> gamer);
+        std::shared_ptr<player::Player> play_round();
 
-  void move_cards_from_hand_to_discard();
+        void play_cards(std::shared_ptr<player::Player> gamer);
 
-  std::vector<std::shared_ptr<player::Player>> get_alive_players();
 
-  std::vector<std::shared_ptr<card::Card>> get_main_deck();
+        void move_cards_from_hand_to_discard();
 
-  void load_players(std::vector<std::shared_ptr<player::Player>> &players);
 
-  void load_cards(std::vector<std::shared_ptr<card::Card>> new_deck);
+        std::vector<std::shared_ptr<player::Player>> get_alive_players();
 
-  int count_the_number_of_dices(
-      std::vector<std::shared_ptr<card::Card>> &cur_spell,
-      std::shared_ptr<card::Card> &cur_card);
+        std::vector<std::shared_ptr<card::Card>> get_main_deck();
 
-  // for card functions
-  int get_num_of_player_in_circle(
-      std::shared_ptr<player::Player> &current_player);
-  std::shared_ptr<player::Player>
-  get_the_strongest_player(std::shared_ptr<player::Player> &current_player);
-  std::shared_ptr<player::Player>
-  get_the_weakest_player(std::shared_ptr<player::Player> &current_player);
-  std::shared_ptr<player::Player> get_the_weakest_player_in_round();
+        void load_players(std::vector<std::shared_ptr<player::Player>>& players);
 
-  // card_functions:
-  // damage is dealt depending on the number of points dropped
-  [[nodiscard]] QList<QString> damage_to_the_strongest_player(
-      std::shared_ptr<player::Player> &current_player, int sum, int type,
-      std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  damage_to_the_weakest_player(std::shared_ptr<player::Player> &current_player,
-                               int sum, int type,
-                               std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  damage_to_the_left_neighbour(std::shared_ptr<player::Player> &current_player,
-                               int sum, int type,
-                               std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  damage_to_the_right_neighbour(std::shared_ptr<player::Player> &current_player,
-                                int sum, int type,
-                                std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  damage_to_chosen_foe(std::shared_ptr<player::Player> &current_player, int sum,
-                       int type, std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  damage_to_random_foe(std::shared_ptr<player::Player> &current_player, int sum,
-                       int type, std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  hp_to_current_player(std::shared_ptr<player::Player> &current_player, int sum,
-                       int type, std::shared_ptr<player::Player> &chosen_foe);
-  [[nodiscard]] QList<QString>
-  damage_for_several_foes(std::shared_ptr<player::Player> &current_player,
-                          int sum, int type,
-                          std::shared_ptr<player::Player> &chosen_foe);
+        void load_cards(std::vector<std::shared_ptr<card::Card>> new_deck);
 
-  // damage is dealt depending on the type of cards
-  [[nodiscard]] QList<QString>
-  type_of_cards_damage(std::shared_ptr<player::Player> &current_player, int sum,
-                       int type, std::shared_ptr<player::Player> &chosen_foe);
+        int count_the_number_of_dices(std::vector<std::shared_ptr<card::Card>>& cur_spell, std::shared_ptr<card::Card>& cur_card);
 
-  // damage doesn't depend on the numbers of point dropped or on the type of
-  // cards
-  [[nodiscard]] QList<QString>
-  damage_without_parametrs(std::shared_ptr<player::Player> &current_player,
-                           int sum, int type,
-                           std::shared_ptr<player::Player> &chosen_foe);
+        // for card functions
+        int get_num_of_player_in_circle(std::shared_ptr<player::Player> &current_player);
+        std::shared_ptr<player::Player> get_the_strongest_player(std::shared_ptr<player::Player> &current_player);
+        std::shared_ptr<player::Player> get_the_weakest_player(std::shared_ptr<player::Player> &current_player);
+        std::shared_ptr<player::Player> get_the_weakest_player_in_round();
 
-  // copy the text of other card
-  [[nodiscard]] QList<QString>
-  copy_the_text_of_card(std::shared_ptr<player::Player> &current_player,
-                        int sum, int type,
-                        std::shared_ptr<player::Player> &chosen_foe);
+        // card_functions:
+        // damage is dealt depending on the number of points dropped
+        [[nodiscard]] QList<QString> damage_to_the_strongest_player(std::shared_ptr<player::Player> &current_player, int sum, int type);
+        [[nodiscard]] QList<QString> damage_to_the_weakest_player(std::shared_ptr<player::Player> &current_player, int sum, int type);
+        [[nodiscard]] QList<QString> damage_to_the_left_neighbour(std::shared_ptr<player::Player> &current_player, int sum, int type);
+        [[nodiscard]] QList<QString> damage_to_the_right_neighbour(std::shared_ptr<player::Player> &current_player, int sum, int type);
+        [[nodiscard]] QList<QString> damage_to_random_foe(std::shared_ptr<player::Player> &current_player, int sum, int type);
+        [[nodiscard]] QList<QString> hp_to_current_player(std::shared_ptr<player::Player> &current_player, int sum, int type);
+        [[nodiscard]] QList<QString> damage_for_several_foes(std::shared_ptr<player::Player> &current_player, int sum, int type);
 
-  // change the player's spell
-  [[nodiscard]] QList<QString>
-  change_spell(std::shared_ptr<player::Player> &current_player, int sum,
-               int type, std::shared_ptr<player::Player> &chosen_foe);
+        // damage is dealt depending on the type of cards
+        [[nodiscard]] QList<QString> type_of_cards_damage(std::shared_ptr<player::Player> &current_player, int sum, int type);
 
-  // change the turn order
-  [[nodiscard]] QList<QString>
-  change_order(std::shared_ptr<player::Player> &current_player, int sum,
-               int type, std::shared_ptr<player::Player> &chosen_foe);
+        // damage doesn't depend on the numbers of point dropped or on the type of cards
+        [[nodiscard]] QList<QString> damage_without_parametrs(std::shared_ptr<player::Player> &current_player, int sum, int type);
 
-  [[nodiscard]] QList<QString>
-  do_card_effects(std::shared_ptr<card::Card> &executable_card,
-                  std::shared_ptr<player::Player> &current_player, int sum,
-                  std::shared_ptr<player::Player> &chosen_foe);
-};
-} // namespace round_of_game
+        //copy the text of other card
+        [[nodiscard]] QList<QString> copy_the_text_of_card(std::shared_ptr<player::Player> &current_player, int sum, int type);
 
-#endif // EPIC_SPELL_WARS_ROUND_H
+        // change the player's spell
+        [[nodiscard]] QList<QString> change_spell(std::shared_ptr<player::Player> &current_player, int sum, int type);
+
+        // change the turn order
+        [[nodiscard]] QList<QString> change_order(std::shared_ptr<player::Player> &current_player, int sum, int type);
+
+        [[nodiscard]] QList<QString> do_card_effects(std::shared_ptr<card::Card> &executable_card, std::shared_ptr<player::Player> &current_player, int sum);
+
+    };
+}
+
+#endif //EPIC_SPELL_WARS_ROUND_H
