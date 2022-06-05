@@ -17,6 +17,7 @@
 #include <QString>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <set>
 
 namespace server {
 class Server : public QObject {

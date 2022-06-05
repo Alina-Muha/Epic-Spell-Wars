@@ -56,10 +56,11 @@ public:
   [[nodiscard]] int get_primal_num_in_spell();
   [[nodiscard]] int get_elemental_num_in_spell();
 
-  int unique_types_in_spell();
+  [[nodiscard]] int unique_types_in_spell();
 
   [[nodiscard]] int get_delivery_card_in_spell();
   [[nodiscard]] int get_source_card_in_spell();
+  [[nodiscard]] int get_quality_card_in_spell();
 
   void delete_card_from_spell(int num_of_card);
   void delete_card(int num_of_card);
