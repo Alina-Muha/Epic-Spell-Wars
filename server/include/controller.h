@@ -10,7 +10,16 @@
 namespace controller {
 
 enum class types {
-    name, start, players, cards, logs, game_over, laying_out, registered, duplicate, connected
+  name,
+  start,
+  players,
+  cards,
+  logs,
+  game_over,
+  laying_out,
+  registered,
+  duplicate,
+  connected
 };
 
 types int_to_types(int n);
@@ -45,7 +54,7 @@ private:
 
 class CardPlayedResult {
 public:
-  CardPlayedResult(QString from_ = "", QList<QString> to = {}, int dice_ = 0,
+  CardPlayedResult(QString from_ = "", QList<QString> to_ = {}, int dice_ = 0,
                    QString type_of_spell_ = "", int number_ = 0);
   CardPlayedResult(QJsonObject jObj);
   QJsonObject to_json_object();

@@ -30,7 +30,7 @@ void Client::send_name() {
 }
 
 void Client::connect(QString ip, qint16 port) {
-  socket->connectToHost(QHostAddress(QHostAddress::LocalHost), port); //(QHostAddress(ip), port);
+  socket->connectToHost(QHostAddress(ip), port);
 }
 
 void Client::send_start_signal() {

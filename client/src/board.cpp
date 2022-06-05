@@ -25,8 +25,7 @@ void Board::players_death(std::shared_ptr<controller::JsonPlayer> player) {
       card->setEnabled(false);
     }
   } else {
-    ui->logs->append("\nWizard " + player->get_name() +
-                      " died");
+    ui->logs->append("\nWizard " + player->get_name() + " died");
   }
 }
 
@@ -34,7 +33,7 @@ QString
 Board::get_log(std::shared_ptr<controller::CardPlayedResult> card_played_res) {
   QString log = "Wizard " + card_played_res->get_from() + " played card " +
                 card_played_res->get_card().get_card_name();
-  if (!card_played_res->get_to().empty()) {
+  if (!(card_played_res->get_to().empty())) {
     log += " against ";
     bool not_first = false;
     for (auto &player_name : card_played_res->get_to()) {
@@ -64,7 +63,8 @@ void Board::update_from_server() {
       ui->logs->append("\n" + log);
     }
 
-    if (request.get_type() == types::players || request.get_type() == types::logs) {
+    if (request.get_type() == types::players ||
+        request.get_type() == types::logs) {
       auto players_ptr = request.get_players();
       ui->lives_of_players->clear();
       for (auto player : *players_ptr) {
@@ -161,9 +161,9 @@ void Board::on_card_5_clicked() { card_clicked(4); }
 void Board::on_card_6_clicked() { card_clicked(5); }
 
 void Board::on_do_move_button_clicked() {
-    if (selected_cards.size() == 0) {
-        ui->info->setText("You didn't choose the cards");
-    }
+  if (selected_cards.size() == 0) {
+    ui->info->setText("You didn't choose the cards");
+  }
   if (game_status == status::laying_out_cards) {
     auto request = Request(types::cards);
     request.set_cards(selected_cards);

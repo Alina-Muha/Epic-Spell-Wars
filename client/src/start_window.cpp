@@ -27,13 +27,12 @@ void Start_window::update_from_server() {
         b->show();
         Start_window::close();
         break;
-      }
-      else if (request.get_type() == types::registered) {
-          successful_registration();
+      } else if (request.get_type() == types::registered) {
+        successful_registration();
       } else if (request.get_type() == types::duplicate) {
-          name_duplicate();
+        name_duplicate();
       } else if (request.get_type() == types::connected) {
-          successful_connection();
+        successful_connection();
       }
     }
   }
@@ -56,7 +55,7 @@ void Start_window::successful_registration() {
 }
 
 void Start_window::successful_connection() {
-    ui->info_label->setText("You are connected. Now register");
+  ui->info_label->setText("You are connected. Now register");
 }
 
 void Start_window::on_connect_button_clicked() {

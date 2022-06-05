@@ -15,18 +15,10 @@ int Player::get_lives() const { return lives; }
 
 std::vector<std::shared_ptr<card::Card>> &Player::get_cards() { return cards; }
 
-void Player::add_lives(int lives_to_add) {
-  lives += lives_to_add;
-  std::string log = "Player " + this->get_name() + " casts a spell. You get " +
-                    std::to_string(lives_to_add) + "lives";
-  // TODO: передать log
-}
+void Player::add_lives(int lives_to_add) { lives += lives_to_add; }
 
 void Player::subtract_lives(int lives_to_subtract) {
   lives -= lives_to_subtract;
-  std::string log = "Player " + this->get_name() + " casts a spell. You lose " +
-                    std::to_string(lives_to_subtract) + "lives";
-  // TODO: передать log
 }
 
 void Player::change_lives(int new_lives) { lives = new_lives; }
