@@ -25,7 +25,7 @@ class Server : public QObject {
 
 public:
   game::Game game_of_players;
-  explicit Server(QObject *parent = nullptr);
+  explicit Server(qint16 port, QObject *parent = nullptr);
   ~Server();
   virtual bool set_socket_descriptor(qintptr socket_descriptor);
   QString user_name(QTcpSocket *client_socket) const;
@@ -59,6 +59,7 @@ private:
   QTcpServer *m_server;
   QTcpSocket *m_server_socket;
   QMap<QTcpSocket *, QString> clients;
+  std::set<QString> names_of_the_players;
   int number_of_spelled_players = 0;
 };
 } // namespace server

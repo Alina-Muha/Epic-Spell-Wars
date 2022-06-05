@@ -18,9 +18,9 @@ private:
   int priority_of_the_turn = 0;
 
 public:
-  type get_card_type();
-  type_of_spell_component get_card_component();
-  int get_number();
+  [[nodiscard]] type get_card_type();
+  [[nodiscard]] type_of_spell_component get_card_component();
+  [[nodiscard]] int get_number();
   Card(int number_, type type_,
        type_of_spell_component type_of_spell_component_,
        int priority_of_the_turn_new)
@@ -180,10 +180,10 @@ public:
       }
     }
   }
-  int get_priority_of_the_turn();
-  type get_type_of_the_card();
-  type_of_spell_component get_type_of_the_spell_component();
-  std::string get_card_image();
+  [[nodiscard]] int get_priority_of_the_turn();
+  [[nodiscard]] type get_type_of_the_card();
+  [[nodiscard]] type_of_spell_component get_type_of_the_spell_component();
+  [[nodiscard]] std::string get_card_image();
   bool check_roll_power();
   std::string convert_type_in_string(type_of_spell_component type_of_card);
   static type_of_spell_component

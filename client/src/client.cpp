@@ -29,8 +29,8 @@ void Client::send_name() {
   send_json(request.to_json_object());
 }
 
-void Client::connect(QString ip, qint16 port) { // CHANGE LOCAL HOST TO IP
-  socket->connectToHost(QHostAddress(QHostAddress::LocalHost), port);
+void Client::connect(QString ip, qint16 port) {
+  socket->connectToHost(QHostAddress(QHostAddress::LocalHost), port); //(QHostAddress(ip), port);
 }
 
 void Client::send_start_signal() {

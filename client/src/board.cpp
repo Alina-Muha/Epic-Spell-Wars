@@ -74,7 +74,7 @@ void Board::update_from_server() {
         ui->lives_of_players->setText(ui->lives_of_players->text() + "\n" +
                                       player.get_name() + ": " +
                                       QString::number(player.get_lives()));
-        if (player.get_lives() == 0) {
+        if (player.get_lives() <= 0) {
           players_death(std::make_shared<controller::JsonPlayer>(player));
         }
       }
@@ -161,6 +161,9 @@ void Board::on_card_5_clicked() { card_clicked(4); }
 void Board::on_card_6_clicked() { card_clicked(5); }
 
 void Board::on_do_move_button_clicked() {
+    if (selected_cards.size() == 0) {
+        ui->info->setText("You didn't choose the cards");
+    }
   if (game_status == status::laying_out_cards) {
     auto request = Request(types::cards);
     request.set_cards(selected_cards);

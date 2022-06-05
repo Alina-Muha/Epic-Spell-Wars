@@ -119,13 +119,20 @@ void Round::play_circle() {
       b->get_spell().clear();
       continue;
     }
+    if(alive_players.size()==1) return;
     Round::play_cards(b);
   }
+   for (auto it = alive_players.begin(); it != alive_players.end(); it++) {
+       auto b = *it;
+       if (b->get_lives() <= 0) {
+         alive_players.erase(it);
+       }
+   }
 }
 
 std::shared_ptr<player::Player> Round::play_round() {
 
-  //тут как то еще надо подождать чтобы все живые свои заклинания скинули
+
   sort_priority_of_the_turn();
   play_circle();
   distribute_cards();
@@ -1032,14 +1039,9 @@ QList<QString> Round::change_spell(
         strongest_player = alive_players[i];
       }
     }
-    int pos_in_spell = 0;
-    for (auto &card : strongest_player.get()->get_spell()) {
-      if (card.get()->get_card_component() ==
-          card::Card::type_of_spell_component::quality) {
-        strongest_player->delete_card_from_spell(pos_in_spell);
-        break;
-      }
-      pos_in_spell++;
+    int num = strongest_player.get()->get_delivery_card_in_spell();
+    if (num != -1){
+        strongest_player->delete_card_from_spell(num);
     }
     players_with_damage.append(
         QString::fromStdString(strongest_player.get()->get_name()));

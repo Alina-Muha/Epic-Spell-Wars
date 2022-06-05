@@ -4,10 +4,10 @@ using namespace controller;
 
 namespace server {
 
-Server::Server(QObject *parent)
+Server::Server(qint16 port, QObject *parent)
     : QObject(parent), m_server(new QTcpServer(this)),
       m_server_socket(new QTcpSocket(this)) {
-  if (m_server->listen(QHostAddress::Any, 1234)) {
+  if (m_server->listen(QHostAddress::Any, port)) {
     connect(this, &Server::json_received, this, &Server::receive_json);
     connect(m_server, &QTcpServer::newConnection, this,
             &Server::new_connection);
@@ -54,6 +54,7 @@ void Server::new_connection() {
             &Server::disconnected_from_client);
     connect(socket, &QAbstractSocket::errorOccurred, this, &Server::error);
     clients[socket] = "";
+    send_json(socket, Request(types::connected).to_json_object());
   }
 }
 
@@ -97,10 +98,17 @@ void Server::receive_data() {
 void Server::receive_json(QTcpSocket *socket, const QJsonObject &json_obj) {
   controller::Request request(json_obj);
   if (request.get_type() == types::name) {
+    if(names_of_the_players.find(request.get_name())==names_of_the_players.end()){
     set_user_name(socket, request.get_name()); // name will be in json
     std::string temp_name = request.get_name().toStdString();
-
+    names_of_the_players.insert(request.get_name());
     game_of_players.add_player(std::make_shared<player::Player>(temp_name));
+    auto accept_req= Request(types::registered);
+    send_json(socket, accept_req.to_json_object());
+    }else{
+        auto decline_req= Request(types::duplicate);
+        send_json(socket, decline_req.to_json_object());
+    }
   }
   if (request.get_type() == types::start) {
     auto gameStateRequest = Request(types::start);
