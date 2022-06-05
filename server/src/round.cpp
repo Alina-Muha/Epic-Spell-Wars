@@ -1,6 +1,7 @@
 #include "round.h"
-#include <algorithm>
-//#include <iostream>
+#include "algorithm"
+#include <QDebug>
+#include <iostream>
 namespace round_of_game {
 
 
@@ -96,6 +97,7 @@ namespace round_of_game {
 
     std::shared_ptr<player::Player> Round::play_round() {
 
+            //тут как то еще надо подождать чтобы все живые свои заклинания скинули
             sort_priority_of_the_turn();
             play_circle();
             distribute_cards();
@@ -846,7 +848,7 @@ namespace round_of_game {
             }
         }
 
-        // type = 10 - card Dragon hoard (Quality_12.png)
+        // type = 10 - card Explodifying (Quality_12.png)
         if (type == 10){
             for (auto & player : alive_players){
                 if (player.get()->get_name() != current_player.get()->get_name()){
